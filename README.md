@@ -1,5 +1,6 @@
 # Lyricly
 
+[![Build Status](https://circleci.com/gh/fjoglar/lyricly/tree/develop.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/fjoglar/lyricly/tree/develop.svg?style=shield&circle-token=:circle-token)
 [![License Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-green.svg)](https://github.com/fjoglar/lyricly/blob/develop/LICENSE.txt)
 [![fjoglar twitter](https://img.shields.io/badge/twitter-@felipejoglar-blue.svg)](http://twitter.com/felipejoglar)
 [![Platform Android](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
