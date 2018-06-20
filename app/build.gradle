@@ -19,7 +19,7 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
             storePassword 'android'
-            storeFile file('$rootDir/keystore/debug.keystore')
+            storeFile file('$rootDir/distribution/debug.keystore')
         }
     }
 
