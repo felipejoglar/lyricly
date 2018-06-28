@@ -17,11 +17,11 @@
 
 
 <resources>
-    <color name="colorPrimary">#00ac6a</color>
-    <color name="colorPrimaryDark">#008b52</color>
-    <color name="colorPrimaryLight">#58c596</color>
+    <color name="colorPrimary">#ffcf44</color>
+    <color name="colorPrimaryDark">#feb900</color>
+    <color name="colorPrimaryLight">#ffe9af</color>
 
-    <color name="colorSecondary">#ffcf44</color>
-    <color name="colorSecondaryDark">#feb900</color>
-    <color name="colorSecondaryLight">#ffe9af</color>
+    <color name="colorSecondary">#00ac6a</color>
+    <color name="colorSecondaryDark">#008b52</color>
+    <color name="colorSecondaryLight">#58c596</color>
 </resources>
