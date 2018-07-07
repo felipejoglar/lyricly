@@ -21,6 +21,8 @@ import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.entity.OvhApiResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
+import java.util.Date;
+
 /**
  * Mapper class used to transform {@link Track} and {@link OvhApiResponse} to {@link Song}.
  */
@@ -41,7 +43,8 @@ public class SongEntityDataMapper {
                     track.getArtistName(),
                     track.getAlbumId(),
                     track.getAlbumName(),
-                    ovhApiResponse.getLyrics());
+                    ovhApiResponse.getLyrics(),
+                    new Date());
         }
 
         return song;

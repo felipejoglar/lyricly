@@ -110,7 +110,8 @@ public class FavoriteSongEntity implements Song {
                               String artistName,
                               String albumId,
                               String albumName,
-                              String lyrics) {
+                              String lyrics,
+                              Date createdAt) {
         this.napsterId = napsterId;
         this.albumIndex = albumIndex;
         this.playbackSeconds = playbackSeconds;
@@ -120,6 +121,7 @@ public class FavoriteSongEntity implements Song {
         this.albumId = albumId;
         this.albumName = albumName;
         this.lyrics = lyrics;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
