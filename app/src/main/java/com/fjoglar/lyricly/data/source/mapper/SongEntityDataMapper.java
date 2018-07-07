@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.data.mapper;
+package com.fjoglar.lyricly.data.source.mapper;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
