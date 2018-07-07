@@ -18,6 +18,7 @@ package com.fjoglar.lyricly.data.source.local.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.fjoglar.lyricly.data.model.Song;
@@ -62,6 +63,7 @@ public class RecentlyPlayedSongEntity implements Song {
     @ColumnInfo(name = "created_at")
     private Date createdAt;
 
+    @Ignore
     public RecentlyPlayedSongEntity() {
     }
 
@@ -102,6 +104,7 @@ public class RecentlyPlayedSongEntity implements Song {
         this.createdAt = createdAt;
     }
 
+    @Ignore
     public RecentlyPlayedSongEntity(String napsterId,
                                     int albumIndex,
                                     int playbackSeconds,
