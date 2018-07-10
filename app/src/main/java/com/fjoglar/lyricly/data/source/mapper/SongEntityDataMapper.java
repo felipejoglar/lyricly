@@ -18,23 +18,23 @@ package com.fjoglar.lyricly.data.source.mapper;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
-import com.fjoglar.lyricly.data.source.remote.entity.OvhApiResponse;
+import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.Date;
 
 /**
- * Mapper class used to transform {@link Track} and {@link OvhApiResponse} to {@link Song}.
+ * Mapper class used to transform {@link Track} and {@link OvhLyricsApiResponse} to {@link Song}.
  */
 public class SongEntityDataMapper {
 
     public SongEntityDataMapper() {
     }
 
-    public TopSongEntity transform(Track track, OvhApiResponse ovhApiResponse) {
+    public TopSongEntity transform(Track track, OvhLyricsApiResponse ovhLyricsApiResponse) {
         TopSongEntity song = null;
 
-        if (track != null && ovhApiResponse != null) {
+        if (track != null && ovhLyricsApiResponse != null) {
             song = new TopSongEntity(track.getId(),
                     track.getIndex(),
                     track.getPlaybackSeconds(),
@@ -43,7 +43,7 @@ public class SongEntityDataMapper {
                     track.getArtistName(),
                     track.getAlbumId(),
                     track.getAlbumName(),
-                    ovhApiResponse.getLyrics(),
+                    ovhLyricsApiResponse.getLyrics(),
                     new Date());
         }
 

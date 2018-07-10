@@ -26,7 +26,7 @@ import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.api.NapsterService;
 import com.fjoglar.lyricly.data.source.remote.api.OvhLyricsService;
 import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiResponse;
-import com.fjoglar.lyricly.data.source.remote.entity.OvhApiResponse;
+import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.io.IOException;
@@ -85,7 +85,7 @@ public class SongsRemoteDataSource implements SongsDataSource {
     @Override
     public String fetchSongLyrics(String artist, String title) {
         String lyrics = null;
-        Call<OvhApiResponse> call =
+        Call<OvhLyricsApiResponse> call =
                 mOvhLyricsService.getSongLyrics(artist, title);
         try {
             lyrics = call.execute().body().getLyrics();

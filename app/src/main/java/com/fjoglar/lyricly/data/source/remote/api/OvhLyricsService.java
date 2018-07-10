@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.remote.api;
 
-import com.fjoglar.lyricly.data.source.remote.entity.OvhApiResponse;
+import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -32,7 +32,7 @@ public interface OvhLyricsService {
     public static final String BASE_URL = "https://api.lyrics.ovh/v1/";
 
     @GET("{artist}/{title}")
-    Call<OvhApiResponse> getSongLyrics(
+    Call<OvhLyricsApiResponse> getSongLyrics(
             @Path("artist") String artist,
             @Query("title") String title);
 
