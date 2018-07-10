@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
+import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
 
@@ -66,8 +67,13 @@ public class SongsRepository implements SongsDataSource {
     }
 
     @Override
-    public void fetchTopSongs() {
-        mSongsRemoteDataSource.fetchTopSongs();
+    public List<Track> fetchTopSongs(int limit) {
+        return mSongsRemoteDataSource.fetchTopSongs(limit);
+    }
+
+    @Override
+    public String fetchSongLyrics(String artist, String title) {
+        return mSongsRemoteDataSource.fetchSongLyrics(artist, title);
     }
 
     @Override
