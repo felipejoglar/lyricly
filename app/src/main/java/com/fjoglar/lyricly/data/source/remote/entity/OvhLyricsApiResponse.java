@@ -19,7 +19,7 @@ package com.fjoglar.lyricly.data.source.remote.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OvhApiResponse {
+public class OvhLyricsApiResponse {
 
     @SerializedName("lyrics")
     @Expose
