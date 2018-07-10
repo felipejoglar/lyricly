@@ -23,6 +23,7 @@ import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
+import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class SongsLocalDataSource implements SongsDataSource {
     /**
      * Returns the single instance of this class, creating it if necessary.
      *
-     * @param songDatabase  the app database
+     * @param songDatabase the app database
      * @return the {@link SongsLocalDataSource} instance
      */
     public static SongsLocalDataSource getInstance(SongDatabase songDatabase) {
@@ -51,7 +52,7 @@ public class SongsLocalDataSource implements SongsDataSource {
     }
 
     /**
-     * Used to force {@link #getInstance(SongsLocalDataSource)} to create a new instance next
+     * Used to force {@link #getInstance(SongDatabase)} to create a new instance next
      * time it's called.
      */
     public static void destroyInstance() {
@@ -59,8 +60,15 @@ public class SongsLocalDataSource implements SongsDataSource {
     }
 
     @Override
-    public void fetchTopSongs() {
+    public List<Track> fetchTopSongs(int limit) {
         // Not used in local data source.
+        return null;
+    }
+
+    @Override
+    public String fetchSongLyrics(String artist, String title) {
+        // Not used in local data source.
+        return null;
     }
 
     @Override

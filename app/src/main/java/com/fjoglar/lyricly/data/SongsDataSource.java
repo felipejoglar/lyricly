@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.data;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
+import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
 
@@ -27,7 +28,9 @@ import java.util.List;
  */
 public interface SongsDataSource {
 
-    void fetchTopSongs();
+    List<Track> fetchTopSongs(int limit);
+
+    String fetchSongLyrics(String artist, String title);
 
     List<TopSongEntity> getTopSongs();
 
