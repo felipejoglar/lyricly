@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
@@ -104,5 +105,15 @@ public class SongsRepository implements SongsDataSource {
     @Override
     public FavoriteSongEntity getFavoriteSongById(int id) {
         return mSongsLocalDataSource.getFavoriteSongById(id);
+    }
+
+    @Override
+    public void saveTopSong(Song song) {
+        mSongsLocalDataSource.saveTopSong(song);
+    }
+
+    @Override
+    public void deleteTopSongs() {
+        mSongsLocalDataSource.deleteTopSongs();
     }
 }

@@ -20,6 +20,7 @@ import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.BuildConfig;
 import com.fjoglar.lyricly.data.SongsDataSource;
+import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
@@ -75,7 +76,10 @@ public class SongsRemoteDataSource implements SongsDataSource {
         Call<NapsterApiResponse> call =
                 mNapsterService.getTopTracks(BuildConfig.NAPSTER_API_KEY, limit);
         try {
-            topSongs = call.execute().body().getTracks();
+            NapsterApiResponse napsterApiResponse = call.execute().body();
+            if (napsterApiResponse != null) {
+                topSongs = napsterApiResponse.getTracks();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +92,10 @@ public class SongsRemoteDataSource implements SongsDataSource {
         Call<OvhLyricsApiResponse> call =
                 mOvhLyricsService.getSongLyrics(artist, title);
         try {
-            lyrics = call.execute().body().getLyrics();
+            OvhLyricsApiResponse ovhLyricsApiResponse = call.execute().body();
+            if (ovhLyricsApiResponse != null) {
+                lyrics = ovhLyricsApiResponse.getLyrics();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,5 +136,15 @@ public class SongsRemoteDataSource implements SongsDataSource {
     public FavoriteSongEntity getFavoriteSongById(int id) {
         // Not used in local data source.
         return null;
+    }
+
+    @Override
+    public void saveTopSong(Song song) {
+        // Not used in remote data source.
+    }
+
+    @Override
+    public void deleteTopSongs() {
+        // Not used in remote data source.
     }
 }

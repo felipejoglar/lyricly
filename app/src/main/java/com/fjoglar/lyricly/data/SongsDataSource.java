@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data;
 
+import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
@@ -43,4 +44,8 @@ public interface SongsDataSource {
     RecentlyPlayedSongEntity getRecentSongById(int id);
 
     FavoriteSongEntity getFavoriteSongById(int id);
+
+    void saveTopSong(Song song);
+
+    void deleteTopSongs();
 }

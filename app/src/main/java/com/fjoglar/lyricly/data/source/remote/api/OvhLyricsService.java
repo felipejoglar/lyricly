@@ -25,7 +25,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface OvhLyricsService {
 
@@ -34,7 +33,7 @@ public interface OvhLyricsService {
     @GET("{artist}/{title}")
     Call<OvhLyricsApiResponse> getSongLyrics(
             @Path("artist") String artist,
-            @Query("title") String title);
+            @Path("title") String title);
 
     public static Retrofit retrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
