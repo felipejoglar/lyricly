@@ -31,10 +31,10 @@ public class SongEntityDataMapper {
     public SongEntityDataMapper() {
     }
 
-    public TopSongEntity transform(Track track, OvhLyricsApiResponse ovhLyricsApiResponse) {
+    public static TopSongEntity transform(Track track, String lyrics) {
         TopSongEntity song = null;
 
-        if (track != null && ovhLyricsApiResponse != null) {
+        if (track != null && lyrics != null) {
             song = new TopSongEntity(track.getId(),
                     track.getIndex(),
                     track.getPlaybackSeconds(),
@@ -43,7 +43,7 @@ public class SongEntityDataMapper {
                     track.getArtistName(),
                     track.getAlbumId(),
                     track.getAlbumName(),
-                    ovhLyricsApiResponse.getLyrics(),
+                    lyrics,
                     new Date());
         }
 
