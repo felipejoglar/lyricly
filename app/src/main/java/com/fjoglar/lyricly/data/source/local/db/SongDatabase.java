@@ -60,7 +60,6 @@ public abstract class SongDatabase extends RoomDatabase {
     private static SongDatabase buildDatabase(final Context applicationContext) {
         return Room
                 .databaseBuilder(applicationContext, SongDatabase.class, DB_NAME)
-                .allowMainThreadQueries()
                 .build();
     }
 
