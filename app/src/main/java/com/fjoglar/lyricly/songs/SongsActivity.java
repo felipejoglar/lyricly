@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
+import com.fjoglar.lyricly.util.AppExecutors;
 
 import java.util.List;
 
@@ -57,7 +58,9 @@ public class SongsActivity extends AppCompatActivity implements SongsAdapter.Son
 
         ButterKnife.bind(this);
 
-        mSongs = SongDatabase.getInstance(getApplicationContext()).topSongDao().getAll();
+        AppExecutors.getInstance().diskIO()
+                .execute(() -> mSongs = SongDatabase.getInstance(getApplicationContext())
+                        .topSongDao().getAll());
 
         setUpRecyclerView();
 
