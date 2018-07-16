@@ -58,7 +58,10 @@ public abstract class SongDatabase extends RoomDatabase {
      * The SQLite database is only created when it is accessed for the first time.
      */
     private static SongDatabase buildDatabase(final Context applicationContext) {
-        return Room.databaseBuilder(applicationContext, SongDatabase.class, DB_NAME).build();
+        return Room
+                .databaseBuilder(applicationContext, SongDatabase.class, DB_NAME)
+                .allowMainThreadQueries()
+                .build();
     }
 
     /**

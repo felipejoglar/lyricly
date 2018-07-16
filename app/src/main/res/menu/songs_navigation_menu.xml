@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2018 Felipe Joglar Santos
   ~
@@ -14,14 +15,17 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="app_name">Lyricly</string>
-
-    <!-- SONGS SCREEN -->
-    <string name="songs_menu_popular">Popular</string>
-    <string name="songs_menu_recent">Recent</string>
-    <string name="songs_menu_favorite">Favorite</string>
-    <string name="album_cover">Album cover</string>
-    <string name="album_image_url">"http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png"</string>
-
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/popular"
+        android:title="@string/songs_menu_popular"
+        android:icon="@drawable/songs_ic_whatshot_24dp" />
+    <item
+        android:id="@+id/recent"
+        android:title="@string/songs_menu_recent"
+        android:icon="@drawable/songs_ic_recent_24dp" />
+    <item
+        android:id="@+id/favorite"
+        android:title="@string/songs_menu_favorite"
+        android:icon="@drawable/songs_ic_favorite_24dp" />
+</menu>
