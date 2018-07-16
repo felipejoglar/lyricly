@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2018 Felipe Joglar Santos
   ~
@@ -15,13 +16,5 @@
   -->
 
 <resources>
-    <string name="app_name">Lyricly</string>
-
-    <!-- SONGS SCREEN -->
-    <string name="songs_menu_popular">Popular</string>
-    <string name="songs_menu_recent">Recent</string>
-    <string name="songs_menu_favorite">Favorite</string>
-    <string name="album_cover">Album cover</string>
-    <string name="album_image_url">"http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png"</string>
-
+    <integer name="songs_activity_column_number">2</integer>
 </resources>
