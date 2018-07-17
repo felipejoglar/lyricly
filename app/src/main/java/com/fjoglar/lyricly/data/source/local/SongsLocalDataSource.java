@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.local;
 
+import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsDataSource;
@@ -73,32 +74,32 @@ public class SongsLocalDataSource implements SongsDataSource {
     }
 
     @Override
-    public List<TopSongEntity> getTopSongs() {
+    public LiveData<List<TopSongEntity>> getTopSongs() {
         return mSongDatabase.topSongDao().getAll();
     }
 
     @Override
-    public List<RecentlyPlayedSongEntity> getRecentSongs() {
+    public LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs() {
         return mSongDatabase.recentlyPlayedSongDao().getAll();
     }
 
     @Override
-    public List<FavoriteSongEntity> getFavoriteSongs() {
+    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
         return mSongDatabase.favoriteSongDao().getAll();
     }
 
     @Override
-    public TopSongEntity getTopSongById(int id) {
+    public LiveData<TopSongEntity> getTopSongById(int id) {
         return mSongDatabase.topSongDao().getById(id);
     }
 
     @Override
-    public RecentlyPlayedSongEntity getRecentSongById(int id) {
+    public LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id) {
         return mSongDatabase.recentlyPlayedSongDao().getById(id);
     }
 
     @Override
-    public FavoriteSongEntity getFavoriteSongById(int id) {
+    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
         return mSongDatabase.favoriteSongDao().getById(id);
     }
 
