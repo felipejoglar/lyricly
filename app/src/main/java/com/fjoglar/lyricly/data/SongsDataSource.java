@@ -16,6 +16,8 @@
 
 package com.fjoglar.lyricly.data;
 
+import android.arch.lifecycle.LiveData;
+
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
@@ -33,17 +35,17 @@ public interface SongsDataSource {
 
     String fetchSongLyrics(String artist, String title);
 
-    List<TopSongEntity> getTopSongs();
+    LiveData<List<TopSongEntity>> getTopSongs();
 
-    List<RecentlyPlayedSongEntity> getRecentSongs();
+    LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs();
 
-    List<FavoriteSongEntity> getFavoriteSongs();
+    LiveData<List<FavoriteSongEntity>> getFavoriteSongs();
 
-    TopSongEntity getTopSongById(int id);
+    LiveData<TopSongEntity> getTopSongById(int id);
 
-    RecentlyPlayedSongEntity getRecentSongById(int id);
+    LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id);
 
-    FavoriteSongEntity getFavoriteSongById(int id);
+    LiveData<FavoriteSongEntity> getFavoriteSongById(int id);
 
     void saveTopSong(Song song);
 

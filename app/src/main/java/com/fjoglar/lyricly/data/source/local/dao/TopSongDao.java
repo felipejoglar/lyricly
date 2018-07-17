@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.local.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -34,10 +35,10 @@ public interface TopSongDao {
     void insert(TopSongEntity topSongEntity);
 
     @Query("SELECT * FROM top_songs")
-    List<TopSongEntity> getAll();
+    LiveData<List<TopSongEntity>> getAll();
 
     @Query("SELECT * FROM top_songs WHERE id = (:topSongId)")
-    TopSongEntity getById(int topSongId);
+    LiveData<TopSongEntity> getById(int topSongId);
 
     @Query("DELETE FROM top_songs")
     void deleteAll();

@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data;
 
+import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -78,32 +79,32 @@ public class SongsRepository implements SongsDataSource {
     }
 
     @Override
-    public List<TopSongEntity> getTopSongs() {
+    public LiveData<List<TopSongEntity>> getTopSongs() {
         return mSongsLocalDataSource.getTopSongs();
     }
 
     @Override
-    public List<RecentlyPlayedSongEntity> getRecentSongs() {
+    public LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs() {
         return mSongsLocalDataSource.getRecentSongs();
     }
 
     @Override
-    public List<FavoriteSongEntity> getFavoriteSongs() {
+    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
         return mSongsLocalDataSource.getFavoriteSongs();
     }
 
     @Override
-    public TopSongEntity getTopSongById(int id) {
+    public LiveData<TopSongEntity> getTopSongById(int id) {
         return mSongsLocalDataSource.getTopSongById(id);
     }
 
     @Override
-    public RecentlyPlayedSongEntity getRecentSongById(int id) {
+    public LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id) {
         return mSongsLocalDataSource.getRecentSongById(id);
     }
 
     @Override
-    public FavoriteSongEntity getFavoriteSongById(int id) {
+    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
         return mSongsLocalDataSource.getFavoriteSongById(id);
     }
 

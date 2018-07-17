@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.remote;
 
+import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.BuildConfig;
@@ -103,37 +104,37 @@ public class SongsRemoteDataSource implements SongsDataSource {
     }
 
     @Override
-    public List<TopSongEntity> getTopSongs() {
+    public LiveData<List<TopSongEntity>> getTopSongs() {
         // Not used in local data source.
         return null;
     }
 
     @Override
-    public List<RecentlyPlayedSongEntity> getRecentSongs() {
+    public LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs() {
         // Not used in local data source.
         return null;
     }
 
     @Override
-    public List<FavoriteSongEntity> getFavoriteSongs() {
+    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
         // Not used in local data source.
         return null;
     }
 
     @Override
-    public TopSongEntity getTopSongById(int id) {
+    public LiveData<TopSongEntity> getTopSongById(int id) {
         // Not used in local data source.
         return null;
     }
 
     @Override
-    public RecentlyPlayedSongEntity getRecentSongById(int id) {
+    public LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id) {
         // Not used in local data source.
         return null;
     }
 
     @Override
-    public FavoriteSongEntity getFavoriteSongById(int id) {
+    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
         // Not used in local data source.
         return null;
     }

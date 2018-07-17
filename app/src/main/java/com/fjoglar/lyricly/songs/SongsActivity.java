@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.songs;
 
+import android.arch.lifecycle.LiveData;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -30,7 +31,7 @@ import android.widget.Toast;
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
-import com.fjoglar.lyricly.util.AppExecutors;
+import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class SongsActivity extends AppCompatActivity implements SongsAdapter.Son
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     private SongsAdapter mSongsAdapter;
-    private List<? extends Song> mSongs;
+    private LiveData<List<? extends Song>> mSongs;
 
     @BindView(R.id.recyclerview_songs)
     RecyclerView mRecyclerViewSongs;
@@ -58,9 +59,10 @@ public class SongsActivity extends AppCompatActivity implements SongsAdapter.Son
 
         ButterKnife.bind(this);
 
-        AppExecutors.getInstance().diskIO()
-                .execute(() -> mSongs = SongDatabase.getInstance(getApplicationContext())
-                        .topSongDao().getAll());
+        LiveData<List<TopSongEntity>> songs = SongDatabase.getInstance(getApplicationContext())
+                .topSongDao().getAll();
+
+        songs.observe(this, this::showSongs);
 
         setUpRecyclerView();
 
@@ -101,7 +103,6 @@ public class SongsActivity extends AppCompatActivity implements SongsAdapter.Son
         mRecyclerViewSongs.setLayoutManager(layoutManager);
         mRecyclerViewSongs.setHasFixedSize(true);
         mRecyclerViewSongs.setAdapter(mSongsAdapter);
-        showSongs(mSongs);
     }
 
     private void showSongs(List<? extends Song> songs) {

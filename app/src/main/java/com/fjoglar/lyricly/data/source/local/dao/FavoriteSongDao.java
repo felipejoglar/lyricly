@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.local.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -34,10 +35,10 @@ public interface FavoriteSongDao {
     void insert(FavoriteSongEntity favoriteSongEntity);
 
     @Query("SELECT * FROM favorite_songs")
-    List<FavoriteSongEntity> getAll();
+    LiveData<List<FavoriteSongEntity>> getAll();
 
     @Query("SELECT * FROM favorite_songs WHERE id = (:favoriteSongId)")
-    FavoriteSongEntity getById(int favoriteSongId);
+    LiveData<FavoriteSongEntity> getById(int favoriteSongId);
 
     @Query("DELETE FROM favorite_songs")
     void deleteAll();
