@@ -51,6 +51,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    // Due to picasso dependencies versions mixing we need to add this dependency explicitly.
+    implementation 'com.android.support:exifinterface:27.1.1'
 
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
