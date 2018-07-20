@@ -16,38 +16,27 @@
 
 package com.fjoglar.lyricly.songs;
 
-import android.arch.lifecycle.LiveData;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
-
-import java.util.List;
+import com.fjoglar.lyricly.songs.top.TopSongsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SongsActivity extends AppCompatActivity implements SongsAdapter.SongClickListener,
+public class SongsActivity extends AppCompatActivity
+        implements TopSongsFragment.OnItemClickListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private SongsAdapter mSongsAdapter;
-    private LiveData<List<? extends Song>> mSongs;
-
-    @BindView(R.id.recyclerview_songs)
-    RecyclerView mRecyclerViewSongs;
-    @BindView(R.id.progressbar_songs_loading)
-    ProgressBar mProgressBarSongsLoading;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.bottom_navigation_songs)
     BottomNavigationView mBottomNavigationSongs;
 
@@ -59,57 +48,45 @@ public class SongsActivity extends AppCompatActivity implements SongsAdapter.Son
 
         ButterKnife.bind(this);
 
-        LiveData<List<TopSongEntity>> songs = SongDatabase.getInstance(getApplicationContext())
-                .topSongDao().getAll();
-
-        songs.observe(this, this::showSongs);
-
-        setUpRecyclerView();
-
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(R.string.songs_menu_popular);
         mBottomNavigationSongs.setOnNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null) {
+            TopSongsFragment fragment = TopSongsFragment.newInstance();
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.framelayout_songs_container, fragment).commit();
+        }
+
+        // TODO: implement a better fetching logic
+        startService(new Intent(this, UpdateTopSongsIntentService.class));
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.popular:
-
+                mToolbar.setTitle(R.string.songs_menu_popular);
                 break;
             case R.id.recent:
-
+                mToolbar.setTitle(R.string.songs_menu_recent);
                 break;
             case R.id.favorite:
-
+                mToolbar.setTitle(R.string.songs_menu_favorite);
                 break;
             default:
+                mToolbar.setTitle(R.string.songs_menu_popular);
                 return false;
         }
         return true;
     }
 
     @Override
-    public void onSongClick(Song song) {
+    public void onItemClicked(Song song) {
         // TODO: navigate to song detail screen.
         Toast.makeText(getApplicationContext(),
                 song.getName() + " by " + song.getArtistName(),
                 Toast.LENGTH_SHORT).show();
-    }
-
-    private void setUpRecyclerView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this,
-                this.getResources().getInteger(R.integer.songs_activity_column_number));
-        mSongsAdapter = new SongsAdapter(this, this);
-
-        mRecyclerViewSongs.setLayoutManager(layoutManager);
-        mRecyclerViewSongs.setHasFixedSize(true);
-        mRecyclerViewSongs.setAdapter(mSongsAdapter);
-    }
-
-    private void showSongs(List<? extends Song> songs) {
-        mSongsAdapter.setSongs(songs);
-    }
-
-    private void setIsLoading(boolean isLoading) {
-        mProgressBarSongsLoading.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 }
