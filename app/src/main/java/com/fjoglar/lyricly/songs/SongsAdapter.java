@@ -37,12 +37,16 @@ import butterknife.ButterKnife;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
 
+    private static final String IMAGE_SIZE_BIG = "500x500";
+    private static final String IMAGE_SIZE_MEDIUM = "200x200";
+    private static final String IMAGE_SIZE_SMALL = "70x70";
+
     private final SongClickListener mOnClickListener;
 
     private List<? extends Song> mSongs;
     private Context mContext;
 
-    SongsAdapter(Context context, @Nullable SongClickListener listener) {
+    public SongsAdapter(Context context, @Nullable SongClickListener listener) {
         mContext = context;
         mOnClickListener = listener;
     }
@@ -60,14 +64,16 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         // TODO: bind data to views.
         String albumId = mSongs.get(position).getAlbumId();
-        String imageSize = "500x500";
-        String imageUrl = mContext.getString(R.string.album_image_url, albumId, imageSize);
+        String imageUrl = mContext.getString(R.string.album_image_url, albumId, IMAGE_SIZE_BIG);
 
         Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.color.colorSecondaryLight)
                 .error(R.color.colorPrimaryLight)
                 .into(holder.imageViewAlbumCover);
+
+        Picasso.get().setIndicatorsEnabled(true);
+        Picasso.get().setLoggingEnabled(true);
     }
 
     @Override
