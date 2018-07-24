@@ -32,8 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SongsActivity extends AppCompatActivity
-        implements TopSongsFragment.OnItemClickListener,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -82,8 +81,10 @@ public class SongsActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onItemClicked(Song song) {
+    /**
+     * Shows the song detail fragment
+     */
+    public void show(Song song) {
         // TODO: navigate to song detail screen.
         Toast.makeText(getApplicationContext(),
                 song.getName() + " by " + song.getArtistName(),

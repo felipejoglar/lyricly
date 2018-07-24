@@ -16,10 +16,9 @@
 
 package com.fjoglar.lyricly.songs.top;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +34,8 @@ import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
+import com.fjoglar.lyricly.songs.SongClickCallback;
+import com.fjoglar.lyricly.songs.SongsActivity;
 import com.fjoglar.lyricly.songs.SongsAdapter;
 
 import java.util.List;
@@ -42,9 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TopSongsFragment extends Fragment implements SongsAdapter.SongClickListener {
-
-    private OnItemClickListener mListener;
+public class TopSongsFragment extends Fragment {
 
     private SongsAdapter mSongsAdapter;
 
@@ -62,57 +61,22 @@ public class TopSongsFragment extends Fragment implements SongsAdapter.SongClick
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_top_songs, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        View root = inflater.inflate(R.layout.fragment_top_songs, container, false);
+        ButterKnife.bind(this, root);
 
         setUpRecyclerView();
         initViewModel();
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnItemClickListener) {
-            mListener = (OnItemClickListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnItemClickListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onSongClick(Song song) {
-        mListener.onItemClicked(song);
+        return root;
     }
 
     private void setUpRecyclerView() {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 this.getResources().getInteger(R.integer.songs_activity_column_number));
-        mSongsAdapter = new SongsAdapter(getActivity(), this);
+        mSongsAdapter = new SongsAdapter(getActivity(), mSongClickCallback);
 
         mRecyclerViewSongs.setLayoutManager(layoutManager);
         mRecyclerViewSongs.setHasFixedSize(true);
@@ -153,7 +117,10 @@ public class TopSongsFragment extends Fragment implements SongsAdapter.SongClick
         mProgressBarSongsLoading.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
-    public interface OnItemClickListener {
-        void onItemClicked(Song song);
-    }
+    private final SongClickCallback mSongClickCallback = song -> {
+
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            ((SongsActivity) getActivity()).show(song);
+        }
+    };
 }

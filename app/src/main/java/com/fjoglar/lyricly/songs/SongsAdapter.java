@@ -41,14 +41,14 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     private static final String IMAGE_SIZE_MEDIUM = "200x200";
     private static final String IMAGE_SIZE_SMALL = "70x70";
 
-    private final SongClickListener mOnClickListener;
+    private final SongClickCallback mSongClickCallback;
 
     private List<? extends Song> mSongs;
     private Context mContext;
 
-    public SongsAdapter(Context context, @Nullable SongClickListener listener) {
+    public SongsAdapter(Context context, @Nullable SongClickCallback clickCallback) {
         mContext = context;
-        mOnClickListener = listener;
+        mSongClickCallback = clickCallback;
     }
 
     @NonNull
@@ -111,11 +111,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         @Override
         public void onClick(View v) {
-            mOnClickListener.onSongClick(mSongs.get(getAdapterPosition()));
+            mSongClickCallback.onClick(mSongs.get(getAdapterPosition()));
         }
-    }
-
-    public interface SongClickListener {
-        void onSongClick(Song song);
     }
 }
