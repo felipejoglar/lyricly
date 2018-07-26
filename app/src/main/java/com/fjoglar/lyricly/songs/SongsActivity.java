@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.songs.favorite.FavoriteSongsFragment;
+import com.fjoglar.lyricly.songs.recent.RecentSongsFragment;
 import com.fjoglar.lyricly.songs.top.TopSongsFragment;
 
 import butterknife.BindView;
@@ -73,6 +74,7 @@ public class SongsActivity extends AppCompatActivity
                 break;
             case R.id.recent:
                 mToolbar.setTitle(R.string.songs_menu_recent);
+                loadFragment(RecentSongsFragment.newInstance());
                 break;
             case R.id.favorite:
                 mToolbar.setTitle(R.string.songs_menu_favorite);
