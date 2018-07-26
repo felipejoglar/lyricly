@@ -63,7 +63,7 @@ public class FavoriteSongsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_top_songs, container, false);
+        View root = inflater.inflate(R.layout.fragment_songs, container, false);
         ButterKnife.bind(this, root);
 
         setUpRecyclerView();

@@ -64,7 +64,7 @@ public class RecentSongsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_top_songs, container, false);
+        View root = inflater.inflate(R.layout.fragment_songs, container, false);
         ButterKnife.bind(this, root);
 
         setUpRecyclerView();
