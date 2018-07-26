@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.songs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.songs.favorite.FavoriteSongsFragment;
 import com.fjoglar.lyricly.songs.top.TopSongsFragment;
 
 import butterknife.BindView;
@@ -67,15 +69,18 @@ public class SongsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.popular:
                 mToolbar.setTitle(R.string.songs_menu_popular);
+                loadFragment(TopSongsFragment.newInstance());
                 break;
             case R.id.recent:
                 mToolbar.setTitle(R.string.songs_menu_recent);
                 break;
             case R.id.favorite:
                 mToolbar.setTitle(R.string.songs_menu_favorite);
+                loadFragment(FavoriteSongsFragment.newInstance());
                 break;
             default:
                 mToolbar.setTitle(R.string.songs_menu_popular);
+                loadFragment(TopSongsFragment.newInstance());
                 return false;
         }
         return true;
@@ -89,5 +94,11 @@ public class SongsActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(),
                 song.getName() + " by " + song.getArtistName(),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.framelayout_songs_container, fragment)
+                .commit();
     }
 }
