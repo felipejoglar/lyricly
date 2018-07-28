@@ -21,24 +21,24 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
+import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
 
 import java.util.List;
 
 @Dao
-public interface RecentlyPlayedSongDao {
+public interface RecentSongDao {
 
     @Insert
-    void insertAll(RecentlyPlayedSongEntity... recentlyPlayedSongEntities);
+    void insertAll(RecentSongEntity... recentSongEntities);
 
     @Insert
-    void insert(RecentlyPlayedSongEntity recentlyPlayedSongEntity);
+    void insert(RecentSongEntity recentSongEntity);
 
     @Query("SELECT * FROM recent_songs")
-    LiveData<List<RecentlyPlayedSongEntity>> getAll();
+    LiveData<List<RecentSongEntity>> getAll();
 
     @Query("SELECT * FROM recent_songs WHERE id = (:recentSongId)")
-    LiveData<RecentlyPlayedSongEntity> getById(int recentSongId);
+    LiveData<RecentSongEntity> getById(int recentSongId);
 
     @Query("DELETE FROM recent_songs")
     void deleteAll();

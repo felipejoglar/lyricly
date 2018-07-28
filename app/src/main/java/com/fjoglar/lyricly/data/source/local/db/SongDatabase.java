@@ -24,13 +24,13 @@ import android.content.Context;
 
 import com.fjoglar.lyricly.data.source.local.converter.DateConverter;
 import com.fjoglar.lyricly.data.source.local.dao.FavoriteSongDao;
-import com.fjoglar.lyricly.data.source.local.dao.RecentlyPlayedSongDao;
+import com.fjoglar.lyricly.data.source.local.dao.RecentSongDao;
 import com.fjoglar.lyricly.data.source.local.dao.TopSongDao;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
+import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 
-@Database(entities = {TopSongEntity.class, RecentlyPlayedSongEntity.class, FavoriteSongEntity.class},
+@Database(entities = {TopSongEntity.class, RecentSongEntity.class, FavoriteSongEntity.class},
         version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class SongDatabase extends RoomDatabase {
@@ -76,7 +76,7 @@ public abstract class SongDatabase extends RoomDatabase {
 
     public abstract TopSongDao topSongDao();
 
-    public abstract RecentlyPlayedSongDao recentlyPlayedSongDao();
+    public abstract RecentSongDao recentSongDao();
 
     public abstract FavoriteSongDao favoriteSongDao();
 }

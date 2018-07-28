@@ -20,7 +20,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
+import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
@@ -31,23 +31,43 @@ import java.util.List;
  */
 public interface SongsDataSource {
 
-    List<Track> fetchTopSongs(int limit);
+    interface RemoteDataSource {
+        List<Track> fetchTopSongs(int limit);
 
-    String fetchSongLyrics(String artist, String title);
+        String fetchSongLyrics(String artist, String title);
+    }
 
-    LiveData<List<TopSongEntity>> getTopSongs();
+    interface LocalDataSource {
+        void saveTopSongs(List<Song> songs);
 
-    LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs();
+        void saveTopSong(Song song);
 
-    LiveData<List<FavoriteSongEntity>> getFavoriteSongs();
+        LiveData<List<TopSongEntity>> getTopSongs();
 
-    LiveData<TopSongEntity> getTopSongById(int id);
+        LiveData<TopSongEntity> getTopSongById(int id);
 
-    LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id);
+        void deleteTopSongs();
 
-    LiveData<FavoriteSongEntity> getFavoriteSongById(int id);
+        void saveRecentSongs(List<Song> songs);
 
-    void saveTopSong(Song song);
+        void saveRecentSong(Song song);
 
-    void deleteTopSongs();
+        LiveData<List<RecentSongEntity>> getRecentSongs();
+
+        LiveData<RecentSongEntity> getRecentSongById(int id);
+
+        void deleteRecentSongs();
+
+        void saveFavoriteSongs(List<Song> songs);
+
+        void saveFavoriteSong(Song song);
+
+        LiveData<List<FavoriteSongEntity>> getFavoriteSongs();
+
+        LiveData<FavoriteSongEntity> getFavoriteSongById(int id);
+
+        void deleteFavoriteSongs();
+
+        void deleteFavoriteSongById(int id);
+    }
 }

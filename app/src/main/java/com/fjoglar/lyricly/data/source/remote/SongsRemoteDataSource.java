@@ -16,15 +16,10 @@
 
 package com.fjoglar.lyricly.data.source.remote;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.BuildConfig;
 import com.fjoglar.lyricly.data.SongsDataSource;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.api.NapsterService;
 import com.fjoglar.lyricly.data.source.remote.api.OvhLyricsService;
 import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiResponse;
@@ -37,7 +32,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class SongsRemoteDataSource implements SongsDataSource {
+public class SongsRemoteDataSource implements SongsDataSource.RemoteDataSource {
 
     @Nullable
     private static SongsRemoteDataSource INSTANCE = null;
@@ -101,51 +96,5 @@ public class SongsRemoteDataSource implements SongsDataSource {
             e.printStackTrace();
         }
         return lyrics;
-    }
-
-    @Override
-    public LiveData<List<TopSongEntity>> getTopSongs() {
-        // Not used in local data source.
-        return null;
-    }
-
-    @Override
-    public LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs() {
-        // Not used in local data source.
-        return null;
-    }
-
-    @Override
-    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
-        // Not used in local data source.
-        return null;
-    }
-
-    @Override
-    public LiveData<TopSongEntity> getTopSongById(int id) {
-        // Not used in local data source.
-        return null;
-    }
-
-    @Override
-    public LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id) {
-        // Not used in local data source.
-        return null;
-    }
-
-    @Override
-    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
-        // Not used in local data source.
-        return null;
-    }
-
-    @Override
-    public void saveTopSong(Song song) {
-        // Not used in remote data source.
-    }
-
-    @Override
-    public void deleteTopSongs() {
-        // Not used in remote data source.
     }
 }

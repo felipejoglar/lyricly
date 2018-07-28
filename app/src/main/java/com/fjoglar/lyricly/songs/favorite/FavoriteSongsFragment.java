@@ -83,7 +83,7 @@ public class FavoriteSongsFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsDataSource repository =
+        SongsRepository repository =
                 SongsRepository.getInstance(
                         SongsLocalDataSource.getInstance(
                                 SongDatabase.getInstance(getActivity().getApplicationContext())),
