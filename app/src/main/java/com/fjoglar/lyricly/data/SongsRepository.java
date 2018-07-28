@@ -17,30 +17,27 @@
 package com.fjoglar.lyricly.data;
 
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
+import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
 
-public class SongsRepository implements SongsDataSource {
+public class SongsRepository implements SongsDataSource.LocalDataSource,
+        SongsDataSource.RemoteDataSource {
 
     @Nullable
     private static SongsRepository INSTANCE = null;
 
-    @NonNull
-    private final SongsDataSource mSongsLocalDataSource;
+    private final SongsDataSource.LocalDataSource mSongsLocalDataSource;
+    private final SongsDataSource.RemoteDataSource mSongsRemoteDataSource;
 
-    @NonNull
-    private final SongsDataSource mSongsRemoteDataSource;
-
-    private SongsRepository(@NonNull SongsDataSource songsLocalDataSource,
-                            @NonNull SongsDataSource songsRemoteDataSource) {
+    private SongsRepository(SongsDataSource.LocalDataSource songsLocalDataSource,
+                            SongsDataSource.RemoteDataSource songsRemoteDataSource) {
         mSongsLocalDataSource = songsLocalDataSource;
         mSongsRemoteDataSource = songsRemoteDataSource;
     }
@@ -52,8 +49,8 @@ public class SongsRepository implements SongsDataSource {
      * @param songsRemoteDataSource the device storage data source
      * @return the {@link SongsRepository} instance
      */
-    public static SongsRepository getInstance(@NonNull SongsDataSource songsLocalDataSource,
-                                              @NonNull SongsDataSource songsRemoteDataSource) {
+    public static SongsRepository getInstance(SongsDataSource.LocalDataSource songsLocalDataSource,
+                                              SongsDataSource.RemoteDataSource songsRemoteDataSource) {
         if (INSTANCE == null) {
             INSTANCE = new SongsRepository(songsLocalDataSource, songsRemoteDataSource);
         }
@@ -79,33 +76,8 @@ public class SongsRepository implements SongsDataSource {
     }
 
     @Override
-    public LiveData<List<TopSongEntity>> getTopSongs() {
-        return mSongsLocalDataSource.getTopSongs();
-    }
-
-    @Override
-    public LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs() {
-        return mSongsLocalDataSource.getRecentSongs();
-    }
-
-    @Override
-    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
-        return mSongsLocalDataSource.getFavoriteSongs();
-    }
-
-    @Override
-    public LiveData<TopSongEntity> getTopSongById(int id) {
-        return mSongsLocalDataSource.getTopSongById(id);
-    }
-
-    @Override
-    public LiveData<RecentlyPlayedSongEntity> getRecentSongById(int id) {
-        return mSongsLocalDataSource.getRecentSongById(id);
-    }
-
-    @Override
-    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
-        return mSongsLocalDataSource.getFavoriteSongById(id);
+    public void saveTopSongs(List<Song> songs) {
+        mSongsLocalDataSource.saveTopSongs(songs);
     }
 
     @Override
@@ -114,7 +86,72 @@ public class SongsRepository implements SongsDataSource {
     }
 
     @Override
+    public LiveData<List<TopSongEntity>> getTopSongs() {
+        return mSongsLocalDataSource.getTopSongs();
+    }
+
+    @Override
+    public LiveData<TopSongEntity> getTopSongById(int id) {
+        return mSongsLocalDataSource.getTopSongById(id);
+    }
+
+    @Override
     public void deleteTopSongs() {
         mSongsLocalDataSource.deleteTopSongs();
+    }
+
+    @Override
+    public void saveRecentSongs(List<Song> songs) {
+        mSongsLocalDataSource.saveRecentSongs(songs);
+    }
+
+    @Override
+    public void saveRecentSong(Song song) {
+        mSongsLocalDataSource.saveRecentSong(song);
+    }
+
+    @Override
+    public LiveData<List<RecentSongEntity>> getRecentSongs() {
+        return mSongsLocalDataSource.getRecentSongs();
+    }
+
+    @Override
+    public LiveData<RecentSongEntity> getRecentSongById(int id) {
+        return mSongsLocalDataSource.getRecentSongById(id);
+    }
+
+    @Override
+    public void deleteRecentSongs() {
+        mSongsLocalDataSource.deleteRecentSongs();
+    }
+
+    @Override
+    public void saveFavoriteSongs(List<Song> songs) {
+        mSongsLocalDataSource.saveFavoriteSongs(songs);
+    }
+
+    @Override
+    public void saveFavoriteSong(Song song) {
+        mSongsLocalDataSource.saveFavoriteSong(song);
+    }
+
+    @Override
+    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
+        return mSongsLocalDataSource.getFavoriteSongs();
+    }
+
+    @Override
+    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
+        return mSongsLocalDataSource.getFavoriteSongById(id);
+    }
+
+    @Override
+    public void deleteFavoriteSongs() {
+        mSongsLocalDataSource.deleteFavoriteSongs();
+    }
+
+    @Override
+    public void deleteFavoriteSongById(int id) {
+        mSongsLocalDataSource.deleteFavoriteSongById(id);
     }
 }

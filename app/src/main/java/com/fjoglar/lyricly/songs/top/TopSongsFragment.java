@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
@@ -84,7 +83,7 @@ public class TopSongsFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsDataSource repository =
+        SongsRepository repository =
                 SongsRepository.getInstance(
                         SongsLocalDataSource.getInstance(
                                 SongDatabase.getInstance(getActivity().getApplicationContext())),

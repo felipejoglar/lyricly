@@ -30,7 +30,7 @@ import java.util.Objects;
  * Model class for a user recently played song.
  */
 @Entity(tableName = "recent_songs")
-public class RecentlyPlayedSongEntity implements Song {
+public class RecentSongEntity implements Song {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -64,7 +64,7 @@ public class RecentlyPlayedSongEntity implements Song {
     private Date createdAt;
 
     @Ignore
-    public RecentlyPlayedSongEntity() {
+    public RecentSongEntity() {
     }
 
     /**
@@ -80,17 +80,17 @@ public class RecentlyPlayedSongEntity implements Song {
      * @param lyrics          Lyrics for the song
      * @param createdAt       Date when the song was inserted in the DB
      */
-    public RecentlyPlayedSongEntity(int id,
-                                    String napsterId,
-                                    int albumIndex,
-                                    int playbackSeconds,
-                                    String name,
-                                    String artistId,
-                                    String artistName,
-                                    String albumId,
-                                    String albumName,
-                                    String lyrics,
-                                    Date createdAt) {
+    public RecentSongEntity(int id,
+                            String napsterId,
+                            int albumIndex,
+                            int playbackSeconds,
+                            String name,
+                            String artistId,
+                            String artistName,
+                            String albumId,
+                            String albumName,
+                            String lyrics,
+                            Date createdAt) {
         this.id = id;
         this.napsterId = napsterId;
         this.albumIndex = albumIndex;
@@ -105,16 +105,16 @@ public class RecentlyPlayedSongEntity implements Song {
     }
 
     @Ignore
-    public RecentlyPlayedSongEntity(String napsterId,
-                                    int albumIndex,
-                                    int playbackSeconds,
-                                    String name,
-                                    String artistId,
-                                    String artistName,
-                                    String albumId,
-                                    String albumName,
-                                    String lyrics,
-                                    Date createdAt) {
+    public RecentSongEntity(String napsterId,
+                            int albumIndex,
+                            int playbackSeconds,
+                            String name,
+                            String artistId,
+                            String artistName,
+                            String albumId,
+                            String albumName,
+                            String lyrics,
+                            Date createdAt) {
         this.napsterId = napsterId;
         this.albumIndex = albumIndex;
         this.playbackSeconds = playbackSeconds;
@@ -229,7 +229,7 @@ public class RecentlyPlayedSongEntity implements Song {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RecentlyPlayedSongEntity that = (RecentlyPlayedSongEntity) o;
+        RecentSongEntity that = (RecentSongEntity) o;
         return id == that.id &&
                 albumIndex == that.albumIndex &&
                 playbackSeconds == that.playbackSeconds &&

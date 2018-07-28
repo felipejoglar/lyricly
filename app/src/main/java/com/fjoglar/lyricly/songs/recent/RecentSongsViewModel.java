@@ -21,49 +21,49 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
-import com.fjoglar.lyricly.data.SongsDataSource;
-import com.fjoglar.lyricly.data.source.local.entity.RecentlyPlayedSongEntity;
+import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
 
 import java.util.List;
 
 public class RecentSongsViewModel extends ViewModel {
 
-    private SongsDataSource mSongsDataSource;
-    private LiveData<List<RecentlyPlayedSongEntity>> mRecentSongs;
+    private SongsRepository mSongsRepository;
+    private LiveData<List<RecentSongEntity>> mRecentSongs;
 
-    RecentSongsViewModel(@Nullable SongsDataSource songsDataSource) {
-        if (mSongsDataSource != null) {
+    RecentSongsViewModel(@Nullable SongsRepository songsRepository) {
+        if (mSongsRepository != null) {
             // ViewModel is created per Activity
             return;
         }
-        if (songsDataSource != null) {
-            mSongsDataSource = songsDataSource;
+        if (songsRepository != null) {
+            mSongsRepository = songsRepository;
         }
     }
 
-    public LiveData<List<RecentlyPlayedSongEntity>> getRecentSongs() {
+    public LiveData<List<RecentSongEntity>> getRecentSongs() {
         if (mRecentSongs == null) {
             mRecentSongs = loadSongs();
         }
         return mRecentSongs;
     }
 
-    private LiveData<List<RecentlyPlayedSongEntity>> loadSongs() {
-        return mSongsDataSource.getRecentSongs();
+    private LiveData<List<RecentSongEntity>> loadSongs() {
+        return mSongsRepository.getRecentSongs();
     }
 
     static class Factory extends ViewModelProvider.NewInstanceFactory {
 
-        private SongsDataSource mSongsDataSource;
+        private SongsRepository mSongsRepository;
 
-        Factory(SongsDataSource songsDataSource) {
-            mSongsDataSource = songsDataSource;
+        Factory(SongsRepository songsRepository) {
+            mSongsRepository = songsRepository;
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new RecentSongsViewModel(mSongsDataSource);
+            return (T) new RecentSongsViewModel(mSongsRepository);
         }
     }
 }

@@ -42,4 +42,7 @@ public interface FavoriteSongDao {
 
     @Query("DELETE FROM favorite_songs")
     void deleteAll();
+
+    @Query("DELETE FROM favorite_songs WHERE id = (:favoriteSongId)")
+    void deleteById(int favoriteSongId);
 }

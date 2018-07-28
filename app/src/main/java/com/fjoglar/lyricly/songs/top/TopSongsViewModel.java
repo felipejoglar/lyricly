@@ -21,23 +21,23 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
-import com.fjoglar.lyricly.data.SongsDataSource;
+import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 
 import java.util.List;
 
 public class TopSongsViewModel extends ViewModel {
 
-    private SongsDataSource mSongsDataSource;
+    private SongsRepository mSongsRepository;
     private LiveData<List<TopSongEntity>> mTopSongs;
 
-    TopSongsViewModel(@Nullable SongsDataSource songsDataSource) {
-        if (mSongsDataSource != null) {
+    TopSongsViewModel(@Nullable SongsRepository songsRepository) {
+        if (mSongsRepository != null) {
             // ViewModel is created per Activity
             return;
         }
-        if (songsDataSource != null) {
-            mSongsDataSource = songsDataSource;
+        if (songsRepository != null) {
+            mSongsRepository = songsRepository;
         }
     }
 
@@ -49,21 +49,21 @@ public class TopSongsViewModel extends ViewModel {
     }
 
     private LiveData<List<TopSongEntity>> loadSongs() {
-        return mSongsDataSource.getTopSongs();
+        return mSongsRepository.getTopSongs();
     }
 
     static class Factory extends ViewModelProvider.NewInstanceFactory {
 
-        private SongsDataSource mSongsDataSource;
+        private SongsRepository mSongsRepository;
 
-        Factory(SongsDataSource songsDataSource) {
-            mSongsDataSource = songsDataSource;
+        Factory(SongsRepository songsRepository) {
+            mSongsRepository = songsRepository;
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new TopSongsViewModel(mSongsDataSource);
+            return (T) new TopSongsViewModel(mSongsRepository);
         }
     }
 }
