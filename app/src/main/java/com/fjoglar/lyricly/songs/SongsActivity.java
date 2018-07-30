@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.song.SongActivity;
 import com.fjoglar.lyricly.songs.favorite.FavoriteSongsFragment;
 import com.fjoglar.lyricly.songs.recent.RecentSongsFragment;
 import com.fjoglar.lyricly.songs.top.TopSongsFragment;
@@ -96,6 +97,23 @@ public class SongsActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(),
                 song.getName() + " by " + song.getArtistName(),
                 Toast.LENGTH_SHORT).show();
+        Intent songIntent = new Intent(this, SongActivity.class);
+        songIntent.putExtra(SongActivity.EXTRA_SONG_ID, song.getId());
+        songIntent.putExtra(SongActivity.EXTRA_SONG_TYPE, getSongType());
+        startActivity(songIntent);
+    }
+
+    private int getSongType() {
+        switch (mBottomNavigationSongs.getSelectedItemId()) {
+            case 0:
+                return SongActivity.SONG_TYPE_TOP;
+            case 1:
+                return SongActivity.SONG_TYPE_RECENT;
+            case 2:
+                return SongActivity.SONG_TYPE_FAVORITE;
+            default:
+                return SongActivity.SONG_TYPE_TOP;
+        }
     }
 
     private void loadFragment(Fragment fragment) {

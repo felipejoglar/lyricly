@@ -24,4 +24,10 @@
     <string name="album_cover">Album cover</string>
     <string name="album_image_url">"http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png"</string>
 
+    <!-- SONG SCREEN -->
+    <string name="song_menu_share">Share</string>
+    <string name="share_dialog_title">Share with:</string>
+    <string name="share_message">"Hey checkout these awesome lyrics by %1$s: %2$s"</string>
+    <string name="song_error_message">Cannot load this song</string>
+
 </resources>

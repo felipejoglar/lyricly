@@ -127,6 +127,7 @@ public class RecentSongEntity implements Song {
         this.createdAt = createdAt;
     }
 
+    @Override
     public int getId() {
         return id;
     }

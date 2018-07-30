@@ -20,6 +20,8 @@ import java.util.Date;
 
 public interface Song {
 
+    int getId();
+
     String getNapsterId();
 
     int getAlbumIndex();
