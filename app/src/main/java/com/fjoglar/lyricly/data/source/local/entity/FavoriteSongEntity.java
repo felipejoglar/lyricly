@@ -127,6 +127,7 @@ public class FavoriteSongEntity implements Song {
         this.createdAt = createdAt;
     }
 
+    @Override
     public int getId() {
         return id;
     }
