@@ -41,6 +41,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SongFragment extends Fragment {
 
@@ -54,6 +55,7 @@ public class SongFragment extends Fragment {
     private int mSongId;
     private int mSongType;
     private Song mSong;
+    private SongViewModel mSongViewModel;
 
     @BindView(R.id.imageview_song_cover)
     ImageView mImageViewSongCover;
@@ -123,6 +125,11 @@ public class SongFragment extends Fragment {
         }
     }
 
+    @OnClick(R.id.floatingactionbutton_song_favorite)
+    void favoriteClicked() {
+        mSongViewModel.onFavoriteClicked(mSong);
+    }
+
     private void initViewModel() {
         SongsRepository repository =
                 SongsRepository.getInstance(
@@ -133,10 +140,10 @@ public class SongFragment extends Fragment {
 
         SongViewModel.Factory factory = new SongViewModel.Factory(repository, mSongId, mSongType);
 
-        final SongViewModel songViewModel =
+        mSongViewModel =
                 ViewModelProviders.of(this, factory).get(SongViewModel.class);
 
-        subscribeUi(songViewModel);
+        subscribeUi(mSongViewModel);
     }
 
     private void subscribeUi(SongViewModel viewModel) {

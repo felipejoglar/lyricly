@@ -127,6 +127,20 @@ public class FavoriteSongEntity implements Song {
         this.createdAt = createdAt;
     }
 
+    @Ignore
+    public FavoriteSongEntity (Song song, Date createdAt) {
+        this.napsterId = song.getNapsterId();
+        this.albumIndex = song.getAlbumIndex();
+        this.playbackSeconds = song.getPlaybackSeconds();
+        this.name = song.getName();
+        this.artistId = song.getArtistId();
+        this.artistName = song.getArtistName();
+        this.albumId = song.getAlbumId();
+        this.albumName = song.getAlbumName();
+        this.lyrics = song.getLyrics();
+        this.createdAt = createdAt;
+    }
+
     @Override
     public int getId() {
         return id;
