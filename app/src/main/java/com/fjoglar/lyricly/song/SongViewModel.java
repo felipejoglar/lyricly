@@ -22,15 +22,20 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
 import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
+import com.fjoglar.lyricly.util.AppExecutors;
+
+import java.util.Date;
 
 public class SongViewModel extends ViewModel {
 
     private SongsRepository mSongsRepository;
     private int mSongId;
     private int mSongType;
+    private Song mSong;
 
     private LiveData<TopSongEntity> mTopSong;
     private LiveData<RecentSongEntity> mRecentSong;
@@ -61,6 +66,16 @@ public class SongViewModel extends ViewModel {
             mFavoriteSong = mSongsRepository.getFavoriteSongById(mSongId);
         }
         return mFavoriteSong;
+    }
+
+    public void onFavoriteClicked (Song song) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (mSongType == SongActivity.SONG_TYPE_FAVORITE) {
+                mSongsRepository.deleteFavoriteSongById(song.getId());
+            } else {
+                mSongsRepository.saveFavoriteSong(new FavoriteSongEntity(song, new Date()));
+            }
+        });
     }
 
     static class Factory extends ViewModelProvider.NewInstanceFactory {

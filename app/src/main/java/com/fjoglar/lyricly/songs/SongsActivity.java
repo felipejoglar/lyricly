@@ -38,6 +38,8 @@ import butterknife.ButterKnife;
 public class SongsActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private int mBottomNavigationSelectedItem;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.bottom_navigation_songs)
@@ -70,18 +72,22 @@ public class SongsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.popular:
+                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_TOP;
                 mToolbar.setTitle(R.string.songs_menu_popular);
                 loadFragment(TopSongsFragment.newInstance());
                 break;
             case R.id.recent:
+                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_RECENT;
                 mToolbar.setTitle(R.string.songs_menu_recent);
                 loadFragment(RecentSongsFragment.newInstance());
                 break;
             case R.id.favorite:
+                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_FAVORITE;
                 mToolbar.setTitle(R.string.songs_menu_favorite);
                 loadFragment(FavoriteSongsFragment.newInstance());
                 break;
             default:
+                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_TOP;
                 mToolbar.setTitle(R.string.songs_menu_popular);
                 loadFragment(TopSongsFragment.newInstance());
                 return false;
@@ -99,21 +105,8 @@ public class SongsActivity extends AppCompatActivity
                 Toast.LENGTH_SHORT).show();
         Intent songIntent = new Intent(this, SongActivity.class);
         songIntent.putExtra(SongActivity.EXTRA_SONG_ID, song.getId());
-        songIntent.putExtra(SongActivity.EXTRA_SONG_TYPE, getSongType());
+        songIntent.putExtra(SongActivity.EXTRA_SONG_TYPE, mBottomNavigationSelectedItem);
         startActivity(songIntent);
-    }
-
-    private int getSongType() {
-        switch (mBottomNavigationSongs.getSelectedItemId()) {
-            case 0:
-                return SongActivity.SONG_TYPE_TOP;
-            case 1:
-                return SongActivity.SONG_TYPE_RECENT;
-            case 2:
-                return SongActivity.SONG_TYPE_FAVORITE;
-            default:
-                return SongActivity.SONG_TYPE_TOP;
-        }
     }
 
     private void loadFragment(Fragment fragment) {
