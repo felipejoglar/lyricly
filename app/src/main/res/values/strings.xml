@@ -29,5 +29,6 @@
     <string name="share_dialog_title">Share with:</string>
     <string name="share_message">"Hey checkout these awesome lyrics by %1$s: %2$s"</string>
     <string name="song_error_message">Cannot load this song</string>
+    <string name="song_favorite_deleted">Song removed from favorites</string>
 
 </resources>

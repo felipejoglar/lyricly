@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.song;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.SongsRepository;
@@ -59,6 +61,8 @@ public class SongFragment extends Fragment {
 
     @BindView(R.id.imageview_song_cover)
     ImageView mImageViewSongCover;
+    @BindView(R.id.floatingactionbutton_song_favorite)
+    FloatingActionButton mFabSongFavorite;
     @BindView(R.id.textview_song_title)
     TextView mTextViewSongTitle;
     @BindView(R.id.textview_song_artist)
@@ -162,8 +166,11 @@ public class SongFragment extends Fragment {
                 break;
             case SongActivity.SONG_TYPE_FAVORITE:
                 viewModel.getFavoriteSong().observe(this, song -> {
-                    visualizeSong(song);
-                    viewModel.getTopSong().removeObserver(this::showSong);
+                    if (song == null) {
+                        closeOnFavoriteDeleted();
+                    } else {
+                        visualizeSong(song);
+                    }
                 });
                 break;
             default:
@@ -199,6 +206,15 @@ public class SongFragment extends Fragment {
         mTextViewSongTitle.setText(mSong.getName());
         mTextViewSongArtist.setText(mSong.getArtistName());
         mTextViewSongLyrics.setText(mSong.getLyrics());
+
+        mFabSongFavorite.setImageResource(
+                mSongType == 2 ? R.drawable.songs_ic_favorite_24dp :
+                        R.drawable.song_ic_favorite_border_24dp);
+    }
+
+    private void closeOnFavoriteDeleted() {
+        getActivity().finish();
+        Toast.makeText(getActivity().getApplicationContext(), R.string.song_favorite_deleted, Toast.LENGTH_SHORT).show();
     }
 
     private void setIsLoading(boolean isLoading) {

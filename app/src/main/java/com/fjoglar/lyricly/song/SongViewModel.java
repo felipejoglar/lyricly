@@ -35,7 +35,6 @@ public class SongViewModel extends ViewModel {
     private SongsRepository mSongsRepository;
     private int mSongId;
     private int mSongType;
-    private Song mSong;
 
     private LiveData<TopSongEntity> mTopSong;
     private LiveData<RecentSongEntity> mRecentSong;
