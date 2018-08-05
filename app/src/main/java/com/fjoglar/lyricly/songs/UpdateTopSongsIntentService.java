@@ -26,6 +26,7 @@ import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.mapper.SongEntityDataMapper;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
+import com.google.firebase.perf.metrics.AddTrace;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class UpdateTopSongsIntentService extends IntentService {
     }
 
     @Override
+    @AddTrace(name = "updateTopSongsTrace")
     protected void onHandleIntent(@Nullable Intent intent) {
         SongsRepository repository =
                 SongsRepository.getInstance(
