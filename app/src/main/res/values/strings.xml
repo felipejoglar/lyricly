@@ -31,4 +31,8 @@
     <string name="song_error_message">Cannot load this song</string>
     <string name="song_favorite_deleted">Song removed from favorites</string>
 
+    <!-- WIDGET -->
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
 </resources>
