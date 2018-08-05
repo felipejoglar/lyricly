@@ -90,4 +90,8 @@ dependencies {
 
     androidTestImplementation "com.android.support.test:runner:${versions.test_runner}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
+
+    implementation 'com.google.firebase:firebase-core:16.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
