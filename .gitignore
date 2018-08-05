@@ -68,3 +68,6 @@ gen-external-apklibs
 
 ### Mac OS X ###
 .DS_Store
+
+### Firebase ###
+app/google-services.json
