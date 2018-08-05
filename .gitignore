@@ -70,4 +70,4 @@ gen-external-apklibs
 .DS_Store
 
 ### Firebase ###
-app/google-services.json
+# app/google-services.json

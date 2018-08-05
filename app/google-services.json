@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "337552205426",
+    "firebase_url": "https://lirycly.firebaseio.com",
+    "project_id": "lirycly",
+    "storage_bucket": "lirycly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337552205426:android:e3c487b5103807c7",
+        "android_client_info": {
+          "package_name": "com.fjoglar.lyricly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337552205426-5etqdpla21k33j6bvefojo65dd8cv9l9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKKb1HJ2PuBxDappWAJ9CufSFWf_lU6FQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
