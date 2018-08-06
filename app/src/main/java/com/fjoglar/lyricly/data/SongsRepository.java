@@ -154,4 +154,9 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     public void deleteFavoriteSongById(int id) {
         mSongsLocalDataSource.deleteFavoriteSongById(id);
     }
+
+    @Override
+    public List<FavoriteSongEntity> getWidgetSongs() {
+        return mSongsLocalDataSource.getWidgetSongs();
+    }
 }

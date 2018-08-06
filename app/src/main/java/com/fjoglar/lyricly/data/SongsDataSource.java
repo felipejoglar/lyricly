@@ -69,5 +69,7 @@ public interface SongsDataSource {
         void deleteFavoriteSongs();
 
         void deleteFavoriteSongById(int id);
+
+        List<FavoriteSongEntity> getWidgetSongs();
     }
 }

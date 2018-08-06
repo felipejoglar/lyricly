@@ -139,4 +139,9 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     public void deleteFavoriteSongById(int id) {
         mSongDatabase.favoriteSongDao().deleteById(id);
     }
+
+    @Override
+    public List<FavoriteSongEntity> getWidgetSongs() {
+        return mSongDatabase.favoriteSongDao().getWidgetSongs();
+    }
 }

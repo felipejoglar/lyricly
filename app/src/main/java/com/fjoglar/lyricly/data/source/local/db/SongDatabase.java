@@ -37,6 +37,7 @@ public abstract class SongDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "song.db";
     private static SongDatabase INSTANCE;
+    private static SongDatabase SYNC_INSTANCE;
 
     /**
      * Returns the single instance of this class, creating it if necessary.
@@ -53,6 +54,21 @@ public abstract class SongDatabase extends RoomDatabase {
     }
 
     /**
+     * Returns the single instance of this class, creating it if necessary.
+     * For synchronous access.
+     */
+    public static SongDatabase getSyncInstance(Context context) {
+        if (SYNC_INSTANCE == null) {
+            synchronized (SongDatabase.class) {
+                if (SYNC_INSTANCE == null) {
+                    SYNC_INSTANCE = buildSyncDatabase(context.getApplicationContext());
+                }
+            }
+        }
+        return SYNC_INSTANCE;
+    }
+
+    /**
      * Build the database. {@link Builder#build()} only sets up the database configuration and
      * creates a new instance of the database.
      * The SQLite database is only created when it is accessed for the first time.
@@ -60,6 +76,19 @@ public abstract class SongDatabase extends RoomDatabase {
     private static SongDatabase buildDatabase(final Context applicationContext) {
         return Room
                 .databaseBuilder(applicationContext, SongDatabase.class, DB_NAME)
+                .build();
+    }
+
+    /**
+     * Build the database. {@link Builder#build()} only sets up the database configuration and
+     * creates a new instance of the database.
+     * The SQLite database is only created when it is accessed for the first time.
+     * For synchronous access.
+     */
+    private static SongDatabase buildSyncDatabase(final Context applicationContext) {
+        return Room
+                .databaseBuilder(applicationContext, SongDatabase.class, DB_NAME)
+                .allowMainThreadQueries()
                 .build();
     }
 

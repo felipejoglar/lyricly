@@ -22,13 +22,35 @@ import android.content.Context;
 import android.widget.RemoteViews;
 
 import com.fjoglar.lyricly.R;
+import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
+import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
+import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
+
+import java.util.List;
 
 public class FavoriteSongsWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    // TODO: improve the widget to make it a listview with access to the song details.
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
+    }
+
+    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        SongsRepository repository =
+                SongsRepository.getInstance(
+                        SongsLocalDataSource.getInstance(
+                                SongDatabase.getSyncInstance(context)),
+                        SongsRemoteDataSource.getInstance()
+                );
+
+        CharSequence widgetText = formatSongList(repository.getWidgetSongs());
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.favorite_songs_widget);
         views.setTextViewText(R.id.appwidget_text, widgetText);
@@ -36,12 +58,13 @@ public class FavoriteSongsWidget extends AppWidgetProvider {
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+    
+    public String formatSongList(List<FavoriteSongEntity> songs) {
+        StringBuilder sb = new StringBuilder();
+        for (FavoriteSongEntity song : songs) {
+            sb.append(song.getName()).append(" by ").append(song.getArtistName()).append("\n");
         }
+        return sb.toString();
     }
 }
 

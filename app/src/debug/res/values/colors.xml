@@ -19,6 +19,7 @@
     <color name="colorPrimary">#ffcf44</color>
     <color name="colorPrimaryDark">#feb900</color>
     <color name="colorPrimaryLight">#ffe9af</color>
+    <color name="colorPrimaryLightTransparent">#80ffe9af</color>
 
     <color name="colorSecondary">#00ac6a</color>
     <color name="colorSecondaryDark">#008b52</color>

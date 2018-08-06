@@ -40,6 +40,9 @@ public interface FavoriteSongDao {
     @Query("SELECT * FROM favorite_songs WHERE id = (:favoriteSongId)")
     LiveData<FavoriteSongEntity> getById(int favoriteSongId);
 
+    @Query("SELECT * FROM favorite_songs")
+    List<FavoriteSongEntity> getWidgetSongs();
+
     @Query("DELETE FROM favorite_songs")
     void deleteAll();
 
