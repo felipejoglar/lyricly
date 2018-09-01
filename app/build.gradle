@@ -66,6 +66,7 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
     implementation "com.android.support:design:${versions.supportLibrary}"
+    implementation "com.android.support:support-v4:${versions.supportLibrary}"
     implementation "com.android.support.constraint:constraint-layout:${versions.constraintLayout}"
 
     implementation "com.squareup.picasso:picasso:${versions.picasso}"
@@ -73,8 +74,6 @@ dependencies {
     implementation "com.android.support:exifinterface:${versions.supportLibrary}"
 
     implementation "android.arch.persistence.room:runtime:${versions.room}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'com.android.support:support-v4:27.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:${versions.room}"
 
     implementation "android.arch.lifecycle:extensions:${versions.lifecycle}"
