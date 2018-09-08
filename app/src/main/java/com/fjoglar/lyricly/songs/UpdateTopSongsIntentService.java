@@ -21,11 +21,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
-import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
-import com.fjoglar.lyricly.data.source.mapper.SongEntityDataMapper;
-import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
+import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
+import com.fjoglar.lyricly.util.Injection;
 import com.google.firebase.perf.metrics.AddTrace;
 
 import java.util.List;
@@ -39,10 +37,7 @@ public class UpdateTopSongsIntentService extends IntentService {
     @Override
     @AddTrace(name = "updateTopSongsTrace")
     protected void onHandleIntent(@Nullable Intent intent) {
-        SongsRepository repository =
-                SongsRepository.getInstance(
-                        SongsLocalDataSource.getInstance(SongDatabase.getInstance(getApplicationContext())),
-                        SongsRemoteDataSource.getInstance());
+        SongsRepository repository = Injection.provideSongsRepository(getApplicationContext());
 
         // We have set the limit to 50 eventually.
         // TODO: in the future implement an infinite scroll with paging.
@@ -55,8 +50,9 @@ public class UpdateTopSongsIntentService extends IntentService {
         for (Track track : tracks) {
             String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
             if (lyrics != null) {
-                repository.saveTopSong(SongEntityDataMapper.transform(track, lyrics));
+                repository.saveSong(SongDataMapper.transform(track, lyrics));
             }
         }
     }
 }
+
