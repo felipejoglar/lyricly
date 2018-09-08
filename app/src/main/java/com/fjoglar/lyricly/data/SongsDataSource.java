@@ -19,9 +19,6 @@ package com.fjoglar.lyricly.data;
 import android.arch.lifecycle.LiveData;
 
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
@@ -32,42 +29,83 @@ import java.util.List;
 public interface SongsDataSource {
 
     interface RemoteDataSource {
+
+        /**
+         * Gets a list of songs from the remote data source.
+         *
+         * @param limit number of songs to be fetched.
+         * @return the list of top songs from the data source.
+         */
         List<Track> fetchTopSongs(int limit);
 
+        /**
+         * Gets the lyrics of a song from the remote data source.
+         *
+         * @param artist the artist of the song
+         * @param title  the title of the sogn
+         * @return the user from the data source.
+         */
         String fetchSongLyrics(String artist, String title);
     }
 
     interface LocalDataSource {
-        void saveTopSongs(List<Song> songs);
 
-        void saveTopSong(Song song);
+        /**
+         * Insert a list of songs to the data source.
+         */
+        void saveSongs(List<Song> songs);
 
-        LiveData<List<TopSongEntity>> getTopSongs();
+        /**
+         * Gets a song the data source.
+         */
+        void saveSong(Song song);
 
-        LiveData<TopSongEntity> getTopSongById(int id);
+        /**
+         * Gets the top songs from the data source.
+         *
+         * @return the songs from the data source.
+         */
+        LiveData<List<Song>> getTopSongs();
 
+        /**
+         * Gets the recent songs from the data source.
+         *
+         * @return the songs from the data source.
+         */
+        LiveData<List<Song>> getRecentSongs();
+
+        /**
+         * Gets the favorite songs from the data source.
+         *
+         * @return the songs from the data source.
+         */
+        LiveData<List<Song>> getFavoriteSongs();
+
+        /**
+         * Gets the song from the data source.
+         *
+         * @param id the id of the song to be getted.
+         * @return the song from the data source.
+         */
+        LiveData<Song> getSongById(int id);
+
+        /**
+         * Updates the song as favorite.
+         *
+         * @param id the id of the song to be updated.
+         */
+        void updateFavoriteSongById(int id);
+
+        /**
+         * Deletes all top songs from the data source.
+         */
         void deleteTopSongs();
 
-        void saveRecentSongs(List<Song> songs);
-
-        void saveRecentSong(Song song);
-
-        LiveData<List<RecentSongEntity>> getRecentSongs();
-
-        LiveData<RecentSongEntity> getRecentSongById(int id);
-
-        void deleteRecentSongs();
-
-        void saveFavoriteSongs(List<Song> songs);
-
-        void saveFavoriteSong(Song song);
-
-        LiveData<List<FavoriteSongEntity>> getFavoriteSongs();
-
-        LiveData<FavoriteSongEntity> getFavoriteSongById(int id);
-
-        void deleteFavoriteSongs();
-
+        /**
+         * Deletes all users from the data source.
+         *
+         * @param id the id of the song to be deleted.
+         */
         void deleteFavoriteSongById(int id);
     }
 }

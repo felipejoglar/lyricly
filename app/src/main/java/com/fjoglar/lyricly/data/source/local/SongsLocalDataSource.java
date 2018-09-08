@@ -22,12 +22,12 @@ import android.support.annotation.Nullable;
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
-import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 
 import java.util.List;
 
+/**
+ * Using the Room database as a data source.
+ */
 public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
 
     @Nullable
@@ -61,82 +61,47 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
-    public void saveTopSongs(List<Song> songs) {
-        mSongDatabase.topSongDao().insertAll((TopSongEntity) songs);
+    public void saveSongs(List<Song> songs) {
+        mSongDatabase.songDao().insertAll(songs);
     }
 
     @Override
-    public void saveTopSong(Song song) {
-        mSongDatabase.topSongDao().insert((TopSongEntity) song);
+    public void saveSong(Song song) {
+        mSongDatabase.songDao().insert(song);
     }
 
     @Override
-    public LiveData<List<TopSongEntity>> getTopSongs() {
-        return mSongDatabase.topSongDao().getAll();
+    public LiveData<List<Song>> getTopSongs() {
+        return mSongDatabase.songDao().getTopSongs();
     }
 
     @Override
-    public LiveData<TopSongEntity> getTopSongById(int id) {
-        return mSongDatabase.topSongDao().getById(id);
+    public LiveData<List<Song>> getRecentSongs() {
+        return mSongDatabase.songDao().getRecentSongs();
+    }
+
+    @Override
+    public LiveData<List<Song>> getFavoriteSongs() {
+        return mSongDatabase.songDao().getFavoriteSongs();
+    }
+
+    @Override
+    public LiveData<Song> getSongById(int id) {
+        return mSongDatabase.songDao().getById(id);
+    }
+
+    @Override
+    public void updateFavoriteSongById(int id) {
+        mSongDatabase.songDao().updateFavoriteSongById(id);
     }
 
     @Override
     public void deleteTopSongs() {
-        mSongDatabase.topSongDao().deleteAll();
-    }
-
-    @Override
-    public void saveRecentSongs(List<Song> songs) {
-        mSongDatabase.recentSongDao().insertAll((RecentSongEntity) songs);
-    }
-
-    @Override
-    public void saveRecentSong(Song song) {
-        mSongDatabase.recentSongDao().insert((RecentSongEntity) song);
-    }
-
-    @Override
-    public LiveData<List<RecentSongEntity>> getRecentSongs() {
-        return mSongDatabase.recentSongDao().getAll();
-    }
-
-    @Override
-    public LiveData<RecentSongEntity> getRecentSongById(int id) {
-        return mSongDatabase.recentSongDao().getById(id);
-    }
-
-    @Override
-    public void deleteRecentSongs() {
-        mSongDatabase.recentSongDao().deleteAll();
-    }
-
-    @Override
-    public void saveFavoriteSongs(List<Song> songs) {
-        mSongDatabase.favoriteSongDao().insertAll((FavoriteSongEntity) songs);
-    }
-
-    @Override
-    public void saveFavoriteSong(Song song) {
-        mSongDatabase.favoriteSongDao().insert((FavoriteSongEntity) song);
-    }
-
-    @Override
-    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
-        return mSongDatabase.favoriteSongDao().getAll();
-    }
-
-    @Override
-    public LiveData<FavoriteSongEntity> getFavoriteSongById(int id) {
-        return mSongDatabase.favoriteSongDao().getById(id);
-    }
-
-    @Override
-    public void deleteFavoriteSongs() {
-        mSongDatabase.favoriteSongDao().deleteAll();
+        mSongDatabase.songDao().deleteTopSongs();
     }
 
     @Override
     public void deleteFavoriteSongById(int id) {
-        mSongDatabase.favoriteSongDao().deleteById(id);
+        mSongDatabase.songDao().deleteFavoriteSongById(id);
     }
 }
