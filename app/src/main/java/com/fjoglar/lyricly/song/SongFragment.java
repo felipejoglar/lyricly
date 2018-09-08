@@ -151,35 +151,14 @@ public class SongFragment extends Fragment {
     }
 
     private void subscribeUi(SongViewModel viewModel) {
-        switch (mSongType) {
-            case SongActivity.SONG_TYPE_TOP:
-                viewModel.getTopSong().observe(this, song -> {
-                    visualizeSong(song);
-                    viewModel.getTopSong().removeObserver(this::showSong);
-                });
-                break;
-            case SongActivity.SONG_TYPE_RECENT:
-                viewModel.getRecentSong().observe(this, song -> {
-                    visualizeSong(song);
-                    viewModel.getTopSong().removeObserver(this::showSong);
-                });
-                break;
-            case SongActivity.SONG_TYPE_FAVORITE:
-                viewModel.getFavoriteSong().observe(this, song -> {
-                    if (song == null) {
-                        closeOnFavoriteDeleted();
-                    } else {
-                        visualizeSong(song);
-                    }
-                });
-                break;
-            default:
-                viewModel.getTopSong().observe(this, song -> {
-                    visualizeSong(song);
-                    viewModel.getTopSong().removeObserver(this::showSong);
-                });
-                break;
-        }
+        viewModel.getSong().observe(this, song -> {
+            if (song == null) {
+                closeOnFavoriteDeleted();
+            } else {
+                visualizeSong(song);
+            }
+            viewModel.getSong().removeObserver(this::showSong);
+        });
 
     }
 

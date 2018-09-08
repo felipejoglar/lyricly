@@ -23,9 +23,6 @@ import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.util.AppExecutors;
 
 import java.util.Date;
@@ -36,9 +33,7 @@ public class SongViewModel extends ViewModel {
     private int mSongId;
     private int mSongType;
 
-    private LiveData<TopSongEntity> mTopSong;
-    private LiveData<RecentSongEntity> mRecentSong;
-    private LiveData<FavoriteSongEntity> mFavoriteSong;
+    private LiveData<Song> mSong;
 
     SongViewModel(@Nullable SongsRepository songsRepository, int songId, int songType) {
         mSongsRepository = songsRepository;
@@ -46,25 +41,11 @@ public class SongViewModel extends ViewModel {
         mSongType = songType;
     }
 
-    public LiveData<TopSongEntity> getTopSong() {
-        if (mTopSong == null) {
-            mTopSong = mSongsRepository.getTopSongById(mSongId);
+    public LiveData<Song> getSong() {
+        if (mSong == null) {
+            mSong = mSongsRepository.getSongById(mSongId);
         }
-        return mTopSong;
-    }
-
-    public LiveData<RecentSongEntity> getRecentSong() {
-        if (mRecentSong == null) {
-            mRecentSong = mSongsRepository.getRecentSongById(mSongId);
-        }
-        return mRecentSong;
-    }
-
-    public LiveData<FavoriteSongEntity> getFavoriteSong() {
-        if (mFavoriteSong == null) {
-            mFavoriteSong = mSongsRepository.getFavoriteSongById(mSongId);
-        }
-        return mFavoriteSong;
+        return mSong;
     }
 
     public void onFavoriteClicked (Song song) {
@@ -72,7 +53,7 @@ public class SongViewModel extends ViewModel {
             if (mSongType == SongActivity.SONG_TYPE_FAVORITE) {
                 mSongsRepository.deleteFavoriteSongById(song.getId());
             } else {
-                mSongsRepository.saveFavoriteSong(new FavoriteSongEntity(song, new Date()));
+                mSongsRepository.saveSong(new Song(song, true, new Date()));
             }
         });
     }

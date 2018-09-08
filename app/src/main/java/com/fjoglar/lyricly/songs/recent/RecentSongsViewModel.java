@@ -22,14 +22,14 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
+import com.fjoglar.lyricly.data.model.Song;
 
 import java.util.List;
 
 public class RecentSongsViewModel extends ViewModel {
 
     private SongsRepository mSongsRepository;
-    private LiveData<List<RecentSongEntity>> mRecentSongs;
+    private LiveData<List<Song>> mRecentSongs;
 
     RecentSongsViewModel(@Nullable SongsRepository songsRepository) {
         if (mSongsRepository != null) {
@@ -41,14 +41,14 @@ public class RecentSongsViewModel extends ViewModel {
         }
     }
 
-    public LiveData<List<RecentSongEntity>> getRecentSongs() {
+    public LiveData<List<Song>> getRecentSongs() {
         if (mRecentSongs == null) {
             mRecentSongs = loadSongs();
         }
         return mRecentSongs;
     }
 
-    private LiveData<List<RecentSongEntity>> loadSongs() {
+    private LiveData<List<Song>> loadSongs() {
         return mSongsRepository.getRecentSongs();
     }
 

@@ -22,14 +22,14 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
+import com.fjoglar.lyricly.data.model.Song;
 
 import java.util.List;
 
 public class FavoriteSongsViewModel extends ViewModel {
 
     private SongsRepository mSongsRepository;
-    private LiveData<List<FavoriteSongEntity>> mFavoriteSongs;
+    private LiveData<List<Song>> mFavoriteSongs;
 
     FavoriteSongsViewModel(@Nullable SongsRepository songsRepository) {
         if (mSongsRepository != null) {
@@ -41,14 +41,14 @@ public class FavoriteSongsViewModel extends ViewModel {
         }
     }
 
-    public LiveData<List<FavoriteSongEntity>> getFavoriteSongs() {
+    public LiveData<List<Song>> getFavoriteSongs() {
         if (mFavoriteSongs == null) {
             mFavoriteSongs = loadSongs();
         }
         return mFavoriteSongs;
     }
 
-    private LiveData<List<FavoriteSongEntity>> loadSongs() {
+    private LiveData<List<Song>> loadSongs() {
         return mSongsRepository.getFavoriteSongs();
     }
 
