@@ -20,10 +20,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
@@ -39,6 +39,12 @@ public class SongsActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private int mBottomNavigationSelectedItem;
+
+    private final FragmentManager mFragmentManager = getSupportFragmentManager();
+    private final Fragment mTopSongsFragment = TopSongsFragment.newInstance();
+    private final Fragment mRecentSongsFragment = RecentSongsFragment.newInstance();
+    private final Fragment mFavoriteSongsFragment = FavoriteSongsFragment.newInstance();
+    private Fragment mActiveFragment = mTopSongsFragment;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -57,12 +63,7 @@ public class SongsActivity extends AppCompatActivity
         getSupportActionBar().setTitle(R.string.songs_menu_popular);
         mBottomNavigationSongs.setOnNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
-            TopSongsFragment fragment = TopSongsFragment.newInstance();
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.framelayout_songs_container, fragment).commit();
-        }
+        activateFragments();
 
         // TODO: implement a better fetching logic
         startService(new Intent(this, UpdateTopSongsIntentService.class));
@@ -72,25 +73,17 @@ public class SongsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.popular:
-                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_TOP;
                 mToolbar.setTitle(R.string.songs_menu_popular);
-                loadFragment(TopSongsFragment.newInstance());
+                loadFragment(mTopSongsFragment);
                 break;
             case R.id.recent:
-                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_RECENT;
                 mToolbar.setTitle(R.string.songs_menu_recent);
-                loadFragment(RecentSongsFragment.newInstance());
+                loadFragment(mRecentSongsFragment);
                 break;
             case R.id.favorite:
-                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_FAVORITE;
                 mToolbar.setTitle(R.string.songs_menu_favorite);
-                loadFragment(FavoriteSongsFragment.newInstance());
+                loadFragment(mFavoriteSongsFragment);
                 break;
-            default:
-                mBottomNavigationSelectedItem = SongActivity.SONG_TYPE_TOP;
-                mToolbar.setTitle(R.string.songs_menu_popular);
-                loadFragment(TopSongsFragment.newInstance());
-                return false;
         }
         return true;
     }
@@ -99,19 +92,25 @@ public class SongsActivity extends AppCompatActivity
      * Shows the song detail fragment
      */
     public void show(Song song) {
-        // TODO: navigate to song detail screen.
-        Toast.makeText(getApplicationContext(),
-                song.getName() + " by " + song.getArtistName(),
-                Toast.LENGTH_SHORT).show();
         Intent songIntent = new Intent(this, SongActivity.class);
         songIntent.putExtra(SongActivity.EXTRA_SONG_ID, song.getId());
         songIntent.putExtra(SongActivity.EXTRA_SONG_TYPE, mBottomNavigationSelectedItem);
         startActivity(songIntent);
     }
 
+    private void activateFragments() {
+        mFragmentManager.beginTransaction()
+                .add(R.id.framelayout_songs_container, mFavoriteSongsFragment, "2")
+                .hide(mFavoriteSongsFragment).commit();
+        mFragmentManager.beginTransaction()
+                .add(R.id.framelayout_songs_container, mRecentSongsFragment, "1")
+                .hide(mRecentSongsFragment).commit();
+        mFragmentManager.beginTransaction()
+                .add(R.id.framelayout_songs_container,mTopSongsFragment, "0").commit();
+    }
+
     private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.framelayout_songs_container, fragment)
-                .commit();
+        mFragmentManager.beginTransaction().hide(mActiveFragment).show(fragment).commit();
+        mActiveFragment = fragment;
     }
 }
