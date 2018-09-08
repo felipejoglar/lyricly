@@ -21,6 +21,10 @@ jobs:
           command: yes | sdkmanager --licenses || true
 
       - run:
+          name: Decrypt google-services.json
+          command: openssl aes-256-cbc -d -in app/google-services.json-cipher -out app/google-services.json -md sha256 -k $CIPHER_DECRYPT_KEY
+
+      - run:
           name: Build
           command: ./gradlew clean check build assembleAndroidTest
 
