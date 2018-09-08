@@ -16,8 +16,9 @@
 
 package com.fjoglar.lyricly.data.source.mapper;
 
+import android.support.annotation.Nullable;
+
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
 import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
@@ -26,16 +27,24 @@ import java.util.Date;
 /**
  * Mapper class used to transform {@link Track} and {@link OvhLyricsApiResponse} to {@link Song}.
  */
-public class SongEntityDataMapper {
+public class SongDataMapper {
 
-    public SongEntityDataMapper() {
+    public SongDataMapper() {
     }
 
-    public static TopSongEntity transform(Track track, String lyrics) {
-        TopSongEntity song = null;
+    /**
+     * Transforms {@link Track} and {@link OvhLyricsApiResponse} lyrics to {@link Song}.
+     *
+     * @param track  the track to be converted.
+     * @param lyrics the lyrics of the track to be converted.
+     * @return a song in the top song list.
+     */
+    @Nullable
+    public static Song transform(Track track, String lyrics) {
+        Song song = null;
 
         if (track != null && lyrics != null) {
-            song = new TopSongEntity(track.getId(),
+            song = new Song(track.getId(),
                     track.getIndex(),
                     track.getPlaybackSeconds(),
                     track.getName(),
@@ -44,6 +53,9 @@ public class SongEntityDataMapper {
                     track.getAlbumId(),
                     track.getAlbumName(),
                     lyrics,
+                    true,
+                    false,
+                    false,
                     new Date());
         }
 
