@@ -22,21 +22,21 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.converter.DateConverter;
-import com.fjoglar.lyricly.data.source.local.dao.FavoriteSongDao;
-import com.fjoglar.lyricly.data.source.local.dao.RecentSongDao;
-import com.fjoglar.lyricly.data.source.local.dao.TopSongDao;
-import com.fjoglar.lyricly.data.source.local.entity.FavoriteSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.RecentSongEntity;
-import com.fjoglar.lyricly.data.source.local.entity.TopSongEntity;
+import com.fjoglar.lyricly.data.source.local.dao.SongDao;
 
-@Database(entities = {TopSongEntity.class, RecentSongEntity.class, FavoriteSongEntity.class},
-        version = 1, exportSchema = false)
+/**
+ * The Room database that contains the songs table
+ */
+@Database(entities = {Song.class}, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class SongDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "song.db";
-    private static SongDatabase INSTANCE;
+    private static volatile SongDatabase INSTANCE;
+
+    public abstract SongDao songDao();
 
     /**
      * Returns the single instance of this class, creating it if necessary.
@@ -58,8 +58,7 @@ public abstract class SongDatabase extends RoomDatabase {
      * The SQLite database is only created when it is accessed for the first time.
      */
     private static SongDatabase buildDatabase(final Context applicationContext) {
-        return Room
-                .databaseBuilder(applicationContext, SongDatabase.class, DB_NAME)
+        return Room.databaseBuilder(applicationContext, SongDatabase.class, DB_NAME)
                 .build();
     }
 
@@ -73,10 +72,4 @@ public abstract class SongDatabase extends RoomDatabase {
         }
         INSTANCE = null;
     }
-
-    public abstract TopSongDao topSongDao();
-
-    public abstract RecentSongDao recentSongDao();
-
-    public abstract FavoriteSongDao favoriteSongDao();
 }
