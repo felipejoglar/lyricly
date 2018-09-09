@@ -16,7 +16,6 @@
 
 package com.fjoglar.lyricly.data.source.local;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsDataSource;
@@ -24,6 +23,9 @@ import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Using the Room database as a data source.
@@ -71,22 +73,22 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
-    public LiveData<List<Song>> getTopSongs() {
+    public Flowable<List<Song>> getTopSongs() {
         return mSongDatabase.songDao().getTopSongs();
     }
 
     @Override
-    public LiveData<List<Song>> getRecentSongs() {
+    public Flowable<List<Song>> getRecentSongs() {
         return mSongDatabase.songDao().getRecentSongs();
     }
 
     @Override
-    public LiveData<List<Song>> getFavoriteSongs() {
+    public Flowable<List<Song>> getFavoriteSongs() {
         return mSongDatabase.songDao().getFavoriteSongs();
     }
 
     @Override
-    public LiveData<Song> getSongById(int id) {
+    public Single<Song> getSongById(int id) {
         return mSongDatabase.songDao().getById(id);
     }
 

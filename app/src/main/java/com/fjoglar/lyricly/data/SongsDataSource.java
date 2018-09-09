@@ -16,12 +16,13 @@
 
 package com.fjoglar.lyricly.data;
 
-import android.arch.lifecycle.LiveData;
-
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Main entry point for accessing songs data.
@@ -65,21 +66,21 @@ public interface SongsDataSource {
          *
          * @return the songs from the data source.
          */
-        LiveData<List<Song>> getTopSongs();
+        Flowable<List<Song>> getTopSongs();
 
         /**
          * Gets the recent songs from the data source.
          *
          * @return the songs from the data source.
          */
-        LiveData<List<Song>> getRecentSongs();
+        Flowable<List<Song>> getRecentSongs();
 
         /**
          * Gets the favorite songs from the data source.
          *
          * @return the songs from the data source.
          */
-        LiveData<List<Song>> getFavoriteSongs();
+        Flowable<List<Song>> getFavoriteSongs();
 
         /**
          * Gets the song from the data source.
@@ -87,7 +88,7 @@ public interface SongsDataSource {
          * @param id the id of the song to be getted.
          * @return the song from the data source.
          */
-        LiveData<Song> getSongById(int id);
+        Single<Song> getSongById(int id);
 
         /**
          * Updates the song as favorite.

@@ -16,7 +16,6 @@
 
 package com.fjoglar.lyricly.data.source.local.dao;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -25,6 +24,9 @@ import android.arch.persistence.room.Query;
 import com.fjoglar.lyricly.data.model.Song;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Data Access Object for the songs table.
@@ -54,7 +56,7 @@ public interface SongDao {
      * @return the top songs from the table
      */
     @Query("SELECT * FROM songs WHERE top = 1")
-    LiveData<List<Song>> getTopSongs();
+    Flowable<List<Song>> getTopSongs();
 
     /**
      * Get the recent songs from the table.
@@ -62,7 +64,7 @@ public interface SongDao {
      * @return the recent songs from the table
      */
     @Query("SELECT * FROM songs WHERE recent = 1")
-    LiveData<List<Song>> getRecentSongs();
+    Flowable<List<Song>> getRecentSongs();
 
     /**
      * Get the favorite songs from the table.
@@ -72,7 +74,7 @@ public interface SongDao {
      * @return the favorite songs from the table
      */
     @Query("SELECT * FROM songs WHERE favorite = 1 AND top = 0 AND recent = 0")
-    LiveData<List<Song>> getFavoriteSongs();
+    Flowable<List<Song>> getFavoriteSongs();
 
     /**
      * Get a song from the table.
@@ -81,7 +83,7 @@ public interface SongDao {
      * @return the selected song from the table
      */
     @Query("SELECT * FROM songs WHERE id = (:songId)")
-    LiveData<Song> getById(int songId);
+    Single<Song> getById(int songId);
 
     /**
      * Update a song checking it as favorite.

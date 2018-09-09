@@ -16,13 +16,15 @@
 
 package com.fjoglar.lyricly.data;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public class SongsRepository implements SongsDataSource.LocalDataSource,
         SongsDataSource.RemoteDataSource {
@@ -83,22 +85,22 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public LiveData<List<Song>> getTopSongs() {
+    public Flowable<List<Song>> getTopSongs() {
         return mSongsLocalDataSource.getTopSongs();
     }
 
     @Override
-    public LiveData<List<Song>> getRecentSongs() {
+    public Flowable<List<Song>> getRecentSongs() {
         return mSongsLocalDataSource.getRecentSongs();
     }
 
     @Override
-    public LiveData<List<Song>> getFavoriteSongs() {
+    public Flowable<List<Song>> getFavoriteSongs() {
         return mSongsLocalDataSource.getFavoriteSongs();
     }
 
     @Override
-    public LiveData<Song> getSongById(int id) {
+    public Single<Song> getSongById(int id) {
         return mSongsLocalDataSource.getSongById(id);
     }
 
