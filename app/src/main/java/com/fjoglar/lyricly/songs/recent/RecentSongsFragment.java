@@ -26,16 +26,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
-import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
-import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.songs.SongClickCallback;
 import com.fjoglar.lyricly.songs.SongsActivity;
 import com.fjoglar.lyricly.songs.SongsAdapter;
+import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.util.Injection;
 
 import java.util.List;
 
@@ -83,37 +83,49 @@ public class RecentSongsFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsRepository repository =
-                SongsRepository.getInstance(
-                        SongsLocalDataSource.getInstance(
-                                SongDatabase.getInstance(getActivity().getApplicationContext())),
-                        SongsRemoteDataSource.getInstance()
-                );
+        SongsRepository repository = Injection.provideSongsRepository(getActivity());
         RecentSongsViewModel.Factory factory = new RecentSongsViewModel.Factory(repository);
 
         RecentSongsViewModel recentSongsViewModel =
                 ViewModelProviders.of(this, factory).get(RecentSongsViewModel.class);
 
         subscribeUi(recentSongsViewModel);
+        recentSongsViewModel.getRecentSongs();
     }
 
     private void subscribeUi(RecentSongsViewModel viewModel) {
-        viewModel.getRecentSongs().observe(this, recentSongEntities -> {
-            if (recentSongEntities != null) {
-                setIsLoading(false);
-                showSongs(recentSongEntities);
-            } else {
-                setIsLoading(true);
-            }
-        });
+        viewModel.response().observe(this, this::showSongs);
     }
 
-    private void showSongs(List<? extends Song> songs) {
+    private void showSongs(SongsResponse songsResponse) {
+        switch (songsResponse.status) {
+            case LOADING:
+                renderLoadingState();
+                break;
+            case SUCCESS:
+                renderDataState(songsResponse.data);
+                break;
+            case ERROR:
+                renderErrorState(songsResponse.error);
+                break;
+        }
+    }
+
+    private void renderLoadingState() {
+        mRecyclerViewSongs.setVisibility(View.GONE);
+        mProgressBarSongsLoading.setVisibility(View.VISIBLE);
+    }
+
+    private void renderDataState(List<Song> songs) {
+        mProgressBarSongsLoading.setVisibility(View.GONE);
+        mRecyclerViewSongs.setVisibility(View.VISIBLE);
         mSongsAdapter.setSongs(songs);
     }
 
-    private void setIsLoading(boolean isLoading) {
-        mProgressBarSongsLoading.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+    private void renderErrorState(Throwable throwable) {
+        mProgressBarSongsLoading.setVisibility(View.GONE);
+        mRecyclerViewSongs.setVisibility(View.GONE);
+        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private final SongClickCallback mSongClickCallback = song -> {

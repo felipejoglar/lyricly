@@ -16,20 +16,25 @@
 
 package com.fjoglar.lyricly.songs.top;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
-import java.util.List;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class TopSongsViewModel extends ViewModel {
 
     private SongsRepository mSongsRepository;
-    private LiveData<List<Song>> mTopSongs;
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
+    private final MutableLiveData<SongsResponse> response = new MutableLiveData<>();
+
 
     TopSongsViewModel(@Nullable SongsRepository songsRepository) {
         if (mSongsRepository != null) {
@@ -41,15 +46,29 @@ public class TopSongsViewModel extends ViewModel {
         }
     }
 
-    public LiveData<List<Song>> getTopSongs() {
-        if (mTopSongs == null) {
-            mTopSongs = loadSongs();
-        }
-        return mTopSongs;
+    @Override
+    protected void onCleared() {
+        disposables.clear();
     }
 
-    private LiveData<List<Song>> loadSongs() {
-        return mSongsRepository.getTopSongs();
+    MutableLiveData<SongsResponse> response() {
+        return response;
+    }
+
+    public void getTopSongs() {
+        loadSongs();
+    }
+
+    private void loadSongs() {
+        disposables.add(mSongsRepository.getTopSongs()
+                .subscribeOn(SchedulerProvider.getInstance().io())
+                .observeOn(SchedulerProvider.getInstance().ui())
+                .doOnSubscribe(__ -> response.setValue(SongsResponse.loading()))
+                .subscribe(
+                        songs -> response.setValue(SongsResponse.success(songs)),
+                        throwable -> response.setValue(SongsResponse.error(throwable))
+                )
+        );
     }
 
     static class Factory extends ViewModelProvider.NewInstanceFactory {

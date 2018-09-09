@@ -36,9 +36,7 @@ import android.widget.Toast;
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
-import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
-import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
+import com.fjoglar.lyricly.util.Injection;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -135,12 +133,7 @@ public class SongFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsRepository repository =
-                SongsRepository.getInstance(
-                        SongsLocalDataSource.getInstance(
-                                SongDatabase.getInstance(getActivity().getApplicationContext())),
-                        SongsRemoteDataSource.getInstance()
-                );
+        SongsRepository repository = Injection.provideSongsRepository(getActivity());
 
         SongViewModel.Factory factory = new SongViewModel.Factory(repository, mSongId, mSongType);
 
@@ -148,27 +141,42 @@ public class SongFragment extends Fragment {
                 ViewModelProviders.of(this, factory).get(SongViewModel.class);
 
         subscribeUi(mSongViewModel);
+        mSongViewModel.getSong();
     }
 
     private void subscribeUi(SongViewModel viewModel) {
-        viewModel.getSong().observe(this, song -> {
-            if (song == null) {
-                closeOnFavoriteDeleted();
-            } else {
-                visualizeSong(song);
-            }
-            viewModel.getSong().removeObserver(this::showSong);
+        viewModel.response().observe(this, song -> {
+            viewModel.response().observe(this, this::showSong);
         });
 
     }
 
-    private void visualizeSong(Song song) {
-        if (song != null) {
-            setIsLoading(false);
-            showSong(song);
-        } else {
-            setIsLoading(true);
+    private void showSong(SongResponse songResponse) {
+        switch (songResponse.status) {
+            case LOADING:
+                renderLoadingState();
+                break;
+            case SUCCESS:
+                renderDataState(songResponse.data);
+                break;
+            case ERROR:
+                renderErrorState(songResponse.error);
+                break;
         }
+    }
+
+    private void renderLoadingState() {
+        mProgressBarSongLoading.setVisibility(View.VISIBLE);
+    }
+
+    private void renderDataState(Song song) {
+        mProgressBarSongLoading.setVisibility(View.GONE);
+        showSong(song);
+    }
+
+    private void renderErrorState(Throwable throwable) {
+        mProgressBarSongLoading.setVisibility(View.GONE);
+        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void showSong(Song song) {
@@ -189,15 +197,6 @@ public class SongFragment extends Fragment {
         mFabSongFavorite.setImageResource(
                 mSongType == 2 ? R.drawable.songs_ic_favorite_24dp :
                         R.drawable.song_ic_favorite_border_24dp);
-    }
-
-    private void closeOnFavoriteDeleted() {
-        getActivity().finish();
-        Toast.makeText(getActivity().getApplicationContext(), R.string.song_favorite_deleted, Toast.LENGTH_SHORT).show();
-    }
-
-    private void setIsLoading(boolean isLoading) {
-        mProgressBarSongLoading.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
     private void shareSong() {
