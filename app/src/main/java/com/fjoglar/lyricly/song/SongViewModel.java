@@ -20,10 +20,13 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
+
+import java.util.Date;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -66,14 +69,28 @@ public class SongViewModel extends ViewModel {
     }
 
     public void onFavoriteClicked(Song song) {
-        // TODO: implement add/delete favorite
-        /**
-         * if (song.isFavorite()) {
-         *     mSongsRepository.deleteFavoriteSongById(song.getId());
-         * } else {
-         *     mSongsRepository.saveSong(new Song(song, true, new Date()));
-         * }
-         */
+        if (song.isFavorite()) {
+            deleteFavorite(song);
+        } else {
+            saveFavorite(song);
+        }
+    }
+
+    private void saveFavorite(Song song) {
+        disposables.add(mSongsRepository.saveSong(new Song(song, true, new Date()))
+                .subscribeOn(SchedulerProvider.getInstance().io())
+                .observeOn(SchedulerProvider.getInstance().ui())
+                .subscribe(() -> Log.d("SongViewModel", "Saved"),
+                        throwable -> Log.d("SongViewModel", throwable.toString())));
+    }
+
+    private void deleteFavorite(Song song) {
+        disposables.add(mSongsRepository.deleteFavoriteSongById(song.getId())
+                .subscribeOn(SchedulerProvider.getInstance().io())
+                .observeOn(SchedulerProvider.getInstance().ui())
+                .subscribe(() -> Log.d("SongViewModel", "Deleted"),
+                        throwable -> Log.d("SongViewModel", throwable.toString())));
+
     }
 
     static class Factory extends ViewModelProvider.NewInstanceFactory {
