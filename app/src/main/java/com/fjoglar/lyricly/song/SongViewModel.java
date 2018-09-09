@@ -16,16 +16,16 @@
 
 package com.fjoglar.lyricly.song;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.AppExecutors;
+import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
-import java.util.Date;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class SongViewModel extends ViewModel {
 
@@ -33,7 +33,10 @@ public class SongViewModel extends ViewModel {
     private int mSongId;
     private int mSongType;
 
-    private LiveData<Song> mSong;
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
+    private final MutableLiveData<SongResponse> response = new MutableLiveData<>();
+
 
     SongViewModel(@Nullable SongsRepository songsRepository, int songId, int songType) {
         mSongsRepository = songsRepository;
@@ -41,21 +44,36 @@ public class SongViewModel extends ViewModel {
         mSongType = songType;
     }
 
-    public LiveData<Song> getSong() {
-        if (mSong == null) {
-            mSong = mSongsRepository.getSongById(mSongId);
-        }
-        return mSong;
+    @Override
+    protected void onCleared() {
+        disposables.clear();
     }
 
-    public void onFavoriteClicked (Song song) {
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            if (mSongType == SongActivity.SONG_TYPE_FAVORITE) {
-                mSongsRepository.deleteFavoriteSongById(song.getId());
-            } else {
-                mSongsRepository.saveSong(new Song(song, true, new Date()));
-            }
-        });
+    MutableLiveData<SongResponse> response() {
+        return response;
+    }
+
+    public void getSong() {
+        disposables.add(mSongsRepository.getSongById(mSongId)
+                .subscribeOn(SchedulerProvider.getInstance().io())
+                .observeOn(SchedulerProvider.getInstance().ui())
+                .doOnSubscribe(__ -> response.setValue(SongResponse.loading()))
+                .subscribe(
+                        song -> response.setValue(SongResponse.success(song)),
+                        throwable -> response.setValue(SongResponse.error(throwable))
+                )
+        );
+    }
+
+    public void onFavoriteClicked(Song song) {
+        // TODO: implement add/delete favorite
+        /**
+         * if (song.isFavorite()) {
+         *     mSongsRepository.deleteFavoriteSongById(song.getId());
+         * } else {
+         *     mSongsRepository.saveSong(new Song(song, true, new Date()));
+         * }
+         */
     }
 
     static class Factory extends ViewModelProvider.NewInstanceFactory {
