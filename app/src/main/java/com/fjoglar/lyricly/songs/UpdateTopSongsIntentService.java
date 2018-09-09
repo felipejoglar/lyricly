@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 import com.fjoglar.lyricly.util.Injection;
@@ -50,7 +51,8 @@ public class UpdateTopSongsIntentService extends IntentService {
         for (Track track : tracks) {
             String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
             if (lyrics != null) {
-                repository.saveSong(SongDataMapper.transform(track, lyrics));
+                SongDatabase.getInstance(this).songDao()
+                        .insert(SongDataMapper.transform(track, lyrics));
             }
         }
     }

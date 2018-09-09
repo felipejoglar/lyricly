@@ -21,6 +21,7 @@ import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -59,7 +60,7 @@ public interface SongsDataSource {
         /**
          * Gets a song the data source.
          */
-        void saveSong(Song song);
+        Completable saveSong(Song song);
 
         /**
          * Gets the top songs from the data source.
@@ -95,7 +96,7 @@ public interface SongsDataSource {
          *
          * @param id the id of the song to be updated.
          */
-        void updateFavoriteSongById(int id);
+        Completable updateFavoriteSongById(int id);
 
         /**
          * Deletes all top songs from the data source.
@@ -103,10 +104,10 @@ public interface SongsDataSource {
         void deleteTopSongs();
 
         /**
-         * Deletes all users from the data source.
+         * Deletes a favorite song from the data source.
          *
          * @param id the id of the song to be deleted.
          */
-        void deleteFavoriteSongById(int id);
+        Completable deleteFavoriteSongById(int id);
     }
 }

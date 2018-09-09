@@ -23,6 +23,7 @@ import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -80,8 +81,8 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public void saveSong(Song song) {
-        mSongsLocalDataSource.saveSong(song);
+    public Completable saveSong(Song song) {
+        return mSongsLocalDataSource.saveSong(song);
     }
 
     @Override
@@ -105,8 +106,8 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public void updateFavoriteSongById(int id) {
-        mSongsLocalDataSource.updateFavoriteSongById(id);
+    public Completable updateFavoriteSongById(int id) {
+        return mSongsLocalDataSource.updateFavoriteSongById(id);
     }
 
     @Override
@@ -115,7 +116,7 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public void deleteFavoriteSongById(int id) {
-        mSongsLocalDataSource.deleteFavoriteSongById(id);
+    public Completable deleteFavoriteSongById(int id) {
+        return mSongsLocalDataSource.deleteFavoriteSongById(id);
     }
 }
