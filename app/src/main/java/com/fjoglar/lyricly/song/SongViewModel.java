@@ -57,7 +57,7 @@ public class SongViewModel extends ViewModel {
     }
 
     public void getSong() {
-        disposables.add(mSongsRepository.getSongById(mSongId)
+        disposables.add(new GetSongByIdUseCase().execute(mSongsRepository, mSongId)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .doOnSubscribe(__ -> response.setValue(SongResponse.loading()))
@@ -77,7 +77,8 @@ public class SongViewModel extends ViewModel {
     }
 
     private void saveFavorite(Song song) {
-        disposables.add(mSongsRepository.saveSong(new Song(song, true, new Date()))
+        disposables.add(new AddSongToFavoriteUseCase().execute(mSongsRepository,
+                new Song(song, true, new Date()))
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(() -> Log.d("SongViewModel", "Saved"),
@@ -85,7 +86,7 @@ public class SongViewModel extends ViewModel {
     }
 
     private void deleteFavorite(Song song) {
-        disposables.add(mSongsRepository.deleteFavoriteSongById(song.getId())
+        disposables.add(new DeleteSongFromFavoriteUseCase().execute(mSongsRepository, song.getId())
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(() -> Log.d("SongViewModel", "Deleted"),

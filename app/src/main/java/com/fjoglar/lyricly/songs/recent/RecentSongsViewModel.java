@@ -59,7 +59,7 @@ public class RecentSongsViewModel extends ViewModel {
     }
 
     private void loadSongs() {
-        disposables.add(mSongsRepository.getRecentSongs()
+        disposables.add(new GetRecentSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .doOnSubscribe(__ -> response.setValue(SongsResponse.loading()))

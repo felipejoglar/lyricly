@@ -60,7 +60,7 @@ public class FavoriteSongsViewModel extends ViewModel {
     }
 
     private void loadSongs() {
-        disposables.add(mSongsRepository.getFavoriteSongs()
+        disposables.add(new GetFavoriteSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .doOnSubscribe(__ -> response.setValue(SongsResponse.loading()))
