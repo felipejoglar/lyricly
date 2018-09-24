@@ -64,9 +64,6 @@ public class SongsActivity extends AppCompatActivity
         mBottomNavigationSongs.setOnNavigationItemSelectedListener(this);
 
         activateFragments();
-
-        // TODO: implement a better fetching logic
-        startService(new Intent(this, UpdateTopSongsIntentService.class));
     }
 
     @Override
