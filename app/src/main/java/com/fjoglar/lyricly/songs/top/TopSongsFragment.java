@@ -90,6 +90,7 @@ public class TopSongsFragment extends Fragment {
                 ViewModelProviders.of(this, factory).get(TopSongsViewModel.class);
 
         subscribeUi(topSongsViewModel);
+        topSongsViewModel.updateTopSongs();
         topSongsViewModel.getTopSongs();
     }
 

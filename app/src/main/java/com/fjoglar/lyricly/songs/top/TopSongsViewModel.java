@@ -20,6 +20,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.songs.SongsResponse;
@@ -55,11 +56,16 @@ public class TopSongsViewModel extends ViewModel {
         return response;
     }
 
-    public void getTopSongs() {
-        loadSongs();
+    public void updateTopSongs() {
+        disposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, null)
+                .subscribeOn(SchedulerProvider.getInstance().io())
+                .observeOn(SchedulerProvider.getInstance().ui())
+                .doOnSubscribe(__ -> Log.d("TopSongsViewModel", "Updating"))
+                .subscribe(() -> Log.d("TopSongsViewModel", "Saved"),
+                        throwable -> Log.d("TopSongsViewModel", throwable.toString())));
     }
 
-    private void loadSongs() {
+    public void getTopSongs() {
         disposables.add(new GetTopSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
