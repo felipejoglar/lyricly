@@ -29,12 +29,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.songs.SongClickCallback;
 import com.fjoglar.lyricly.songs.SongsActivity;
 import com.fjoglar.lyricly.songs.SongsAdapter;
 import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 import com.fjoglar.lyricly.util.Injection;
 
 import java.util.List;
@@ -82,11 +82,9 @@ public class FavoriteSongsFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsRepository repository = Injection.provideSongsRepository(getActivity());
-        FavoriteSongsViewModel.Factory factory = new FavoriteSongsViewModel.Factory(repository);
-
-        FavoriteSongsViewModel favoriteSongsViewModel =
-                ViewModelProviders.of(this, factory).get(FavoriteSongsViewModel.class);
+        SongsViewModelFactory songsViewModelFactory = Injection.provideSongsViewModelFactory(getActivity());
+        FavoriteSongsViewModel favoriteSongsViewModel = ViewModelProviders.of(this, songsViewModelFactory)
+                .get(FavoriteSongsViewModel.class);
 
         subscribeUi(favoriteSongsViewModel);
         favoriteSongsViewModel.getFavoriteSongs();

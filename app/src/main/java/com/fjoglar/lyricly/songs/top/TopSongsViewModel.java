@@ -18,7 +18,6 @@ package com.fjoglar.lyricly.songs.top;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -37,7 +36,7 @@ public class TopSongsViewModel extends ViewModel {
     private final MutableLiveData<SongsResponse> response = new MutableLiveData<>();
 
 
-    TopSongsViewModel(@Nullable SongsRepository songsRepository) {
+    public TopSongsViewModel(@Nullable SongsRepository songsRepository) {
         if (mSongsRepository != null) {
             // ViewModel is created per Activity
             return;
@@ -75,20 +74,5 @@ public class TopSongsViewModel extends ViewModel {
                         throwable -> response.setValue(SongsResponse.error(throwable))
                 )
         );
-    }
-
-    static class Factory extends ViewModelProvider.NewInstanceFactory {
-
-        private SongsRepository mSongsRepository;
-
-        Factory(SongsRepository songsRepository) {
-            mSongsRepository = songsRepository;
-        }
-
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            //noinspection unchecked
-            return (T) new TopSongsViewModel(mSongsRepository);
-        }
     }
 }

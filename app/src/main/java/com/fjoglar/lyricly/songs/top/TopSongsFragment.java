@@ -29,12 +29,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.songs.SongClickCallback;
 import com.fjoglar.lyricly.songs.SongsActivity;
 import com.fjoglar.lyricly.songs.SongsAdapter;
 import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 import com.fjoglar.lyricly.util.Injection;
 
 import java.util.List;
@@ -83,11 +83,9 @@ public class TopSongsFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsRepository repository = Injection.provideSongsRepository(getActivity());
-        TopSongsViewModel.Factory factory = new TopSongsViewModel.Factory(repository);
-
-        TopSongsViewModel topSongsViewModel =
-                ViewModelProviders.of(this, factory).get(TopSongsViewModel.class);
+        SongsViewModelFactory songsViewModelFactory = Injection.provideSongsViewModelFactory(getActivity());
+        TopSongsViewModel topSongsViewModel = ViewModelProviders.of(this, songsViewModelFactory)
+                .get(TopSongsViewModel.class);
 
         subscribeUi(topSongsViewModel);
         topSongsViewModel.updateTopSongs();

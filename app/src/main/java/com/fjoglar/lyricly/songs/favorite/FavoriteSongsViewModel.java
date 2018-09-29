@@ -18,7 +18,6 @@ package com.fjoglar.lyricly.songs.favorite;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsRepository;
@@ -36,7 +35,7 @@ public class FavoriteSongsViewModel extends ViewModel {
     private final MutableLiveData<SongsResponse> response = new MutableLiveData<>();
 
 
-    FavoriteSongsViewModel(@Nullable SongsRepository songsRepository) {
+    public FavoriteSongsViewModel(@Nullable SongsRepository songsRepository) {
         if (mSongsRepository != null) {
             // ViewModel is created per Activity
             return;
@@ -69,20 +68,5 @@ public class FavoriteSongsViewModel extends ViewModel {
                         throwable -> response.setValue(SongsResponse.error(throwable))
                 )
         );
-    }
-
-    static class Factory extends ViewModelProvider.NewInstanceFactory {
-
-        private SongsRepository mSongsRepository;
-
-        Factory(SongsRepository songsRepository) {
-            mSongsRepository = songsRepository;
-        }
-
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            //noinspection unchecked
-            return (T) new FavoriteSongsViewModel(mSongsRepository);
-        }
     }
 }

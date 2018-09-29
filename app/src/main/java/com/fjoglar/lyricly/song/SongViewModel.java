@@ -18,7 +18,6 @@ package com.fjoglar.lyricly.song;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -34,17 +33,15 @@ public class SongViewModel extends ViewModel {
 
     private SongsRepository mSongsRepository;
     private int mSongId;
-    private int mSongType;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private final MutableLiveData<SongResponse> response = new MutableLiveData<>();
 
 
-    SongViewModel(@Nullable SongsRepository songsRepository, int songId, int songType) {
+    public SongViewModel(@Nullable SongsRepository songsRepository, int songId) {
         mSongsRepository = songsRepository;
         mSongId = songId;
-        mSongType = songType;
     }
 
     @Override
@@ -92,24 +89,5 @@ public class SongViewModel extends ViewModel {
                 .subscribe(() -> Log.d("SongViewModel", "Deleted"),
                         throwable -> Log.d("SongViewModel", throwable.toString())));
 
-    }
-
-    static class Factory extends ViewModelProvider.NewInstanceFactory {
-
-        private SongsRepository mSongsRepository;
-        private int mSongId;
-        private int mSongType;
-
-        Factory(SongsRepository songsDataSource, int songId, int songType) {
-            mSongsRepository = songsDataSource;
-            mSongId = songId;
-            mSongType = songType;
-        }
-
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            //noinspection unchecked
-            return (T) new SongViewModel(mSongsRepository, mSongId, mSongType);
-        }
     }
 }

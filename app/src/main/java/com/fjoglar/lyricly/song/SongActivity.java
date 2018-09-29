@@ -32,14 +32,8 @@ import butterknife.ButterKnife;
 public class SongActivity extends AppCompatActivity {
 
     public static final String EXTRA_SONG_ID = "song_id";
-    public static final String EXTRA_SONG_TYPE = "song_type";
-
-    public static final int SONG_TYPE_TOP = 0;
-    public static final int SONG_TYPE_RECENT = 1;
-    public static final int SONG_TYPE_FAVORITE = 2;
 
     private int mSongId;
-    private int mSongType;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -57,20 +51,18 @@ public class SongActivity extends AppCompatActivity {
         // getSupportActionBar().setTitle();
 
         Intent intent = getIntent();
-        if (intent == null || !intent.hasExtra(EXTRA_SONG_ID) ||
-                !intent.hasExtra(EXTRA_SONG_TYPE)) {
+        if (intent == null || !intent.hasExtra(EXTRA_SONG_ID)) {
             closeOnError();
             return;
         }
 
         mSongId = getIntent().getIntExtra(EXTRA_SONG_ID, 0);
-        mSongType = getIntent().getIntExtra(EXTRA_SONG_TYPE, 0);
 
         SongFragment songFragment = (SongFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.framelayout_song_container);
 
         if (songFragment == null) {
-            songFragment = SongFragment.newInstance(mSongId, mSongType);
+            songFragment = SongFragment.newInstance(mSongId);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.framelayout_song_container, songFragment)
