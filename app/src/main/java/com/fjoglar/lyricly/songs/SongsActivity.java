@@ -91,7 +91,6 @@ public class SongsActivity extends AppCompatActivity
     public void show(Song song) {
         Intent songIntent = new Intent(this, SongActivity.class);
         songIntent.putExtra(SongActivity.EXTRA_SONG_ID, song.getId());
-        songIntent.putExtra(SongActivity.EXTRA_SONG_TYPE, mBottomNavigationSelectedItem);
         startActivity(songIntent);
     }
 

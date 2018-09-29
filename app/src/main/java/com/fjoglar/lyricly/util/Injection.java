@@ -22,6 +22,8 @@ import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
+import com.fjoglar.lyricly.song.SongViewModelFactory;
+import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 
 /**
  * Enables injection of data sources.
@@ -37,5 +39,15 @@ public class Injection {
         SongsLocalDataSource localDataSource = provideSongsLocalDataSource(context);
         SongsRemoteDataSource remoteDataSource = SongsRemoteDataSource.getInstance();
         return SongsRepository.getInstance(localDataSource, remoteDataSource);
+    }
+
+    public static SongsViewModelFactory provideSongsViewModelFactory(Context context) {
+        SongsRepository songsRepository = provideSongsRepository(context);
+        return new SongsViewModelFactory(songsRepository);
+    }
+
+    public static SongViewModelFactory provideSongViewModelFactory(Context context, int songId) {
+        SongsRepository songsRepository = provideSongsRepository(context);
+        return new SongViewModelFactory(songsRepository, songId);
     }
 }

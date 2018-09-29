@@ -34,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.Injection;
 import com.squareup.picasso.Picasso;
@@ -46,14 +45,12 @@ import butterknife.OnClick;
 public class SongFragment extends Fragment {
 
     private static final String ARGUMENT_SONG_ID = "song_id";
-    private static final String ARGUMENT_SONG_TYPE = "song_type";
 
     private static final String IMAGE_SIZE_BIG = "500x500";
     private static final String IMAGE_SIZE_MEDIUM = "200x200";
     private static final String IMAGE_SIZE_SMALL = "70x70";
 
     private int mSongId;
-    private int mSongType;
     private Song mSong;
     private SongViewModel mSongViewModel;
 
@@ -76,10 +73,9 @@ public class SongFragment extends Fragment {
     public SongFragment() {
     }
 
-    public static SongFragment newInstance(int songId, int songType) {
+    public static SongFragment newInstance(int songId) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_SONG_ID, songId);
-        arguments.putInt(ARGUMENT_SONG_TYPE, songType);
 
         SongFragment songFragment = new SongFragment();
         songFragment.setArguments(arguments);
@@ -89,10 +85,8 @@ public class SongFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey(ARGUMENT_SONG_ID) &&
-                getArguments().containsKey(ARGUMENT_SONG_TYPE)) {
+        if (getArguments().containsKey(ARGUMENT_SONG_ID)) {
             mSongId = getArguments().getInt(ARGUMENT_SONG_ID);
-            mSongType = getArguments().getInt(ARGUMENT_SONG_TYPE);
         }
     }
 
@@ -133,21 +127,18 @@ public class SongFragment extends Fragment {
     }
 
     private void initViewModel() {
-        SongsRepository repository = Injection.provideSongsRepository(getActivity());
-
-        SongViewModel.Factory factory = new SongViewModel.Factory(repository, mSongId, mSongType);
-
+        SongViewModelFactory songViewModelFactory =
+                Injection.provideSongViewModelFactory(getActivity(), mSongId);
         mSongViewModel =
-                ViewModelProviders.of(this, factory).get(SongViewModel.class);
+                ViewModelProviders.of(this, songViewModelFactory)
+                .get(SongViewModel.class);
 
         subscribeUi(mSongViewModel);
         mSongViewModel.getSong();
     }
 
     private void subscribeUi(SongViewModel viewModel) {
-        viewModel.response().observe(this, song -> {
-            viewModel.response().observe(this, this::showSong);
-        });
+        viewModel.response().observe(this, song -> viewModel.response().observe(this, this::showSong));
 
     }
 
@@ -176,7 +167,7 @@ public class SongFragment extends Fragment {
 
     private void renderErrorState(Throwable throwable) {
         mProgressBarSongLoading.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_LONG).show();
     }
 
     private void showSong(Song song) {
@@ -195,7 +186,7 @@ public class SongFragment extends Fragment {
         mTextViewSongLyrics.setText(mSong.getLyrics());
 
         mFabSongFavorite.setImageResource(
-                mSongType == 2 ? R.drawable.songs_ic_favorite_24dp :
+                mSong.isFavorite() ? R.drawable.songs_ic_favorite_24dp :
                         R.drawable.song_ic_favorite_border_24dp);
     }
 
