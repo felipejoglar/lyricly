@@ -18,14 +18,14 @@ buildscript {
 
     ext.configuration = [
             'applicationId'         : "com.fjoglar.lyricly",
-            'compileSdk'            : 27,
+            'compileSdk'            : 28,
             'minSdk'                : 21,
-            'targetSdk'             : 27
+            'targetSdk'             : 28
     ]
 
     ext.versions = [
-            'supportLibrary'    : '27.1.1',
-            'constraintLayout'  : '1.1.2',
+            'supportLibrary'    : '28.0.0',
+            'constraintLayout'  : '1.1.3',
             'picasso'           : '2.71828',
             'room'              : '1.1.1',
             'lifecycle'         : '1.1.1',
@@ -52,9 +52,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath 'com.google.gms:google-services:4.0.0'
-        classpath 'io.fabric.tools:gradle:1.25.1'
+        classpath 'io.fabric.tools:gradle:1.25.4'
         classpath 'com.google.firebase:firebase-plugins:1.1.5'
     }
 }
