@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -40,11 +39,10 @@ public class SongsActivity extends AppCompatActivity
 
     private int mBottomNavigationSelectedItem;
 
-    private final FragmentManager mFragmentManager = getSupportFragmentManager();
-    private final Fragment mTopSongsFragment = TopSongsFragment.newInstance();
-    private final Fragment mRecentSongsFragment = RecentSongsFragment.newInstance();
-    private final Fragment mFavoriteSongsFragment = FavoriteSongsFragment.newInstance();
-    private Fragment mActiveFragment = mTopSongsFragment;
+    private Fragment mTopSongsFragment;
+    private Fragment mRecentSongsFragment;
+    private Fragment mFavoriteSongsFragment;
+    private Fragment mActiveFragment;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -60,25 +58,26 @@ public class SongsActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(R.string.songs_menu_popular);
         mBottomNavigationSongs.setOnNavigationItemSelectedListener(this);
 
-        activateFragments();
+        mActiveFragment = getSupportFragmentManager()
+                .findFragmentById(R.id.framelayout_song_container);
+
+        if (mActiveFragment == null) {
+            activateFragments();
+        }
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.popular:
-                mToolbar.setTitle(R.string.songs_menu_popular);
                 loadFragment(mTopSongsFragment);
                 break;
             case R.id.recent:
-                mToolbar.setTitle(R.string.songs_menu_recent);
                 loadFragment(mRecentSongsFragment);
                 break;
             case R.id.favorite:
-                mToolbar.setTitle(R.string.songs_menu_favorite);
                 loadFragment(mFavoriteSongsFragment);
                 break;
         }
@@ -95,18 +94,29 @@ public class SongsActivity extends AppCompatActivity
     }
 
     private void activateFragments() {
-        mFragmentManager.beginTransaction()
+        mTopSongsFragment = TopSongsFragment.newInstance();
+        mRecentSongsFragment = RecentSongsFragment.newInstance();
+        mFavoriteSongsFragment = FavoriteSongsFragment.newInstance();
+
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.framelayout_songs_container, mFavoriteSongsFragment, "2")
-                .hide(mFavoriteSongsFragment).commit();
-        mFragmentManager.beginTransaction()
+                .hide(mFavoriteSongsFragment)
+                .commit();
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.framelayout_songs_container, mRecentSongsFragment, "1")
-                .hide(mRecentSongsFragment).commit();
-        mFragmentManager.beginTransaction()
-                .add(R.id.framelayout_songs_container,mTopSongsFragment, "0").commit();
+                .hide(mRecentSongsFragment)
+                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.framelayout_songs_container, mTopSongsFragment, "0")
+                .commit();
+
+        mActiveFragment = mTopSongsFragment;
     }
 
     private void loadFragment(Fragment fragment) {
-        mFragmentManager.beginTransaction().hide(mActiveFragment).show(fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
+                .hide(mActiveFragment).show(fragment).commit();
         mActiveFragment = fragment;
     }
 }
