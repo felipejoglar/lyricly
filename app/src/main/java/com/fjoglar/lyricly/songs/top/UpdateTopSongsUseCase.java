@@ -21,7 +21,6 @@ import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 import com.fjoglar.lyricly.util.usecases.CompletableUseCase;
-import com.google.firebase.perf.metrics.AddTrace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,6 @@ import io.reactivex.Completable;
 public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
 
     @Override
-    @AddTrace(name = "updateTopSongsTrace")
     public Completable execute(SongsRepository repository, Void parameter) {
         return Completable.fromAction(() -> {
             List<Song> songs = new ArrayList<>();
