@@ -37,14 +37,23 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
             // TODO: in the future implement an infinite scroll with paging.
             List<Track> tracks = repository.fetchTopSongs(100);
 
+            if (!tracks.isEmpty()) {
+                repository.deleteTopSongs();
+            }
+
             for (Track track : tracks) {
                 String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
                 if (lyrics != null) {
                     songs.add(SongDataMapper.transform(track, lyrics));
                 }
+
+                // Save the songs in small chunks to better UX
+                if (songs.size() % 15 == 0) {
+                    repository.saveSongs(songs);
+                    songs.clear();
+                }
             }
 
-            repository.deleteTopSongs();
             repository.saveSongs(songs);
         });
     }
