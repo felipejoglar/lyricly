@@ -18,8 +18,9 @@ package com.fjoglar.lyricly.songs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -37,12 +38,17 @@ import butterknife.ButterKnife;
 public class SongsActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private int mBottomNavigationSelectedItem;
+    private static final String TAG_FRAGMENT_SAVED_STATE = "tag_fragment_saved_state";
+    private static final String TAG_FRAGMENT_TOP = "tag_fragment_top";
+    private static final String TAG_FRAGMENT_RECENT = "tag_fragment_recent";
+    private static final String TAG_FRAGMENT_FAVORITE = "tag_fragment_favorite";
 
-    private Fragment mTopSongsFragment;
-    private Fragment mRecentSongsFragment;
-    private Fragment mFavoriteSongsFragment;
-    private Fragment mActiveFragment;
+    private final FragmentManager mFragmentManager = getSupportFragmentManager();
+
+    private SongsFragment mTopSongsFragment;
+    private SongsFragment mRecentSongsFragment;
+    private SongsFragment mFavoriteSongsFragment;
+    private SongsFragment mActiveFragment;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -60,28 +66,121 @@ public class SongsActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
         mBottomNavigationSongs.setOnNavigationItemSelectedListener(this);
 
-        mActiveFragment = getSupportFragmentManager()
-                .findFragmentById(R.id.framelayout_song_container);
-
-        if (mActiveFragment == null) {
-            activateFragments();
-        }
+        createFragments(savedInstanceState);
+        addFragments();
+        selectFragment(savedInstanceState);
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(TAG_FRAGMENT_SAVED_STATE, mActiveFragment.getTag());
+
+        mFragmentManager.putFragment(outState, TAG_FRAGMENT_TOP, mTopSongsFragment);
+        mFragmentManager.putFragment(outState, TAG_FRAGMENT_RECENT, mRecentSongsFragment);
+        mFragmentManager.putFragment(outState, TAG_FRAGMENT_FAVORITE, mFavoriteSongsFragment);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.popular:
-                loadFragment(mTopSongsFragment);
+                navigateToFragment(mTopSongsFragment);
                 break;
             case R.id.recent:
-                loadFragment(mRecentSongsFragment);
+                navigateToFragment(mRecentSongsFragment);
                 break;
             case R.id.favorite:
-                loadFragment(mFavoriteSongsFragment);
+                navigateToFragment(mFavoriteSongsFragment);
                 break;
         }
         return true;
+    }
+
+    /**
+     * Create or recover the Fragments that will be used in the Songs screen.
+     *
+     * @param savedInstanceState savedInstanceState Activity Bundle
+     */
+    private void createFragments(Bundle savedInstanceState) {
+        boolean isSavedInstanceState = savedInstanceState != null;
+        mTopSongsFragment = isSavedInstanceState ?
+                (SongsFragment) mFragmentManager.getFragment(savedInstanceState, TAG_FRAGMENT_TOP) :
+                TopSongsFragment.newInstance();
+        mRecentSongsFragment = isSavedInstanceState ?
+                (SongsFragment) mFragmentManager.getFragment(savedInstanceState, TAG_FRAGMENT_RECENT) :
+                RecentSongsFragment.newInstance();
+        mFavoriteSongsFragment = isSavedInstanceState ?
+                (SongsFragment) mFragmentManager.getFragment(savedInstanceState, TAG_FRAGMENT_FAVORITE) :
+                FavoriteSongsFragment.newInstance();
+    }
+
+    /**
+     * Add the screen's Fragments to the FragmentManager.
+     */
+    private void addFragments() {
+        if (!mTopSongsFragment.isAdded()) {
+            mFragmentManager.beginTransaction()
+                    .add(R.id.framelayout_songs_container, mFavoriteSongsFragment, TAG_FRAGMENT_FAVORITE)
+                    .hide(mFavoriteSongsFragment)
+                    .commit();
+        }
+        if (!mRecentSongsFragment.isAdded()) {
+            mFragmentManager.beginTransaction()
+                    .add(R.id.framelayout_songs_container, mRecentSongsFragment, TAG_FRAGMENT_RECENT)
+                    .hide(mRecentSongsFragment)
+                    .commit();
+        }
+        if (!mFavoriteSongsFragment.isAdded()) {
+            mFragmentManager.beginTransaction()
+                    .add(R.id.framelayout_songs_container, mTopSongsFragment, TAG_FRAGMENT_TOP)
+                    .hide(mTopSongsFragment)
+                    .commit();
+        }
+    }
+
+    /**
+     * Select the active fragment when activity is created or recreated.
+     *
+     * @param savedInstanceState savedInstanceState Activity Bundle
+     */
+    private void selectFragment(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            switch (savedInstanceState.getString(TAG_FRAGMENT_SAVED_STATE)) {
+                case TAG_FRAGMENT_TOP:
+                    mActiveFragment = mTopSongsFragment;
+                    break;
+                case TAG_FRAGMENT_RECENT:
+                    mActiveFragment = mRecentSongsFragment;
+                    break;
+                case TAG_FRAGMENT_FAVORITE:
+                    mActiveFragment = mFavoriteSongsFragment;
+                    break;
+            }
+        } else {
+            mActiveFragment = mTopSongsFragment;
+        }
+        mFragmentManager.beginTransaction().show(mActiveFragment).commit();
+    }
+
+    /**
+     * Navigate to the selected Fragment clicked in the BottomNavigationBar.
+     *
+     * @param fragment Fragment to navigate to.
+     */
+    private void navigateToFragment(SongsFragment fragment) {
+        if (fragment == mActiveFragment) {
+            // Navigate to top of the list if we are currently in this fragment.
+            mActiveFragment.goToTop();
+            return;
+        }
+
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
+                .hide(mActiveFragment).show(fragment).commit();
+
+        mActiveFragment = fragment;
     }
 
     /**
@@ -91,32 +190,5 @@ public class SongsActivity extends AppCompatActivity
         Intent songIntent = new Intent(this, SongActivity.class);
         songIntent.putExtra(SongActivity.EXTRA_SONG_ID, song.getId());
         startActivity(songIntent);
-    }
-
-    private void activateFragments() {
-        mTopSongsFragment = TopSongsFragment.newInstance();
-        mRecentSongsFragment = RecentSongsFragment.newInstance();
-        mFavoriteSongsFragment = FavoriteSongsFragment.newInstance();
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.framelayout_songs_container, mFavoriteSongsFragment, "2")
-                .hide(mFavoriteSongsFragment)
-                .commit();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.framelayout_songs_container, mRecentSongsFragment, "1")
-                .hide(mRecentSongsFragment)
-                .commit();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.framelayout_songs_container, mTopSongsFragment, "0")
-                .commit();
-
-        mActiveFragment = mTopSongsFragment;
-    }
-
-    private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-                .hide(mActiveFragment).show(fragment).commit();
-        mActiveFragment = fragment;
     }
 }

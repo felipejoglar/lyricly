@@ -16,40 +16,14 @@
 
 package com.fjoglar.lyricly.songs.top;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.songs.SongClickCallback;
-import com.fjoglar.lyricly.songs.SongsActivity;
-import com.fjoglar.lyricly.songs.SongsAdapter;
-import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.songs.SongsFragment;
 import com.fjoglar.lyricly.songs.SongsViewModelFactory;
-import com.fjoglar.lyricly.util.Injection;
 
-import java.util.List;
+public class TopSongsFragment extends SongsFragment {
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class TopSongsFragment extends Fragment {
-
-    private SongsAdapter mSongsAdapter;
-
-    @BindView(R.id.recyclerview_songs)
-    RecyclerView mRecyclerViewSongs;
-    @BindView(R.id.progressbar_songs_loading)
-    ProgressBar mProgressBarSongsLoading;
+    private TopSongsViewModel mViewModel;
 
     public TopSongsFragment() {
         // Required empty public constructor
@@ -60,77 +34,15 @@ public class TopSongsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_songs, container, false);
-        ButterKnife.bind(this, root);
-
-        setUpRecyclerView();
-        initViewModel();
-
-        return root;
-    }
-
-    private void setUpRecyclerView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
-                this.getResources().getInteger(R.integer.songs_activity_column_number));
-        mSongsAdapter = new SongsAdapter(getActivity(), mSongClickCallback);
-
-        mRecyclerViewSongs.setLayoutManager(layoutManager);
-        mRecyclerViewSongs.setHasFixedSize(true);
-        mRecyclerViewSongs.setAdapter(mSongsAdapter);
-    }
-
-    private void initViewModel() {
-        SongsViewModelFactory songsViewModelFactory = Injection.provideSongsViewModelFactory(getActivity());
-        TopSongsViewModel topSongsViewModel = ViewModelProviders.of(this, songsViewModelFactory)
+    protected void initViewModel(SongsViewModelFactory songsViewModelFactory) {
+        mViewModel = ViewModelProviders.of(this, songsViewModelFactory)
                 .get(TopSongsViewModel.class);
-
-        subscribeUi(topSongsViewModel);
-        topSongsViewModel.updateTopSongs();
-        topSongsViewModel.getTopSongs();
     }
 
-    private void subscribeUi(TopSongsViewModel viewModel) {
-        viewModel.response().observe(this, this::showSongs);
+    @Override
+    protected void subscribeUi() {
+        mViewModel.response().observe(this, this::showSongs);
+        mViewModel.updateTopSongs();
+        mViewModel.getTopSongs();
     }
-
-    private void showSongs(SongsResponse songsResponse) {
-        switch (songsResponse.status) {
-            case LOADING:
-                renderLoadingState();
-                break;
-            case SUCCESS:
-                renderDataState(songsResponse.data);
-                break;
-            case ERROR:
-                renderErrorState(songsResponse.error);
-                break;
-        }
-    }
-
-    private void renderLoadingState() {
-        mRecyclerViewSongs.setVisibility(View.GONE);
-        mProgressBarSongsLoading.setVisibility(View.VISIBLE);
-    }
-
-    private void renderDataState(List<Song> songs) {
-        mProgressBarSongsLoading.setVisibility(View.GONE);
-        mRecyclerViewSongs.setVisibility(View.VISIBLE);
-        mSongsAdapter.setSongs(songs);
-    }
-
-    private void renderErrorState(Throwable throwable) {
-        mProgressBarSongsLoading.setVisibility(View.GONE);
-        mRecyclerViewSongs.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    private final SongClickCallback mSongClickCallback = song -> {
-
-        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            ((SongsActivity) getActivity()).show(song);
-        }
-    };
 }
