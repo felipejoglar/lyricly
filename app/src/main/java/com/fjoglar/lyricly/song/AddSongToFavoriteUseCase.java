@@ -26,6 +26,6 @@ public class AddSongToFavoriteUseCase implements CompletableUseCase<Song> {
 
     @Override
     public Completable execute(SongsRepository repository, Song parameter) {
-        return repository.saveSong(parameter);
+        return repository.updateFavoriteSong(parameter);
     }
 }

@@ -94,9 +94,9 @@ public interface SongsDataSource {
         /**
          * Updates the song as favorite.
          *
-         * @param id the id of the song to be updated.
+         * @param Song the song to be updated.
          */
-        Completable updateFavoriteSongById(int id);
+        Completable updateFavoriteSong(Song song);
 
         /**
          * Deletes all top songs from the data source.

@@ -106,8 +106,8 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public Completable updateFavoriteSongById(int id) {
-        return mSongsLocalDataSource.updateFavoriteSongById(id);
+    public Completable updateFavoriteSong(Song song) {
+        return mSongsLocalDataSource.updateFavoriteSong(song);
     }
 
     @Override
