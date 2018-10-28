@@ -22,6 +22,7 @@ import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -95,9 +96,11 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
-    public Completable updateFavoriteSongById(int id) {
-        return Completable.fromAction(() ->
-                mSongDatabase.songDao().updateFavoriteSongById(id));
+    public Completable updateFavoriteSong(Song song) {
+        return Completable.fromAction(() -> {
+            mSongDatabase.songDao().insert(new Song(song, true, new Date()));
+            mSongDatabase.songDao().updateFavoriteSongById(song.getId());
+        });
     }
 
     @Override

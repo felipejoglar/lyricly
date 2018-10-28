@@ -25,8 +25,6 @@ import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
-import java.util.Date;
-
 import io.reactivex.disposables.CompositeDisposable;
 
 public class SongViewModel extends ViewModel {
@@ -74,11 +72,10 @@ public class SongViewModel extends ViewModel {
     }
 
     private void saveFavorite(Song song) {
-        disposables.add(new AddSongToFavoriteUseCase().execute(mSongsRepository,
-                new Song(song, true, new Date()))
+        disposables.add(new AddSongToFavoriteUseCase().execute(mSongsRepository, song)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .subscribe(() -> Log.d("SongViewModel", "Saved"),
+                .subscribe(this::getSong,
                         throwable -> Log.d("SongViewModel", throwable.toString())));
     }
 
