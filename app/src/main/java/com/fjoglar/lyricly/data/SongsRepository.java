@@ -116,7 +116,7 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public Completable deleteFavoriteSongById(int id) {
-        return mSongsLocalDataSource.deleteFavoriteSongById(id);
+    public Completable deleteFavoriteSong(Song song) {
+        return mSongsLocalDataSource.deleteFavoriteSong(song);
     }
 }

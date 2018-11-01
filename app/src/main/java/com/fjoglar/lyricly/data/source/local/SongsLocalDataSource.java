@@ -99,7 +99,7 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     public Completable updateFavoriteSong(Song song) {
         return Completable.fromAction(() -> {
             mSongDatabase.songDao().insert(new Song(song, true, new Date()));
-            mSongDatabase.songDao().updateFavoriteSongById(song.getId());
+            mSongDatabase.songDao().updateFavoriteSongById(song.getId(), true);
         });
     }
 
@@ -109,8 +109,17 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
-    public Completable deleteFavoriteSongById(int id) {
-        return Completable.fromAction(() ->
-                mSongDatabase.songDao().deleteFavoriteSongById(id));
+    public Completable deleteFavoriteSong(Song song) {
+        if (song.isFavorite() && !(song.isRecent() || song.isTop())) {
+            return Completable.fromAction(() -> {
+                mSongDatabase.songDao().deleteFavoriteSongById(song.getId());
+                mSongDatabase.songDao().removeSongFromFavorite(song.getNapsterId());
+            });
+        } else {
+            return Completable.fromAction(() -> {
+                mSongDatabase.songDao().updateFavoriteSongById(song.getId(), false);
+                mSongDatabase.songDao().deleteFavoriteSongByNapsterId(song.getNapsterId());
+            });
+        }
     }
 }
