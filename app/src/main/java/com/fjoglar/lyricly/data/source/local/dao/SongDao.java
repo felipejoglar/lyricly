@@ -86,12 +86,21 @@ public interface SongDao {
     Single<Song> getById(int songId);
 
     /**
-     * Update a song checking it as favorite.
+     * Update a song checking or unchecking it as favorite.
      *
      * @param songId the song id to be updated.
+     * @param isFavorite if the song must be updated as favorite.
      */
-    @Query("UPDATE songs SET favorite = 1 WHERE id = (:songId)")
-    void updateFavoriteSongById(int songId);
+    @Query("UPDATE songs SET favorite = (:isFavorite) WHERE id = (:songId)")
+    void updateFavoriteSongById(int songId, boolean isFavorite);
+
+    /**
+     * Update a top song unchecking it from favorite.
+     *
+     * @param napsterId the song id to be updated.
+     */
+    @Query("UPDATE songs SET favorite = 0 WHERE napster_id = (:napsterId)")
+    void removeSongFromFavorite(String napsterId);
 
     /**
      * Delete all top songs.
@@ -102,8 +111,16 @@ public interface SongDao {
     /**
      * Delete the selected favorite song.
      *
-     * @param songId the song id to be delete.
+     * @param songId the song id to be deleted.
      */
     @Query("DELETE FROM songs WHERE favorite = 1 AND id = (:songId)")
     void deleteFavoriteSongById(int songId);
+
+    /**
+     * Delete the selected favorite song.
+     *
+     * @param napsterId the song id to be deleted.
+     */
+    @Query("DELETE FROM songs WHERE favorite = 1 AND recent = 0 AND top = 0 AND napster_id = (:napsterId)")
+    void deleteFavoriteSongByNapsterId(String napsterId);
 }

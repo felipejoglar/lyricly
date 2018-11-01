@@ -80,10 +80,10 @@ public class SongViewModel extends ViewModel {
     }
 
     private void deleteFavorite(Song song) {
-        disposables.add(new DeleteSongFromFavoriteUseCase().execute(mSongsRepository, song.getId())
+        disposables.add(new DeleteSongFromFavoriteUseCase().execute(mSongsRepository, song)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .subscribe(() -> Log.d("SongViewModel", "Deleted"),
+                .subscribe(this::getSong,
                         throwable -> Log.d("SongViewModel", throwable.toString())));
 
     }

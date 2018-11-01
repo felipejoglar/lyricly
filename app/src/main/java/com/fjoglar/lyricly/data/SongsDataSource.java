@@ -106,8 +106,8 @@ public interface SongsDataSource {
         /**
          * Deletes a favorite song from the data source.
          *
-         * @param id the id of the song to be deleted.
+         * @param song the song to be deleted.
          */
-        Completable deleteFavoriteSongById(int id);
+        Completable deleteFavoriteSong(Song song);
     }
 }
