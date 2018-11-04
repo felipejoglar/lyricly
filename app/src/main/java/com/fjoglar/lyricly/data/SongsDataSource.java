@@ -110,4 +110,19 @@ public interface SongsDataSource {
          */
         Completable deleteFavoriteSong(Song song);
     }
+
+    interface PreferencesDataSource {
+
+        /**
+         * Gets the last time the top songs were updated.
+         *
+         * @return the time of the last update in millis.
+         */
+        long getLastUpdatedTimeInMillis();
+
+        /**
+         * Sets the last updated time the top songs where fetched.
+         */
+        void setLastUpdatedTimeInMillis();
+    }
 }
