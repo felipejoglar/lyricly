@@ -28,18 +28,21 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public class SongsRepository implements SongsDataSource.LocalDataSource,
-        SongsDataSource.RemoteDataSource {
+        SongsDataSource.RemoteDataSource, SongsDataSource.PreferencesDataSource {
 
     @Nullable
     private static SongsRepository INSTANCE = null;
 
     private final SongsDataSource.LocalDataSource mSongsLocalDataSource;
     private final SongsDataSource.RemoteDataSource mSongsRemoteDataSource;
+    private final SongsDataSource.PreferencesDataSource mPreferencesDataSource;
 
     private SongsRepository(SongsDataSource.LocalDataSource songsLocalDataSource,
-                            SongsDataSource.RemoteDataSource songsRemoteDataSource) {
+                            SongsDataSource.RemoteDataSource songsRemoteDataSource,
+                            SongsDataSource.PreferencesDataSource preferencesDataSource) {
         mSongsLocalDataSource = songsLocalDataSource;
         mSongsRemoteDataSource = songsRemoteDataSource;
+        mPreferencesDataSource = preferencesDataSource;
     }
 
     /**
@@ -50,9 +53,12 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
      * @return the {@link SongsRepository} instance
      */
     public static SongsRepository getInstance(SongsDataSource.LocalDataSource songsLocalDataSource,
-                                              SongsDataSource.RemoteDataSource songsRemoteDataSource) {
+                                              SongsDataSource.RemoteDataSource songsRemoteDataSource,
+                                              SongsDataSource.PreferencesDataSource preferencesDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new SongsRepository(songsLocalDataSource, songsRemoteDataSource);
+            INSTANCE = new SongsRepository(songsLocalDataSource,
+                    songsRemoteDataSource,
+                    preferencesDataSource);
         }
         return INSTANCE;
     }
@@ -118,5 +124,15 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     @Override
     public Completable deleteFavoriteSong(Song song) {
         return mSongsLocalDataSource.deleteFavoriteSong(song);
+    }
+
+    @Override
+    public long getLastUpdatedTimeInMillis() {
+        return mPreferencesDataSource.getLastUpdatedTimeInMillis();
+    }
+
+    @Override
+    public void setLastUpdatedTimeInMillis() {
+        mPreferencesDataSource.setLastUpdatedTimeInMillis();
     }
 }

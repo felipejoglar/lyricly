@@ -21,6 +21,7 @@ import android.content.Context;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
+import com.fjoglar.lyricly.data.source.local.preferences.PreferencesLocalDataSource;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.song.SongViewModelFactory;
 import com.fjoglar.lyricly.songs.SongsViewModelFactory;
@@ -35,10 +36,19 @@ public class Injection {
         return SongsLocalDataSource.getInstance(database);
     }
 
+    public static SongsRemoteDataSource provideSongsRemoteDataSource() {
+        return SongsRemoteDataSource.getInstance();
+    }
+
+    public static PreferencesLocalDataSource providePreferencesLocalDataSource(Context context) {
+        return PreferencesLocalDataSource.getInstance(context);
+    }
+
     public static SongsRepository provideSongsRepository(Context context) {
         SongsLocalDataSource localDataSource = provideSongsLocalDataSource(context);
-        SongsRemoteDataSource remoteDataSource = SongsRemoteDataSource.getInstance();
-        return SongsRepository.getInstance(localDataSource, remoteDataSource);
+        SongsRemoteDataSource remoteDataSource = provideSongsRemoteDataSource();
+        PreferencesLocalDataSource preferencesDataSource = providePreferencesLocalDataSource(context);
+        return SongsRepository.getInstance(localDataSource, remoteDataSource, preferencesDataSource);
     }
 
     public static SongsViewModelFactory provideSongsViewModelFactory(Context context) {
