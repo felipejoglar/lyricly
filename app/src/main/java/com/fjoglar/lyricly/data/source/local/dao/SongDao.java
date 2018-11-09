@@ -23,6 +23,7 @@ import android.arch.persistence.room.Query;
 
 import com.fjoglar.lyricly.data.model.Song;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -86,6 +87,23 @@ public interface SongDao {
     Single<Song> getById(int songId);
 
     /**
+     * Get a top song from the table.
+     *
+     * @return the selected song from the table.
+     */
+    @Query("SELECT * FROM songs WHERE top = 1 AND napster_id = (:napsterId)")
+    Song getTopSongByNapsterId(String napsterId);
+
+    /**
+     * Updates the order of the selected top song.
+     *
+     * @param id    id of the song to by updated.
+     * @param order order to set in the song.
+     */
+    @Query("UPDATE songs SET top_order = (:order), created_at = (:date) WHERE id = (:songId)")
+    void updateTopSongOrder(int songId, int order, Date date);
+
+    /**
      * Update a song checking or unchecking it as favorite.
      *
      * @param songId the song id to be updated.
@@ -107,6 +125,14 @@ public interface SongDao {
      */
     @Query("DELETE FROM songs WHERE top = 1")
     void deleteTopSongs();
+
+    /**
+     * Delete old top songs.
+     *
+     * @param date limit date of songs.
+     */
+    @Query("DELETE FROM songs WHERE top = 1 AND created_at < (:date)")
+    void deleteOldTopSongs(Date date);
 
     /**
      * Delete the selected favorite song.

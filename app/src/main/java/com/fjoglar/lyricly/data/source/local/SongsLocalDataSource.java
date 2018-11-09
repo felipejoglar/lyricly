@@ -70,9 +70,8 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
-    public Completable saveSong(Song song) {
-        return Completable.fromAction(() ->
-                mSongDatabase.songDao().insert(song));
+    public void saveSong(Song song) {
+        mSongDatabase.songDao().insert(song);
     }
 
     @Override
@@ -96,6 +95,16 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
+    public Song getTopSongByNapsterId(String napsterId) {
+        return mSongDatabase.songDao().getTopSongByNapsterId(napsterId);
+    }
+
+    @Override
+    public void updateTopSongOrder(int id, int order, Date createdAt) {
+        mSongDatabase.songDao().updateTopSongOrder(id, order, createdAt);
+    }
+
+    @Override
     public Completable updateFavoriteSong(Song song) {
         return Completable.fromAction(() -> {
             mSongDatabase.songDao().insert(new Song(song, true, new Date()));
@@ -106,6 +115,11 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     @Override
     public void deleteTopSongs() {
         mSongDatabase.songDao().deleteTopSongs();
+    }
+
+    @Override
+    public void deleteOldTopSongs(Date date) {
+        mSongDatabase.songDao().deleteOldTopSongs(date);
     }
 
     @Override

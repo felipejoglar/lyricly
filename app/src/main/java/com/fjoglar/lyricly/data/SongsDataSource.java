@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.data;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -60,7 +61,7 @@ public interface SongsDataSource {
         /**
          * Gets a song the data source.
          */
-        Completable saveSong(Song song);
+        void saveSong(Song song);
 
         /**
          * Gets the top songs from the data source.
@@ -92,6 +93,23 @@ public interface SongsDataSource {
         Single<Song> getSongById(int id);
 
         /**
+         * Gets the top song from the data source.
+         *
+         * @param napsterId the id of the song to be getted.
+         * @return the song from the data source.
+         */
+        Song getTopSongByNapsterId(String napsterId);
+
+        /**
+         * Updates the order of the selected top song.
+         *
+         * @param id         id of the song to by updated.
+         * @param order      order to set in the song.
+         * @param created_at date to set in the song.
+         */
+        void updateTopSongOrder(int id, int order, Date createdAt);
+
+        /**
          * Updates the song as favorite.
          *
          * @param Song the song to be updated.
@@ -102,6 +120,13 @@ public interface SongsDataSource {
          * Deletes all top songs from the data source.
          */
         void deleteTopSongs();
+
+        /**
+         * Delete old top songs.
+         *
+         * @param date limit date of songs.
+         */
+        void deleteOldTopSongs(Date date);
 
         /**
          * Deletes a favorite song from the data source.
