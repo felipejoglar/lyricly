@@ -69,6 +69,9 @@ public class Song {
     @ColumnInfo(name = "favorite")
     private boolean favorite;
 
+    @ColumnInfo(name= "top_order")
+    private int topOrder;
+
     @ColumnInfo(name = "created_at")
     private Date createdAt;
 
@@ -90,6 +93,7 @@ public class Song {
      * @param top             The song is in the top list
      * @param recent          The song is in the recent list
      * @param favorite        The song is in the favorite list
+     * @param topOrder        The order of the song in the top list, if applies.
      * @param createdAt       Date when the song was inserted in the DB
      */
     public Song(int id,
@@ -105,6 +109,7 @@ public class Song {
                 boolean top,
                 boolean recent,
                 boolean favorite,
+                int topOrder,
                 Date createdAt) {
         this.id = id;
         this.napsterId = napsterId;
@@ -119,6 +124,7 @@ public class Song {
         this.top = top;
         this.recent = recent;
         this.favorite = favorite;
+        this.topOrder = topOrder;
         this.createdAt = createdAt;
     }
 
@@ -135,6 +141,7 @@ public class Song {
                 boolean top,
                 boolean recent,
                 boolean favorite,
+                int topOrder,
                 Date createdAt) {
         this.napsterId = napsterId;
         this.albumIndex = albumIndex;
@@ -148,6 +155,7 @@ public class Song {
         this.top = top;
         this.recent = recent;
         this.favorite = favorite;
+        this.topOrder = topOrder;
         this.createdAt = createdAt;
     }
 
@@ -158,6 +166,7 @@ public class Song {
      * @param favorite  mark the song as favorite.
      * @param createdAt the date when it was created.
      */
+    @Ignore
     public Song(Song song, boolean favorite, Date createdAt) {
         this.napsterId = song.getNapsterId();
         this.albumIndex = song.getAlbumIndex();
@@ -171,6 +180,7 @@ public class Song {
         this.top = false;
         this.recent = false;
         this.favorite = favorite;
+        this.topOrder = song.getTopOrder();
         this.createdAt = createdAt;
     }
 
@@ -226,6 +236,10 @@ public class Song {
         return favorite;
     }
 
+    public int getTopOrder() {
+        return topOrder;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -241,6 +255,7 @@ public class Song {
                 top == song.top &&
                 recent == song.recent &&
                 favorite == song.favorite &&
+                topOrder == song.topOrder &&
                 Objects.equals(napsterId, song.napsterId) &&
                 Objects.equals(name, song.name) &&
                 Objects.equals(artistId, song.artistId) &&
@@ -253,9 +268,21 @@ public class Song {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, napsterId, albumIndex, playbackSeconds, name, artistId, artistName,
-                albumId, albumName, lyrics, top, recent, favorite, createdAt);
+        return Objects.hash(id,
+                napsterId,
+                albumIndex,
+                playbackSeconds,
+                name,
+                artistId,
+                artistName,
+                albumId,
+                albumName,
+                lyrics,
+                top,
+                recent,
+                favorite,
+                topOrder,
+                createdAt);
     }
 
     @Override
@@ -274,6 +301,7 @@ public class Song {
                 ", top=" + top +
                 ", recent=" + recent +
                 ", favorite=" + favorite +
+                ", topOrder=" + topOrder +
                 ", createdAt=" + createdAt +
                 '}';
     }
