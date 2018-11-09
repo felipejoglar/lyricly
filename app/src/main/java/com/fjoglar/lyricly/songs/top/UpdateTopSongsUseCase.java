@@ -22,39 +22,47 @@ import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 import com.fjoglar.lyricly.util.usecases.CompletableUseCase;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
 
 public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
 
+    private long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+
     @Override
     public Completable execute(SongsRepository repository, Void parameter) {
         return Completable.fromAction(() -> {
-            List<Song> songs = new ArrayList<>();
 
-            // TODO: in the future implement an infinite scroll with paging.
-            List<Track> tracks = repository.fetchTopSongs(100);
-
-            if (!tracks.isEmpty()) {
-                repository.deleteTopSongs();
+            if (System.currentTimeMillis() - repository.getLastUpdatedTimeInMillis() < DAY_IN_MILLIS) {
+                return;
             }
+
+            List<Track> tracks = repository.fetchTopSongs(200);
+            if (tracks.isEmpty()) {
+                return;
+            }
+
+            repository.setLastUpdatedTimeInMillis();
 
             for (Track track : tracks) {
-                String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
-                if (lyrics != null) {
-                    songs.add(SongDataMapper.transform(track, lyrics));
+                Song song = repository.getTopSongByNapsterId(track.getId());
+
+                if (song == null) {
+                    String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
+                    if (lyrics != null) {
+                        repository.saveSong(SongDataMapper.transform(track, tracks.indexOf(track), lyrics));
+                    }
+                } else {
+                    repository.updateTopSongOrder(song.getId(), tracks.indexOf(track), new Date());
                 }
 
-                // Save the songs in small chunks to better UX
-                if (songs.size() % 15 == 0) {
-                    repository.saveSongs(songs);
-                    songs.clear();
-                }
+                // TODO: check if song already is in the favorite list.
+                // TODO: check if song already is in the recent list?
             }
 
-            repository.saveSongs(songs);
+            repository.deleteOldTopSongs(new Date(repository.getLastUpdatedTimeInMillis()));
         });
     }
 }
