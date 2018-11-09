@@ -36,11 +36,12 @@ public class SongDataMapper {
      * Transforms {@link Track} and {@link OvhLyricsApiResponse} lyrics to {@link Song}.
      *
      * @param track  the track to be converted.
+     * @param topOrder order in the top list.
      * @param lyrics the lyrics of the track to be converted.
      * @return a song in the top song list.
      */
     @Nullable
-    public static Song transform(Track track, String lyrics) {
+    public static Song transform(Track track, int topOrder, String lyrics) {
         Song song = null;
 
         if (track != null && lyrics != null) {
@@ -56,6 +57,7 @@ public class SongDataMapper {
                     true,
                     false,
                     false,
+                    topOrder,
                     new Date());
         }
 
