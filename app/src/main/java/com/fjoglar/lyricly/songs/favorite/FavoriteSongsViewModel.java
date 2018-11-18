@@ -19,30 +19,30 @@ package com.fjoglar.lyricly.songs.favorite;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.data.model.Status;
+import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
+
+import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class FavoriteSongsViewModel extends ViewModel {
+public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel {
 
     private SongsRepository mSongsRepository;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    private final MutableLiveData<SongsResponse> response = new MutableLiveData<>();
-
+    private MutableLiveData<List<Song>> songs = new MutableLiveData<>();
+    private MutableLiveData<Status> status = new MutableLiveData<>();
 
     public FavoriteSongsViewModel(@Nullable SongsRepository songsRepository) {
-        if (mSongsRepository != null) {
-            // ViewModel is created per Activity
-            return;
-        }
-        if (songsRepository != null) {
-            mSongsRepository = songsRepository;
-        }
+        mSongsRepository = songsRepository;
+        getFavoriteSongs();
     }
 
     @Override
@@ -50,23 +50,35 @@ public class FavoriteSongsViewModel extends ViewModel {
         disposables.clear();
     }
 
-    MutableLiveData<SongsResponse> response() {
-        return response;
+    @Override
+    public MutableLiveData<List<Song>> getSongs() {
+        return songs;
     }
 
-    public void getFavoriteSongs() {
-        loadSongs();
+    @Override
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 
-    private void loadSongs() {
+    private void getFavoriteSongs() {
         disposables.add(new GetFavoriteSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> response.setValue(SongsResponse.loading()))
+                .doOnSubscribe(__ -> status.setValue(Status.LOADING))
                 .subscribe(
-                        songs -> response.setValue(SongsResponse.success(songs)),
-                        throwable -> response.setValue(SongsResponse.error(throwable))
+                        this::setSongs,
+                        this::logError
                 )
         );
+    }
+
+    private void setSongs(List<Song> result) {
+        songs.setValue(result);
+        status.setValue(Status.SUCCESS);
+    }
+
+    private void logError(Throwable throwable) {
+        status.setValue(Status.ERROR);
+        Log.e("TopSongsViewModel", throwable.toString());
     }
 }
