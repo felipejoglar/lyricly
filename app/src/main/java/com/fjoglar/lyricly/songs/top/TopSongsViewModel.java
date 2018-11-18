@@ -18,32 +18,32 @@ package com.fjoglar.lyricly.songs.top;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.data.model.Status;
+import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
+
+import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class TopSongsViewModel extends ViewModel {
+public class TopSongsViewModel extends ViewModel implements SongsViewModel {
 
     private SongsRepository mSongsRepository;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    private final MutableLiveData<SongsResponse> response = new MutableLiveData<>();
+    private MutableLiveData<List<Song>> songs = new MutableLiveData<>();
+    private MutableLiveData<Status> status = new MutableLiveData<>();
 
 
-    public TopSongsViewModel(@Nullable SongsRepository songsRepository) {
-        if (mSongsRepository != null) {
-            // ViewModel is created per Activity
-            return;
-        }
-        if (songsRepository != null) {
-            mSongsRepository = songsRepository;
-        }
+    public TopSongsViewModel(SongsRepository songsRepository) {
+        mSongsRepository = songsRepository;
+        updateTopSongs();
+        getTopSongs();
     }
 
     @Override
@@ -51,28 +51,39 @@ public class TopSongsViewModel extends ViewModel {
         disposables.clear();
     }
 
-    MutableLiveData<SongsResponse> response() {
-        return response;
+    @Override
+    public MutableLiveData<List<Song>> getSongs() {
+        return songs;
     }
 
-    public void updateTopSongs() {
+    @Override
+    public MutableLiveData<Status> getStatus() {
+        return status;
+    }
+
+    private void updateTopSongs() {
         disposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> Log.d("TopSongsViewModel", "Updating"))
-                .subscribe(() -> Log.d("TopSongsViewModel", "Saved"),
-                        throwable -> Log.d("TopSongsViewModel", throwable.toString())));
+                .doOnSubscribe(__ -> status.setValue(Status.LOADING))
+                .subscribe(
+                        () -> status.setValue(Status.SUCCESS),
+                        this::logError));
     }
 
-    public void getTopSongs() {
+    private void getTopSongs() {
         disposables.add(new GetTopSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> response.setValue(SongsResponse.loading()))
                 .subscribe(
-                        songs -> response.setValue(SongsResponse.success(songs)),
-                        throwable -> response.setValue(SongsResponse.error(throwable))
+                        result -> songs.setValue(result),
+                        throwable -> Log.e("TopSongsViewModel", throwable.toString())
                 )
         );
+    }
+
+    private void logError(Throwable throwable) {
+        status.setValue(Status.ERROR);
+        Log.e("TopSongsViewModel", throwable.toString());
     }
 }
