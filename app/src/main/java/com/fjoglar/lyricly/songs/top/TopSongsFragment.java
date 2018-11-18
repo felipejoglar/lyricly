@@ -23,8 +23,6 @@ import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 
 public class TopSongsFragment extends SongsFragment {
 
-    private TopSongsViewModel mViewModel;
-
     public TopSongsFragment() {
         // Required empty public constructor
     }
@@ -37,12 +35,5 @@ public class TopSongsFragment extends SongsFragment {
     protected void initViewModel(SongsViewModelFactory songsViewModelFactory) {
         mViewModel = ViewModelProviders.of(this, songsViewModelFactory)
                 .get(TopSongsViewModel.class);
-    }
-
-    @Override
-    protected void subscribeUi() {
-        mViewModel.response().observe(this, this::showSongs);
-        mViewModel.updateTopSongs();
-        mViewModel.getTopSongs();
     }
 }

@@ -23,8 +23,6 @@ import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 
 public class FavoriteSongsFragment extends SongsFragment {
 
-    private FavoriteSongsViewModel mViewModel;
-
     public FavoriteSongsFragment() {
         // Required empty public constructor
     }
@@ -37,11 +35,5 @@ public class FavoriteSongsFragment extends SongsFragment {
     protected void initViewModel(SongsViewModelFactory songsViewModelFactory) {
         mViewModel = ViewModelProviders.of(this, songsViewModelFactory)
                 .get(FavoriteSongsViewModel.class);
-    }
-
-    @Override
-    protected void subscribeUi() {
-        mViewModel.response().observe(this, this::showSongs);
-        mViewModel.getFavoriteSongs();
     }
 }
