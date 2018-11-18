@@ -56,7 +56,7 @@ public interface SongDao {
      *
      * @return the top songs from the table
      */
-    @Query("SELECT * FROM songs WHERE top = 1")
+    @Query("SELECT * FROM songs WHERE top = 1 ORDER BY top_order ASC")
     Flowable<List<Song>> getTopSongs();
 
     /**
@@ -64,7 +64,7 @@ public interface SongDao {
      *
      * @return the recent songs from the table
      */
-    @Query("SELECT * FROM songs WHERE recent = 1")
+    @Query("SELECT * FROM songs WHERE recent = 1 ORDER BY created_at DESC")
     Flowable<List<Song>> getRecentSongs();
 
     /**
@@ -74,7 +74,7 @@ public interface SongDao {
      *
      * @return the favorite songs from the table
      */
-    @Query("SELECT * FROM songs WHERE favorite = 1 AND top = 0 AND recent = 0")
+    @Query("SELECT * FROM songs WHERE favorite = 1 AND top = 0 AND recent = 0 ORDER BY id ASC")
     Flowable<List<Song>> getFavoriteSongs();
 
     /**
@@ -106,7 +106,7 @@ public interface SongDao {
     /**
      * Update a song checking or unchecking it as favorite.
      *
-     * @param songId the song id to be updated.
+     * @param songId     the song id to be updated.
      * @param isFavorite if the song must be updated as favorite.
      */
     @Query("UPDATE songs SET favorite = (:isFavorite) WHERE id = (:songId)")
