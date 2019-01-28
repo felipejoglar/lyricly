@@ -63,7 +63,6 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
         disposables.add(new GetRecentSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> status.setValue(Status.LOADING))
                 .subscribe(
                         this::setSongs,
                         this::logError
@@ -73,11 +72,9 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
 
     private void setSongs(List<Song> result) {
         songs.setValue(result);
-        status.setValue(Status.SUCCESS);
     }
 
     private void logError(Throwable throwable) {
-        status.setValue(Status.ERROR);
-        Log.e("TopSongsViewModel", throwable.toString());
+        throwable.printStackTrace();
     }
 }
