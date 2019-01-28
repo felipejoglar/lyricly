@@ -18,7 +18,6 @@ package com.fjoglar.lyricly.songs.top;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
@@ -77,13 +76,12 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(
                         result -> songs.setValue(result),
-                        throwable -> Log.e("TopSongsViewModel", throwable.toString())
+                        this::logError
                 )
         );
     }
 
     private void logError(Throwable throwable) {
-        status.setValue(Status.ERROR);
-        Log.e("TopSongsViewModel", throwable.toString());
+        throwable.printStackTrace();
     }
 }

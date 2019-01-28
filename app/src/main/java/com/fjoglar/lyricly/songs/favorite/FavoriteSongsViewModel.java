@@ -19,7 +19,6 @@ package com.fjoglar.lyricly.songs.favorite;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
@@ -64,7 +63,6 @@ public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel 
         disposables.add(new GetFavoriteSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> status.setValue(Status.LOADING))
                 .subscribe(
                         this::setSongs,
                         this::logError
@@ -74,11 +72,9 @@ public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel 
 
     private void setSongs(List<Song> result) {
         songs.setValue(result);
-        status.setValue(Status.SUCCESS);
     }
 
     private void logError(Throwable throwable) {
-        status.setValue(Status.ERROR);
-        Log.e("TopSongsViewModel", throwable.toString());
+        throwable.printStackTrace();
     }
 }
