@@ -65,7 +65,7 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     /**
-     * Used to force {@link #getInstance(LocalDataSource, RemoteDataSource)} to create a new
+     * Used to force {@link  #getInstance(LocalDataSource, RemoteDataSource, PreferencesDataSource)} to create a new
      * instance next time it's called.
      */
     public static void destroyInstance() {
