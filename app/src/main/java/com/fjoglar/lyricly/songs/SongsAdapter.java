@@ -28,6 +28,7 @@ import android.widget.ImageView;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.util.UiUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         Picasso.get()
                 .load(imageUrl)
-                .placeholder(R.color.colorSecondaryLight)
+                .placeholder(UiUtil.getPlaceHolderColor())
                 .error(R.color.colorPrimaryLight)
                 .into(holder.imageViewAlbumCover);
 

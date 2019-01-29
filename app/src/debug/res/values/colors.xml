@@ -23,4 +23,6 @@
     <color name="colorSecondary">#00ac6a</color>
     <color name="colorSecondaryDark">#008b52</color>
     <color name="colorSecondaryLight">#58c596</color>
+    <color name="colorSecondaryExtraLight">#8dd5b3</color>
+    <color name="colorSecondaryUltraLight">#bae6d1</color>
 </resources>
