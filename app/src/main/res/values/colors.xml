@@ -22,7 +22,9 @@
 
     <color name="colorSecondary">#ffcf44</color>
     <color name="colorSecondaryDark">#feb900</color>
-    <color name="colorSecondaryLight">#ffe9af</color>
-    <color name="colorSecondaryExtraLight">#ffdc7b</color>
-    <color name="colorSecondaryUltraLight">#ffe9af</color>
+    <color name="colorSecondaryLight">#ffdc7b</color>
+    <color name="colorSecondaryExtraLight">#ffe9af</color>
+    <color name="colorSecondaryUltraLight">#fff7df</color>
+
+    <color name="status_bar">#202124</color>
 </resources>
