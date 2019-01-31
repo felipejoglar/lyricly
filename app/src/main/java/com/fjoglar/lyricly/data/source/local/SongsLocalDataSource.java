@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.local;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;

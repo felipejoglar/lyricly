@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.songs;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.model.Status;

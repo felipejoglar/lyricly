@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.data.source.mapper;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;

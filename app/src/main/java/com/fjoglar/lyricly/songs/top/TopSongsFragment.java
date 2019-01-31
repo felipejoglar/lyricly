@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.songs.top;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.fjoglar.lyricly.songs.SongsFragment;
 import com.fjoglar.lyricly.songs.SongsViewModelFactory;
