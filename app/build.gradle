@@ -26,7 +26,7 @@ android {
         versionCode 1
 
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -62,21 +62,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
-    implementation "com.android.support:design:${versions.supportLibrary}"
-    implementation "com.android.support:support-v4:${versions.supportLibrary}"
-    implementation "com.android.support.constraint:constraint-layout:${versions.constraintLayout}"
+    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "androidx.legacy:legacy-support-v4:${versions.supportLibrary}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+
+    implementation "com.google.android.material:material:${versions.material}"
 
     implementation "com.squareup.picasso:picasso:${versions.picasso}"
     // Due to picasso dependencies versions mixing we need to add this dependency explicitly.
-    implementation "com.android.support:exifinterface:${versions.supportLibrary}"
+    implementation "androidx.exifinterface:exifinterface:${versions.supportLibrary}"
 
-    implementation "android.arch.persistence.room:runtime:${versions.room}"
-    implementation "android.arch.persistence.room:rxjava2:${versions.room}"
-    annotationProcessor "android.arch.persistence.room:compiler:${versions.room}"
+    implementation "androidx.room:room-runtime:${versions.room}"
+    implementation "androidx.room:room-rxjava2:${versions.room}"
+    annotationProcessor "androidx.room:room-compiler:${versions.room}"
 
-    implementation "android.arch.lifecycle:extensions:${versions.lifecycle}"
-    annotationProcessor "android.arch.lifecycle:compiler:${versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}"
 
     implementation "com.jakewharton:butterknife:${versions.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
@@ -91,6 +92,6 @@ dependencies {
 
     testImplementation "junit:junit:${versions.junit}"
 
-    androidTestImplementation "com.android.support.test:runner:${versions.test_runner}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
+    androidTestImplementation "androidx.test:runner:${versions.test_runner}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
 }

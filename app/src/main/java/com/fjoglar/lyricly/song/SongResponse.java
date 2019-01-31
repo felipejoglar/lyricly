@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.song;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.model.Status;

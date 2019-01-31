@@ -16,9 +16,9 @@
 
 package com.fjoglar.lyricly.song;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.fjoglar.lyricly.data.SongsRepository;

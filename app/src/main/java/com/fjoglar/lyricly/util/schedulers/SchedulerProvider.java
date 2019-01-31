@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.util.schedulers;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
