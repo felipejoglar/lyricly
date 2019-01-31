@@ -49,13 +49,10 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/Widget.Lyricly.BottomNav"
         android:id="@+id/bottom_navigation_songs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:foreground="?attr/selectableItemBackground"
-        app:itemIconTint="@color/bnv_tab_item_foreground"
-        app:itemTextColor="@color/bnv_tab_item_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
