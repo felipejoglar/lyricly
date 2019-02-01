@@ -18,12 +18,8 @@ package com.fjoglar.lyricly.songs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
@@ -31,7 +27,11 @@ import com.fjoglar.lyricly.song.SongActivity;
 import com.fjoglar.lyricly.songs.favorite.FavoriteSongsFragment;
 import com.fjoglar.lyricly.songs.recent.RecentSongsFragment;
 import com.fjoglar.lyricly.songs.top.TopSongsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,10 +50,10 @@ public class SongsActivity extends AppCompatActivity
     private SongsFragment mFavoriteSongsFragment;
     private SongsFragment mActiveFragment;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.bottom_navigation_songs)
     BottomNavigationView mBottomNavigationSongs;
+    @BindView(R.id.title)
+    TextView mTextViewTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,6 @@ public class SongsActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(mToolbar);
         mBottomNavigationSongs.setOnNavigationItemSelectedListener(this);
 
         createFragments(savedInstanceState);
@@ -87,12 +86,15 @@ public class SongsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.popular:
                 navigateToFragment(mTopSongsFragment);
+                setAppBarTitle(R.string.songs_menu_popular);
                 break;
             case R.id.recent:
                 navigateToFragment(mRecentSongsFragment);
+                setAppBarTitle(R.string.songs_menu_recent);
                 break;
             case R.id.favorite:
                 navigateToFragment(mFavoriteSongsFragment);
+                setAppBarTitle(R.string.songs_menu_favorite);
                 break;
         }
         return true;
@@ -150,16 +152,20 @@ public class SongsActivity extends AppCompatActivity
             switch (savedInstanceState.getString(TAG_FRAGMENT_SAVED_STATE)) {
                 case TAG_FRAGMENT_TOP:
                     mActiveFragment = mTopSongsFragment;
+                    setAppBarTitle(R.string.songs_menu_popular);
                     break;
                 case TAG_FRAGMENT_RECENT:
                     mActiveFragment = mRecentSongsFragment;
+                    setAppBarTitle(R.string.songs_menu_recent);
                     break;
                 case TAG_FRAGMENT_FAVORITE:
                     mActiveFragment = mFavoriteSongsFragment;
+                    setAppBarTitle(R.string.songs_menu_favorite);
                     break;
             }
         } else {
             mActiveFragment = mTopSongsFragment;
+            setAppBarTitle(R.string.songs_menu_popular);
         }
         mFragmentManager.beginTransaction().show(mActiveFragment).commit();
     }
@@ -181,6 +187,10 @@ public class SongsActivity extends AppCompatActivity
                 .hide(mActiveFragment).show(fragment).commit();
 
         mActiveFragment = fragment;
+    }
+
+    private void setAppBarTitle(int resId) {
+        mTextViewTitle.setText(resId);
     }
 
     /**

@@ -22,21 +22,23 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
+        android:id="@+id/appBar"
+        style="@style/Widget.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:elevation="8dp"
-            android:minHeight="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:minHeight="?actionBarSize"
+            android:text="prueba"
+            android:textAppearance="@style/TextAppearance.Lyricly.ToolbarTitle" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
@@ -46,11 +48,11 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_songs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/appBar" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        style="@style/Widget.Lyricly.BottomNav"
         android:id="@+id/bottom_navigation_songs"
+        style="@style/Widget.Lyricly.BottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
