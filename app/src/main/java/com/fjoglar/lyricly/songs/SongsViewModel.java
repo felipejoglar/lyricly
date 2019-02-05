@@ -25,7 +25,5 @@ import java.util.List;
 
 public interface SongsViewModel {
 
-    MutableLiveData<List<Song>> getSongs();
-
-    MutableLiveData<Status> getStatus();
+    MutableLiveData<SongsResponse> getResponse();
 }

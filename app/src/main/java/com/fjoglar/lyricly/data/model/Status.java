@@ -22,5 +22,6 @@ package com.fjoglar.lyricly.data.model;
 public enum Status {
     LOADING,
     SUCCESS,
+    DATA,
     ERROR
 }
