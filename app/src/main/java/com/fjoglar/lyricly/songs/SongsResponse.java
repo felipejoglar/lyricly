@@ -16,13 +16,14 @@
 
 package com.fjoglar.lyricly.songs;
 
-import androidx.annotation.Nullable;
-
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.model.Status;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
+import static com.fjoglar.lyricly.data.model.Status.DATA;
 import static com.fjoglar.lyricly.data.model.Status.ERROR;
 import static com.fjoglar.lyricly.data.model.Status.LOADING;
 import static com.fjoglar.lyricly.data.model.Status.SUCCESS;
@@ -50,8 +51,12 @@ public class SongsResponse {
         return new SongsResponse(LOADING, null, null);
     }
 
-    public static SongsResponse success(List<Song> data) {
-        return new SongsResponse(SUCCESS, data, null);
+    public static SongsResponse success() {
+        return new SongsResponse(SUCCESS, null, null);
+    }
+
+    public static SongsResponse load(List<Song> data) {
+        return new SongsResponse(DATA, data, null);
     }
 
     public static SongsResponse error(Throwable error) {

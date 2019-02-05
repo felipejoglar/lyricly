@@ -16,25 +16,25 @@
 
 package com.fjoglar.lyricly.songs;
 
-import androidx.lifecycle.Lifecycle;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.model.Status;
 import com.fjoglar.lyricly.util.Injection;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -81,32 +81,45 @@ public abstract class SongsFragment extends Fragment {
 
     protected abstract void initViewModel(SongsViewModelFactory songsViewModelFactory);
 
-    protected void showSongs(List<Song> songs) {
-        if (songs.isEmpty()) {
-            // TODO: show empty view
-        } else {
-            mRecyclerViewSongs.setVisibility(View.VISIBLE);
-            mSongsAdapter.setSongs(songs);
-        }
+    private void subscribeUi() {
+        mViewModel.getResponse().observe(this, this::showSongs);
     }
 
-    protected void showStatus(Status status) {
-        switch (status) {
+    private void showSongs(SongsResponse songsResponse) {
+        switch (songsResponse.status) {
             case LOADING:
-                mProgressBarSongsLoading.setVisibility(View.VISIBLE);
+                renderLoadingState(true);
                 break;
             case SUCCESS:
-                mProgressBarSongsLoading.setVisibility(View.GONE);
+                renderLoadingState(false);
+                break;
+            case DATA:
+                renderDataState(songsResponse.data);
                 break;
             case ERROR:
-                mProgressBarSongsLoading.setVisibility(View.GONE);
+                renderErrorState(songsResponse.error);
                 break;
         }
     }
 
-    private void subscribeUi() {
-        mViewModel.getSongs().observe(this, this::showSongs);
-        mViewModel.getStatus().observe(this, this::showStatus);
+    private void renderLoadingState(boolean loading) {
+        if (loading) {
+            mProgressBarSongsLoading.setVisibility(View.VISIBLE);
+        } else {
+            mProgressBarSongsLoading.setVisibility(View.GONE);
+        }
+    }
+
+    private void renderDataState(List<Song> songs) {
+        mRecyclerViewSongs.setVisibility(View.VISIBLE);
+        mSongsAdapter.setSongs(songs);
+    }
+
+    private void renderErrorState(Throwable throwable) {
+        mProgressBarSongsLoading.setVisibility(View.GONE);
+        if (throwable != null) {
+            Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUpRecyclerView() {

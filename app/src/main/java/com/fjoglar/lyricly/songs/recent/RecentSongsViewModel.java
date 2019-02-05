@@ -16,27 +16,22 @@
 
 package com.fjoglar.lyricly.songs.recent;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.model.Status;
+import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
-import java.util.List;
-
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
 
     private SongsRepository mSongsRepository;
 
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final CompositeDisposable mDisposables = new CompositeDisposable();
 
-    private MutableLiveData<List<Song>> songs = new MutableLiveData<>();
-    private MutableLiveData<Status> status = new MutableLiveData<>();
+    private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
 
     public RecentSongsViewModel(SongsRepository songsRepository) {
         mSongsRepository = songsRepository;
@@ -45,35 +40,22 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
 
     @Override
     protected void onCleared() {
-        disposables.clear();
+        mDisposables.clear();
     }
 
     @Override
-    public MutableLiveData<List<Song>> getSongs() {
-        return songs;
-    }
-
-    @Override
-    public MutableLiveData<Status> getStatus() {
-        return status;
+    public MutableLiveData<SongsResponse> getResponse() {
+        return mResponse;
     }
 
     private void getRecentSongs() {
-        disposables.add(new GetRecentSongsUseCase().execute(mSongsRepository, null)
+        mDisposables.add(new GetRecentSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(
-                        this::setSongs,
-                        this::logError
+                        songs -> mResponse.setValue(SongsResponse.load(songs)),
+                        error -> mResponse.setValue(SongsResponse.error(error))
                 )
         );
-    }
-
-    private void setSongs(List<Song> result) {
-        songs.setValue(result);
-    }
-
-    private void logError(Throwable throwable) {
-        throwable.printStackTrace();
     }
 }
