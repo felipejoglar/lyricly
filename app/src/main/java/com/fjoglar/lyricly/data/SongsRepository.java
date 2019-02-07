@@ -16,14 +16,13 @@
 
 package com.fjoglar.lyricly.data;
 
-import androidx.annotation.Nullable;
-
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -118,6 +117,11 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
+    public Song getFavoriteSongByNapsterId(String napsterId) {
+        return mSongsLocalDataSource.getFavoriteSongByNapsterId(napsterId);
+    }
+
+    @Override
     public void updateTopSongOrder(int id, int order, Date createdAt) {
         mSongsLocalDataSource.updateTopSongOrder(id, order, createdAt);
     }
@@ -125,6 +129,11 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     @Override
     public Completable updateFavoriteSong(Song song) {
         return mSongsLocalDataSource.updateFavoriteSong(song);
+    }
+
+    @Override
+    public void updateFavoriteSongByNapsterId(String napsterId) {
+        mSongsLocalDataSource.updateFavoriteSongByNapsterId(napsterId);
     }
 
     @Override

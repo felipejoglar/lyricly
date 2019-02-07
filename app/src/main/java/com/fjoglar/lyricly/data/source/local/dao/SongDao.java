@@ -95,10 +95,19 @@ public interface SongDao {
     Song getTopSongByNapsterId(String napsterId);
 
     /**
+     * Get a favorite song from the table.
+     *
+     * @return the selected song from the table.
+     */
+    @Query("SELECT * FROM songs WHERE favorite = 1 AND napster_id = (:napsterId)")
+    Song getFavoriteSongByNapsterId(String napsterId);
+
+    /**
      * Updates the order of the selected top song.
      *
-     * @param id    id of the song to by updated.
+     * @param songId id of the song to by updated.
      * @param order order to set in the song.
+     * @param date date when the song was updated
      */
     @Query("UPDATE songs SET top_order = (:order), created_at = (:date) WHERE id = (:songId)")
     void updateTopSongOrder(int songId, int order, Date date);
@@ -111,6 +120,14 @@ public interface SongDao {
      */
     @Query("UPDATE songs SET favorite = (:isFavorite) WHERE id = (:songId)")
     void updateFavoriteSongById(int songId, boolean isFavorite);
+
+    /**
+     * Get a top song from the table.
+     *
+     * @return the selected song from the table.
+     */
+    @Query("UPDATE songs SET favorite = 1 WHERE top = 1 AND napster_id = (:napsterId)")
+    void updateTopSongByNapsterId(String napsterId);
 
     /**
      * Update a top song unchecking it from favorite.
