@@ -17,11 +17,7 @@
 package com.fjoglar.lyricly.song;
 
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
-import androidx.core.app.ShareCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,13 +27,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.Injection;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
+import androidx.core.app.ShareCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -131,15 +132,16 @@ public class SongFragment extends Fragment {
                 Injection.provideSongViewModelFactory(getActivity(), mSongId);
         mSongViewModel =
                 ViewModelProviders.of(this, songViewModelFactory)
-                .get(SongViewModel.class);
+                        .get(SongViewModel.class);
 
         subscribeUi(mSongViewModel);
         mSongViewModel.getSong();
     }
 
     private void subscribeUi(SongViewModel viewModel) {
-        viewModel.response().observe(this, song -> viewModel.response().observe(this, this::showSong));
-
+        viewModel.response().observe(this, this::showSong);
+        viewModel.addedToFavorites().observe(this, response -> showAddedToFavoritesMessage());
+        viewModel.deletedFromFavorites().observe(this, response -> showDeletedFromFavoritesMessage());
     }
 
     private void showSong(SongResponse songResponse) {
@@ -156,6 +158,14 @@ public class SongFragment extends Fragment {
         }
     }
 
+    private void showAddedToFavoritesMessage() {
+        Snackbar.make(mFabSongFavorite, R.string.song_favorite_added, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void showDeletedFromFavoritesMessage() {
+        Snackbar.make(mFabSongFavorite, R.string.song_favorite_deleted, Snackbar.LENGTH_SHORT).show();
+    }
+
     private void renderLoadingState() {
         mProgressBarSongLoading.setVisibility(View.VISIBLE);
     }
@@ -167,7 +177,8 @@ public class SongFragment extends Fragment {
 
     private void renderErrorState(Throwable throwable) {
         mProgressBarSongLoading.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_LONG).show();
+        Snackbar.make(mFabSongFavorite, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+        finishActivity();
     }
 
     private void showSong(Song song) {
@@ -201,5 +212,11 @@ public class SongFragment extends Fragment {
                 .setChooserTitle(title)
                 .setText(message)
                 .startChooser();
+    }
+
+    private void finishActivity() {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            getActivity().finish();
+        }
     }
 }
