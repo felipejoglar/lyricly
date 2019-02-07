@@ -58,7 +58,11 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
                     repository.updateTopSongOrder(song.getId(), tracks.indexOf(track), new Date());
                 }
 
-                // TODO: check if song already is in the favorite list.
+                Song favoriteSong = repository.getFavoriteSongByNapsterId(track.getId());
+                if (favoriteSong != null) {
+                    repository.updateFavoriteSongByNapsterId(track.getId());
+                }
+
                 // TODO: check if song already is in the recent list?
             }
 

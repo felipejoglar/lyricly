@@ -100,6 +100,11 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     }
 
     @Override
+    public Song getFavoriteSongByNapsterId(String napsterId) {
+        return mSongDatabase.songDao().getFavoriteSongByNapsterId(napsterId);
+    }
+
+    @Override
     public void updateTopSongOrder(int id, int order, Date createdAt) {
         mSongDatabase.songDao().updateTopSongOrder(id, order, createdAt);
     }
@@ -110,6 +115,11 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
             mSongDatabase.songDao().insert(new Song(song, true, new Date()));
             mSongDatabase.songDao().updateFavoriteSongById(song.getId(), true);
         });
+    }
+
+    @Override
+    public void updateFavoriteSongByNapsterId(String napsterId) {
+        mSongDatabase.songDao().updateTopSongByNapsterId(napsterId);
     }
 
     @Override

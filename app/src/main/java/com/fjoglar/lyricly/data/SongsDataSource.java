@@ -101,20 +101,35 @@ public interface SongsDataSource {
         Song getTopSongByNapsterId(String napsterId);
 
         /**
+         * Gets the song from the data source.
+         *
+         * @param napsterId the id of the song to be getted.
+         * @return the song from the data source.
+         */
+        Song getFavoriteSongByNapsterId(String napsterId);
+
+        /**
          * Updates the order of the selected top song.
          *
          * @param id         id of the song to by updated.
          * @param order      order to set in the song.
-         * @param created_at date to set in the song.
+         * @param createdAt date to set in the song.
          */
         void updateTopSongOrder(int id, int order, Date createdAt);
 
         /**
          * Updates the song as favorite.
          *
-         * @param Song the song to be updated.
+         * @param song the song to be updated.
          */
         Completable updateFavoriteSong(Song song);
+
+        /**
+         * Updates the song from the data source.
+         *
+         * @param napsterId the id of the song to be updated.
+         */
+        void updateFavoriteSongByNapsterId(String napsterId);
 
         /**
          * Deletes all top songs from the data source.
