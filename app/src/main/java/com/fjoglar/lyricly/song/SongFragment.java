@@ -46,12 +46,14 @@ import butterknife.OnClick;
 public class SongFragment extends Fragment {
 
     private static final String ARGUMENT_SONG_ID = "song_id";
+    private static final String ARGUMENT_IS_FAVORITE_FLOW = "is_favorite_flow";
 
     private static final String IMAGE_SIZE_BIG = "500x500";
     private static final String IMAGE_SIZE_MEDIUM = "200x200";
     private static final String IMAGE_SIZE_SMALL = "70x70";
 
     private int mSongId;
+    private boolean mIsFavoriteFlow;
     private Song mSong;
     private SongViewModel mSongViewModel;
 
@@ -74,9 +76,10 @@ public class SongFragment extends Fragment {
     public SongFragment() {
     }
 
-    public static SongFragment newInstance(int songId) {
+    public static SongFragment newInstance(int songId, boolean isFavoriteFlow) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_SONG_ID, songId);
+        arguments.putBoolean(ARGUMENT_IS_FAVORITE_FLOW, isFavoriteFlow);
 
         SongFragment songFragment = new SongFragment();
         songFragment.setArguments(arguments);
@@ -86,15 +89,19 @@ public class SongFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey(ARGUMENT_SONG_ID)) {
-            mSongId = getArguments().getInt(ARGUMENT_SONG_ID);
+        if (getArguments() != null) {
+            if (getArguments().containsKey(ARGUMENT_SONG_ID)) {
+                mSongId = getArguments().getInt(ARGUMENT_SONG_ID);
+            }
+            if (getArguments().containsKey(ARGUMENT_IS_FAVORITE_FLOW)) {
+                mIsFavoriteFlow = getArguments().getBoolean(ARGUMENT_IS_FAVORITE_FLOW);
+            }
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_song, container, false);
         ButterKnife.bind(this, root);
 
@@ -121,6 +128,7 @@ public class SongFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     @OnClick(R.id.floatingactionbutton_song_favorite)
     void favoriteClicked() {
@@ -159,11 +167,21 @@ public class SongFragment extends Fragment {
     }
 
     private void showAddedToFavoritesMessage() {
-        Snackbar.make(mFabSongFavorite, R.string.song_favorite_added, Snackbar.LENGTH_SHORT).show();
+        getSnackBar(getString(R.string.song_favorite_added)).show();
     }
 
     private void showDeletedFromFavoritesMessage() {
-        Snackbar.make(mFabSongFavorite, R.string.song_favorite_deleted, Snackbar.LENGTH_SHORT).show();
+        getSnackBar(getString(R.string.song_favorite_deleted))
+                .addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        if (mIsFavoriteFlow) {
+                            finishActivity();
+                        }
+                    }
+                })
+                .show();
     }
 
     private void renderLoadingState() {
@@ -177,8 +195,15 @@ public class SongFragment extends Fragment {
 
     private void renderErrorState(Throwable throwable) {
         mProgressBarSongLoading.setVisibility(View.GONE);
-        Snackbar.make(mFabSongFavorite, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
-        finishActivity();
+        getSnackBar(throwable.getMessage())
+                .addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        finishActivity();
+                    }
+                })
+                .show();
     }
 
     private void showSong(Song song) {
@@ -199,6 +224,10 @@ public class SongFragment extends Fragment {
         mFabSongFavorite.setImageResource(
                 mSong.isFavorite() ? R.drawable.songs_ic_favorite_24dp :
                         R.drawable.song_ic_favorite_border_24dp);
+    }
+
+    private Snackbar getSnackBar(String message) {
+        return Snackbar.make(mFabSongFavorite, message, Snackbar.LENGTH_SHORT);
     }
 
     private void shareSong() {

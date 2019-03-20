@@ -107,7 +107,7 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     @Override
-    public Single<Song> getSongById(int id) {
+    public Flowable<Song> getSongById(int id) {
         return mSongsLocalDataSource.getSongById(id);
     }
 
