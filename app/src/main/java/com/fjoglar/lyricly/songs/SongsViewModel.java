@@ -16,14 +16,9 @@
 
 package com.fjoglar.lyricly.songs;
 
-import androidx.lifecycle.MutableLiveData;
-
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.model.Status;
-
-import java.util.List;
+import androidx.lifecycle.LiveData;
 
 public interface SongsViewModel {
 
-    MutableLiveData<SongsResponse> getResponse();
+    LiveData<SongsResponse> getResponse();
 }

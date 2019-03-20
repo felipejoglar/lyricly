@@ -21,6 +21,7 @@ import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
@@ -44,7 +45,7 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     @Override
-    public MutableLiveData<SongsResponse> getResponse() {
+    public LiveData<SongsResponse> getResponse() {
         return mResponse;
     }
 

@@ -24,6 +24,7 @@ import com.fjoglar.lyricly.util.SingleLiveEvent;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
@@ -51,7 +52,7 @@ public class SongViewModel extends ViewModel {
         mDisposables.clear();
     }
 
-    MutableLiveData<SongResponse> response() {
+    LiveData<SongResponse> response() {
         return mResponse;
     }
 
