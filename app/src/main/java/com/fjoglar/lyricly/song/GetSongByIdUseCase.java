@@ -18,14 +18,16 @@ package com.fjoglar.lyricly.song;
 
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.util.usecases.FlowableUseCase;
 import com.fjoglar.lyricly.util.usecases.SingleUseCase;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-public class GetSongByIdUseCase implements SingleUseCase<Integer, Song> {
+public class GetSongByIdUseCase implements FlowableUseCase<Integer, Song> {
 
     @Override
-    public Single<Song> execute(SongsRepository repository, Integer parameter) {
+    public Flowable<Song> execute(SongsRepository repository, Integer parameter) {
         return repository.getSongById(parameter);
     }
 }

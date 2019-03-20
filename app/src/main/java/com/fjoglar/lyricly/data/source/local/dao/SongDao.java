@@ -84,7 +84,7 @@ public interface SongDao {
      * @return the selected song from the table
      */
     @Query("SELECT * FROM songs WHERE id = (:songId)")
-    Single<Song> getById(int songId);
+    Flowable<Song> getById(int songId);
 
     /**
      * Get a top song from the table.

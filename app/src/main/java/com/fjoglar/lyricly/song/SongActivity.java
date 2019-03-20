@@ -18,22 +18,24 @@ package com.fjoglar.lyricly.song;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.core.app.NavUtils;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.fjoglar.lyricly.R;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SongActivity extends AppCompatActivity {
 
     public static final String EXTRA_SONG_ID = "song_id";
+    public static final String EXTRA_IS_FAVORITE_FLOW = "is_favorite_flow";
 
     private int mSongId;
+    private boolean mIsFavoriteFlow;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -45,29 +47,9 @@ public class SongActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        // getSupportActionBar().setTitle();
-
-        Intent intent = getIntent();
-        if (intent == null || !intent.hasExtra(EXTRA_SONG_ID)) {
-            closeOnError();
-            return;
-        }
-
-        mSongId = getIntent().getIntExtra(EXTRA_SONG_ID, 0);
-
-        SongFragment songFragment = (SongFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.framelayout_song_container);
-
-        if (songFragment == null) {
-            songFragment = SongFragment.newInstance(mSongId);
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.framelayout_song_container, songFragment)
-                    .commit();
-        }
+        initToolbar();
+        getIntentExtras();
+        loadSongFragment();
     }
 
     @Override
@@ -76,6 +58,35 @@ public class SongActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // getSupportActionBar().setTitle();
+    }
+
+    private void getIntentExtras() {
+        Intent intent = getIntent();
+        if (intent == null || !intent.hasExtra(EXTRA_SONG_ID) || !intent.hasExtra(EXTRA_IS_FAVORITE_FLOW)) {
+            closeOnError();
+        }
+        mSongId = getIntent().getIntExtra(EXTRA_SONG_ID, 0);
+        mIsFavoriteFlow = getIntent().getBooleanExtra(EXTRA_IS_FAVORITE_FLOW, false);
+    }
+
+    private void loadSongFragment() {
+        SongFragment songFragment = (SongFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.framelayout_song_container);
+
+        if (songFragment == null) {
+            songFragment = SongFragment.newInstance(mSongId, mIsFavoriteFlow);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.framelayout_song_container, songFragment)
+                    .commit();
+        }
     }
 
     private void closeOnError() {

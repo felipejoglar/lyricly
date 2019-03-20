@@ -24,7 +24,6 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 /**
  * Main entry point for accessing songs data.
@@ -90,7 +89,7 @@ public interface SongsDataSource {
          * @param id the id of the song to be getted.
          * @return the song from the data source.
          */
-        Single<Song> getSongById(int id);
+        Flowable<Song> getSongById(int id);
 
         /**
          * Gets the top song from the data source.
@@ -111,8 +110,8 @@ public interface SongsDataSource {
         /**
          * Updates the order of the selected top song.
          *
-         * @param id         id of the song to by updated.
-         * @param order      order to set in the song.
+         * @param id        id of the song to by updated.
+         * @param order     order to set in the song.
          * @param createdAt date to set in the song.
          */
         void updateTopSongOrder(int id, int order, Date createdAt);
