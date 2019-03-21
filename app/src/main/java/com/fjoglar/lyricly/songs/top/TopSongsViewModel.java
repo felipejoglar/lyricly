@@ -30,6 +30,8 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
 
     private SongsRepository mSongsRepository;
 
+    private boolean mIsLoading;
+
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
@@ -55,9 +57,15 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
         mDisposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> mResponse.setValue(SongsResponse.loading()))
+                .doOnSubscribe(__ -> {
+                    mResponse.setValue(SongsResponse.loading());
+                    mIsLoading = true;
+                })
                 .subscribe(
-                        () -> mResponse.setValue(SongsResponse.success()),
+                        () -> {
+                            mResponse.setValue(SongsResponse.success());
+                            mIsLoading = false;
+                        },
                         error -> mResponse.setValue(SongsResponse.error(error))
                 )
         );
@@ -68,7 +76,12 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(
-                        songs -> mResponse.setValue(SongsResponse.load(songs)),
+                        songs -> {
+                            mResponse.setValue(SongsResponse.load(songs));
+                            if (!mIsLoading) {
+                                mResponse.setValue(SongsResponse.success());
+                            }
+                        },
                         error -> mResponse.setValue(SongsResponse.error(error))
                 )
         );
