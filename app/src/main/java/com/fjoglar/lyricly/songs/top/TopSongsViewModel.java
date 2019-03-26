@@ -30,11 +30,10 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
 
     private SongsRepository mSongsRepository;
 
-    private boolean mIsLoading;
-
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
 
     public TopSongsViewModel(SongsRepository songsRepository) {
@@ -53,19 +52,18 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
         return mResponse;
     }
 
+    @Override
+    public LiveData<Boolean> getLoadingState() {
+        return mLoadingState;
+    }
+
     private void updateTopSongs() {
         mDisposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> {
-                    mResponse.setValue(SongsResponse.loading());
-                    mIsLoading = true;
-                })
+                .doOnSubscribe(__ -> mLoadingState.setValue(true))
                 .subscribe(
-                        () -> {
-                            mResponse.setValue(SongsResponse.success());
-                            mIsLoading = false;
-                        },
+                        () -> mLoadingState.setValue(false),
                         error -> mResponse.setValue(SongsResponse.error(error))
                 )
         );
@@ -76,12 +74,7 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(
-                        songs -> {
-                            mResponse.setValue(SongsResponse.load(songs));
-                            if (!mIsLoading) {
-                                mResponse.setValue(SongsResponse.success());
-                            }
-                        },
+                        songs -> mResponse.setValue(SongsResponse.load(songs)),
                         error -> mResponse.setValue(SongsResponse.error(error))
                 )
         );

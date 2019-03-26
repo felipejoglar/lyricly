@@ -25,8 +25,6 @@ import androidx.annotation.Nullable;
 
 import static com.fjoglar.lyricly.data.model.Status.DATA;
 import static com.fjoglar.lyricly.data.model.Status.ERROR;
-import static com.fjoglar.lyricly.data.model.Status.LOADING;
-import static com.fjoglar.lyricly.data.model.Status.SUCCESS;
 
 /**
  * SongsResponse holder provided to the UI
@@ -45,14 +43,6 @@ public class SongsResponse {
         this.status = status;
         this.data = data;
         this.error = error;
-    }
-
-    public static SongsResponse loading() {
-        return new SongsResponse(LOADING, null, null);
-    }
-
-    public static SongsResponse success() {
-        return new SongsResponse(SUCCESS, null, null);
     }
 
     public static SongsResponse load(List<Song> data) {

@@ -33,9 +33,11 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
     public RecentSongsViewModel(SongsRepository songsRepository) {
         mSongsRepository = songsRepository;
+        mLoadingState.setValue(false);
         getRecentSongs();
     }
 
@@ -47,6 +49,11 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
     @Override
     public LiveData<SongsResponse> getResponse() {
         return mResponse;
+    }
+
+    @Override
+    public LiveData<Boolean> getLoadingState() {
+        return mLoadingState;
     }
 
     private void getRecentSongs() {

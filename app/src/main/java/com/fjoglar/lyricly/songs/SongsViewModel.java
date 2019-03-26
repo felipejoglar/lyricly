@@ -21,4 +21,6 @@ import androidx.lifecycle.LiveData;
 public interface SongsViewModel {
 
     LiveData<SongsResponse> getResponse();
+
+    LiveData<Boolean> getLoadingState();
 }

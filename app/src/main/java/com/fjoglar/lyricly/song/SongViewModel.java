@@ -68,7 +68,6 @@ public class SongViewModel extends ViewModel {
         mDisposables.add(new GetSongByIdUseCase().execute(mSongsRepository, mSongId)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .doOnSubscribe(__ -> mResponse.setValue(SongResponse.loading()))
                 .subscribe(
                         song -> mResponse.setValue(SongResponse.success(song)),
                         throwable -> mResponse.setValue(SongResponse.error(throwable))

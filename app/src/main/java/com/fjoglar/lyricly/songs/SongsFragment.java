@@ -83,16 +83,11 @@ public abstract class SongsFragment extends Fragment {
 
     private void subscribeUi() {
         mViewModel.getResponse().observe(this, this::showSongs);
+        mViewModel.getLoadingState().observe(this, this::renderLoadingState);
     }
 
     private void showSongs(SongsResponse songsResponse) {
         switch (songsResponse.status) {
-            case LOADING:
-                renderLoadingState(true);
-                break;
-            case SUCCESS:
-                renderLoadingState(false);
-                break;
             case DATA:
                 renderDataState(songsResponse.data);
                 break;

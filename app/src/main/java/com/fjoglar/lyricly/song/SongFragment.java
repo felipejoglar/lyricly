@@ -154,10 +154,7 @@ public class SongFragment extends Fragment {
 
     private void showSong(SongResponse songResponse) {
         switch (songResponse.status) {
-            case LOADING:
-                renderLoadingState();
-                break;
-            case SUCCESS:
+            case DATA:
                 renderDataState(songResponse.data);
                 break;
             case ERROR:
@@ -184,17 +181,11 @@ public class SongFragment extends Fragment {
                 .show();
     }
 
-    private void renderLoadingState() {
-        mProgressBarSongLoading.setVisibility(View.VISIBLE);
-    }
-
     private void renderDataState(Song song) {
-        mProgressBarSongLoading.setVisibility(View.GONE);
         showSong(song);
     }
 
     private void renderErrorState(Throwable throwable) {
-        mProgressBarSongLoading.setVisibility(View.GONE);
         getSnackBar(throwable.getMessage())
                 .addCallback(new Snackbar.Callback() {
                     @Override

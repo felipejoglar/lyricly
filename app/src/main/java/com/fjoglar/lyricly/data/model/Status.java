@@ -20,8 +20,6 @@ package com.fjoglar.lyricly.data.model;
  * Possible status types of a response provided to the UI
  */
 public enum Status {
-    LOADING,
-    SUCCESS,
     DATA,
     ERROR
 }

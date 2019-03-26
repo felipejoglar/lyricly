@@ -22,6 +22,7 @@ import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,9 +34,11 @@ public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
     public FavoriteSongsViewModel(@Nullable SongsRepository songsRepository) {
         mSongsRepository = songsRepository;
+        mLoadingState.setValue(false);
         getFavoriteSongs();
     }
 
@@ -45,8 +48,13 @@ public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel 
     }
 
     @Override
-    public MutableLiveData<SongsResponse> getResponse() {
+    public LiveData<SongsResponse> getResponse() {
         return mResponse;
+    }
+
+    @Override
+    public LiveData<Boolean> getLoadingState() {
+        return mLoadingState;
     }
 
     private void getFavoriteSongs() {
