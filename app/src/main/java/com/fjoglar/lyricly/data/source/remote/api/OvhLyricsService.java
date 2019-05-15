@@ -18,6 +18,8 @@ package com.fjoglar.lyricly.data.source.remote.api;
 
 import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -28,26 +30,27 @@ import retrofit2.http.Path;
 
 public interface OvhLyricsService {
 
-    public static final String BASE_URL = "https://api.lyrics.ovh/v1/";
+    String BASE_URL = "https://api.lyrics.ovh/v1/";
+    int TIMEOUT = 5;
 
     @GET("{artist}/{title}")
     Call<OvhLyricsApiResponse> getSongLyrics(
             @Path("artist") String artist,
             @Path("title") String title);
 
-    public static Retrofit retrofit() {
+    static Retrofit retrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
+        httpClient.readTimeout(TIMEOUT, TimeUnit.SECONDS);
+        httpClient.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
 
-        final Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
-
-        return retrofit;
     }
 }

@@ -16,16 +16,16 @@
 
 package com.fjoglar.lyricly.data;
 
+import androidx.annotation.Nullable;
+
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 public class SongsRepository implements SongsDataSource.LocalDataSource,
         SongsDataSource.RemoteDataSource, SongsDataSource.PreferencesDataSource {
@@ -64,7 +64,8 @@ public class SongsRepository implements SongsDataSource.LocalDataSource,
     }
 
     /**
-     * Used to force {@link  #getInstance(LocalDataSource, RemoteDataSource, PreferencesDataSource)} to create a new
+     * Used to force {@link  #getInstance(SongsDataSource.LocalDataSource,
+     * SongsDataSource.RemoteDataSource, SongsDataSource.PreferencesDataSource)} to create a new
      * instance next time it's called.
      */
     public static void destroyInstance() {
