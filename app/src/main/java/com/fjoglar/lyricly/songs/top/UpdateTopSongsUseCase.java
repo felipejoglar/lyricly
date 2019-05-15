@@ -51,7 +51,7 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
 
                 if (song == null) {
                     String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
-                    if (lyrics != null) {
+                    if (lyrics != null && !lyrics.isEmpty()) {
                         repository.saveSong(SongDataMapper.transform(track, tracks.indexOf(track), lyrics));
                     }
                 } else {
@@ -62,8 +62,6 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
                 if (favoriteSong != null) {
                     repository.updateFavoriteSongByNapsterId(track.getId());
                 }
-
-                // TODO: check if song already is in the recent list?
             }
 
             repository.deleteOldTopSongs(new Date(repository.getLastUpdatedTimeInMillis()));

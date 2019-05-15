@@ -28,26 +28,24 @@ import retrofit2.http.Query;
 
 public interface NapsterService {
 
-    public static final String BASE_URL = "http://api.napster.com/v2.2/";
+    String BASE_URL = "http://api.napster.com/v2.2/";
 
     @GET("tracks/top")
     Call<NapsterApiResponse> getTopTracks(
             @Query("apikey") String apiKey,
             @Query("limit") int limit);
 
-    public static Retrofit retrofit() {
+    static Retrofit retrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
-        final Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
-
-        return retrofit;
     }
 }

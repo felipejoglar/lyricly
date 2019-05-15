@@ -16,14 +16,15 @@
 
 package com.fjoglar.lyricly.songs.top;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class TopSongsViewModel extends ViewModel implements SongsViewModel {

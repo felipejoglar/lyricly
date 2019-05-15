@@ -46,10 +46,10 @@ public class SongDataMapper {
 
         if (track != null && lyrics != null) {
             song = new Song(track.getId(),
-                    track.getIndex(),
+                    0,
                     track.getPlaybackSeconds(),
                     track.getName(),
-                    track.getArtistId(),
+                    "",
                     track.getArtistName(),
                     track.getAlbumId(),
                     track.getAlbumName(),
