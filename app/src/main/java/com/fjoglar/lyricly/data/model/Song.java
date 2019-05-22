@@ -33,20 +33,14 @@ public class Song {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "napster_id")
-    private String napsterId;
-
-    @ColumnInfo(name = "album_index")
-    private int albumIndex;
+    @ColumnInfo(name = "source_id")
+    private String sourceId;
 
     @ColumnInfo(name = "playback_seconds")
     private int playbackSeconds;
 
     @ColumnInfo(name = "name")
     private String name;
-
-    @ColumnInfo(name = "artist_id")
-    private String artistId;
 
     @ColumnInfo(name = "artist_name")
     private String artistName;
@@ -69,7 +63,7 @@ public class Song {
     @ColumnInfo(name = "favorite")
     private boolean favorite;
 
-    @ColumnInfo(name= "top_order")
+    @ColumnInfo(name = "top_order")
     private int topOrder;
 
     @ColumnInfo(name = "created_at")
@@ -80,12 +74,9 @@ public class Song {
     }
 
     /**
-     * @param id              Song ID
-     * @param napsterId       Song ID in Napster API DB
-     * @param albumIndex      Song position on the album
+     * @param sourceId        Song ID in Napster API DB
      * @param playbackSeconds Song length in seconds
      * @param name            Name of the song
-     * @param artistId        Artist ID in Napster API DB
      * @param artistName      Artist name
      * @param albumId         AlbumID in Napster API DB
      * @param albumName       Name of the album
@@ -96,12 +87,9 @@ public class Song {
      * @param topOrder        The order of the song in the top list, if applies.
      * @param createdAt       Date when the song was inserted in the DB
      */
-    public Song(int id,
-                String napsterId,
-                int albumIndex,
+    public Song(String sourceId,
                 int playbackSeconds,
                 String name,
-                String artistId,
                 String artistName,
                 String albumId,
                 String albumName,
@@ -111,43 +99,9 @@ public class Song {
                 boolean favorite,
                 int topOrder,
                 Date createdAt) {
-        this.id = id;
-        this.napsterId = napsterId;
-        this.albumIndex = albumIndex;
+        this.sourceId = sourceId;
         this.playbackSeconds = playbackSeconds;
         this.name = name;
-        this.artistId = artistId;
-        this.artistName = artistName;
-        this.albumId = albumId;
-        this.albumName = albumName;
-        this.lyrics = lyrics;
-        this.top = top;
-        this.recent = recent;
-        this.favorite = favorite;
-        this.topOrder = topOrder;
-        this.createdAt = createdAt;
-    }
-
-    @Ignore
-    public Song(String napsterId,
-                int albumIndex,
-                int playbackSeconds,
-                String name,
-                String artistId,
-                String artistName,
-                String albumId,
-                String albumName,
-                String lyrics,
-                boolean top,
-                boolean recent,
-                boolean favorite,
-                int topOrder,
-                Date createdAt) {
-        this.napsterId = napsterId;
-        this.albumIndex = albumIndex;
-        this.playbackSeconds = playbackSeconds;
-        this.name = name;
-        this.artistId = artistId;
         this.artistName = artistName;
         this.albumId = albumId;
         this.albumName = albumName;
@@ -162,86 +116,127 @@ public class Song {
     /**
      * Creates a song in the favorites list.
      *
-     * @param song      the song to be added.
-     * @param favorite  mark the song as favorite.
-     * @param createdAt the date when it was created.
+     * @param song the song to be added.
      */
-    @Ignore
-    public Song(Song song, boolean favorite, Date createdAt) {
-        this.napsterId = song.getNapsterId();
-        this.albumIndex = song.getAlbumIndex();
-        this.playbackSeconds = song.getPlaybackSeconds();
-        this.name = song.getName();
-        this.artistId = song.getArtistId();
-        this.artistName = song.getArtistName();
-        this.albumId = song.getAlbumId();
-        this.albumName = song.getAlbumName();
-        this.lyrics = song.getLyrics();
-        this.top = false;
-        this.recent = false;
-        this.favorite = favorite;
-        this.topOrder = song.getTopOrder();
-        this.createdAt = createdAt;
+    public Song createFavoriteSong(Song song) {
+        Song favoriteSong = new Song();
+        favoriteSong.sourceId = song.getSourceId();
+        favoriteSong.playbackSeconds = song.getPlaybackSeconds();
+        favoriteSong.name = song.getName();
+        favoriteSong.artistName = song.getArtistName();
+        favoriteSong.albumId = song.getAlbumId();
+        favoriteSong.albumName = song.getAlbumName();
+        favoriteSong.lyrics = song.getLyrics();
+        favoriteSong.top = false;
+        favoriteSong.recent = false;
+        favoriteSong.favorite = true;
+        favoriteSong.topOrder = song.getTopOrder();
+        favoriteSong.createdAt = new Date();
+        return favoriteSong;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getNapsterId() {
-        return napsterId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getAlbumIndex() {
-        return albumIndex;
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 
     public int getPlaybackSeconds() {
         return playbackSeconds;
     }
 
+    public void setPlaybackSeconds(int playbackSeconds) {
+        this.playbackSeconds = playbackSeconds;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getArtistId() {
-        return artistId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getArtistName() {
         return artistName;
     }
 
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
     public String getAlbumId() {
         return albumId;
+    }
+
+    public void setAlbumId(String albumId) {
+        this.albumId = albumId;
     }
 
     public String getAlbumName() {
         return albumName;
     }
 
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
     public String getLyrics() {
         return lyrics;
+    }
+
+    public void setLyrics(String lyrics) {
+        this.lyrics = lyrics;
     }
 
     public boolean isTop() {
         return top;
     }
 
+    public void setTop(boolean top) {
+        this.top = top;
+    }
+
     public boolean isRecent() {
         return recent;
+    }
+
+    public void setRecent(boolean recent) {
+        this.recent = recent;
     }
 
     public boolean isFavorite() {
         return favorite;
     }
 
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     public int getTopOrder() {
         return topOrder;
     }
 
+    public void setTopOrder(int topOrder) {
+        this.topOrder = topOrder;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -250,15 +245,13 @@ public class Song {
         if (o == null || getClass() != o.getClass()) return false;
         Song song = (Song) o;
         return id == song.id &&
-                albumIndex == song.albumIndex &&
                 playbackSeconds == song.playbackSeconds &&
                 top == song.top &&
                 recent == song.recent &&
                 favorite == song.favorite &&
                 topOrder == song.topOrder &&
-                Objects.equals(napsterId, song.napsterId) &&
+                Objects.equals(sourceId, song.sourceId) &&
                 Objects.equals(name, song.name) &&
-                Objects.equals(artistId, song.artistId) &&
                 Objects.equals(artistName, song.artistName) &&
                 Objects.equals(albumId, song.albumId) &&
                 Objects.equals(albumName, song.albumName) &&
@@ -269,11 +262,9 @@ public class Song {
     @Override
     public int hashCode() {
         return Objects.hash(id,
-                napsterId,
-                albumIndex,
+                sourceId,
                 playbackSeconds,
                 name,
-                artistId,
                 artistName,
                 albumId,
                 albumName,
@@ -289,11 +280,9 @@ public class Song {
     public String toString() {
         return "Song{" +
                 "id=" + id +
-                ", napsterId='" + napsterId + '\'' +
-                ", albumIndex=" + albumIndex +
+                ", sourceId='" + sourceId + '\'' +
                 ", playbackSeconds=" + playbackSeconds +
                 ", name='" + name + '\'' +
-                ", artistId='" + artistId + '\'' +
                 ", artistName='" + artistName + '\'' +
                 ", albumId='" + albumId + '\'' +
                 ", albumName='" + albumName + '\'' +

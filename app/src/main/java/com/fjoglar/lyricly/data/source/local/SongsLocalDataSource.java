@@ -27,7 +27,6 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 /**
  * Using the Room database as a data source.
@@ -101,7 +100,7 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
 
     @Override
     public Song getFavoriteSongByNapsterId(String napsterId) {
-        return mSongDatabase.songDao().getFavoriteSongByNapsterId(napsterId);
+        return mSongDatabase.songDao().getFavoriteSongBySourceId(napsterId);
     }
 
     @Override
@@ -112,7 +111,7 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
     @Override
     public Completable updateFavoriteSong(Song song) {
         return Completable.fromAction(() -> {
-            mSongDatabase.songDao().insert(new Song(song, true, new Date()));
+            mSongDatabase.songDao().insert(new Song().createFavoriteSong(song));
             mSongDatabase.songDao().updateFavoriteSongById(song.getId(), true);
         });
     }
@@ -137,12 +136,12 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
         if (song.isFavorite() && !(song.isRecent() || song.isTop())) {
             return Completable.fromAction(() -> {
                 mSongDatabase.songDao().deleteFavoriteSongById(song.getId());
-                mSongDatabase.songDao().removeSongFromFavorite(song.getNapsterId());
+                mSongDatabase.songDao().removeSongFromFavorite(song.getSourceId());
             });
         } else {
             return Completable.fromAction(() -> {
                 mSongDatabase.songDao().updateFavoriteSongById(song.getId(), false);
-                mSongDatabase.songDao().deleteFavoriteSongByNapsterId(song.getNapsterId());
+                mSongDatabase.songDao().deleteFavoriteSongByNapsterId(song.getSourceId());
             });
         }
     }
