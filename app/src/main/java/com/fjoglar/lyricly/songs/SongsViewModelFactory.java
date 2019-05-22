@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.songs.favorite.FavoriteSongsViewModel;
 import com.fjoglar.lyricly.songs.recent.RecentSongsViewModel;
 import com.fjoglar.lyricly.songs.top.TopSongsViewModel;
@@ -30,15 +31,17 @@ import com.fjoglar.lyricly.songs.top.TopSongsViewModel;
 public class SongsViewModelFactory implements ViewModelProvider.Factory {
 
     private final SongsRepository mSongsRepository;
+    private SongsRemoteDataSource mSongsRemoteDataSource;
 
-    public SongsViewModelFactory(SongsRepository songsRepository) {
+    public SongsViewModelFactory(SongsRepository songsRepository, SongsRemoteDataSource songsRemoteDataSource) {
         mSongsRepository = songsRepository;
+        mSongsRemoteDataSource = songsRemoteDataSource;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(TopSongsViewModel.class)) {
-            return (T) new TopSongsViewModel(mSongsRepository);
+            return (T) new TopSongsViewModel(mSongsRepository, mSongsRemoteDataSource);
         } else if (modelClass.isAssignableFrom(RecentSongsViewModel.class)) {
             return (T) new RecentSongsViewModel(mSongsRepository);
         } else if (modelClass.isAssignableFrom(FavoriteSongsViewModel.class)) {
