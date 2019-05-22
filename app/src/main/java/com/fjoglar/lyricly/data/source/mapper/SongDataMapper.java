@@ -35,9 +35,9 @@ public class SongDataMapper {
     /**
      * Transforms {@link Track} and {@link OvhLyricsApiResponse} lyrics to {@link Song}.
      *
-     * @param track  the track to be converted.
+     * @param track    the track to be converted.
      * @param topOrder order in the top list.
-     * @param lyrics the lyrics of the track to be converted.
+     * @param lyrics   the lyrics of the track to be converted.
      * @return a song in the top song list.
      */
     @Nullable
@@ -46,10 +46,8 @@ public class SongDataMapper {
 
         if (track != null && lyrics != null) {
             song = new Song(track.getId(),
-                    0,
                     track.getPlaybackSeconds(),
                     track.getName(),
-                    "",
                     track.getArtistName(),
                     track.getAlbumId(),
                     track.getAlbumName(),

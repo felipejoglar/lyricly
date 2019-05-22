@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 /**
  * Data Access Object for the songs table.
@@ -91,16 +90,16 @@ public interface SongDao {
      *
      * @return the selected song from the table.
      */
-    @Query("SELECT * FROM songs WHERE top = 1 AND napster_id = (:napsterId)")
-    Song getTopSongByNapsterId(String napsterId);
+    @Query("SELECT * FROM songs WHERE top = 1 AND source_id = (:sourceId)")
+    Song getTopSongByNapsterId(String sourceId);
 
     /**
      * Get a favorite song from the table.
      *
      * @return the selected song from the table.
      */
-    @Query("SELECT * FROM songs WHERE favorite = 1 AND napster_id = (:napsterId)")
-    Song getFavoriteSongByNapsterId(String napsterId);
+    @Query("SELECT * FROM songs WHERE favorite = 1 AND source_id = (:sourceId)")
+    Song getFavoriteSongBySourceId(String sourceId);
 
     /**
      * Updates the order of the selected top song.
@@ -126,16 +125,16 @@ public interface SongDao {
      *
      * @return the selected song from the table.
      */
-    @Query("UPDATE songs SET favorite = 1 WHERE top = 1 AND napster_id = (:napsterId)")
-    void updateTopSongByNapsterId(String napsterId);
+    @Query("UPDATE songs SET favorite = 1 WHERE top = 1 AND source_id = (:sourceId)")
+    void updateTopSongByNapsterId(String sourceId);
 
     /**
      * Update a top song unchecking it from favorite.
      *
-     * @param napsterId the song id to be updated.
+     * @param sourceId the song id to be updated.
      */
-    @Query("UPDATE songs SET favorite = 0 WHERE napster_id = (:napsterId)")
-    void removeSongFromFavorite(String napsterId);
+    @Query("UPDATE songs SET favorite = 0 WHERE source_id = (:sourceId)")
+    void removeSongFromFavorite(String sourceId);
 
     /**
      * Delete all top songs.
@@ -162,8 +161,8 @@ public interface SongDao {
     /**
      * Delete the selected favorite song.
      *
-     * @param napsterId the song id to be deleted.
+     * @param sourceId the song id to be deleted.
      */
-    @Query("DELETE FROM songs WHERE favorite = 1 AND recent = 0 AND top = 0 AND napster_id = (:napsterId)")
-    void deleteFavoriteSongByNapsterId(String napsterId);
+    @Query("DELETE FROM songs WHERE favorite = 1 AND recent = 0 AND top = 0 AND source_id = (:sourceId)")
+    void deleteFavoriteSongByNapsterId(String sourceId);
 }
