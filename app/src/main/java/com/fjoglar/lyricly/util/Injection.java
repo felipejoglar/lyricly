@@ -22,6 +22,7 @@ import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.local.preferences.PreferencesLocalDataSource;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataRepository;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.song.SongViewModelFactory;
 import com.fjoglar.lyricly.songs.SongsViewModelFactory;
@@ -31,29 +32,29 @@ import com.fjoglar.lyricly.songs.SongsViewModelFactory;
  */
 public class Injection {
 
-    public static SongsLocalDataSource provideSongsLocalDataSource(Context context) {
+    private static SongsRemoteDataSource provideSongsRemoteDataSource() {
+        return SongsRemoteDataRepository.getInstance();
+    }
+
+    private static SongsLocalDataSource provideSongsLocalDataSource(Context context) {
         SongDatabase database = SongDatabase.getInstance(context);
         return SongsLocalDataSource.getInstance(database);
     }
 
-    public static SongsRemoteDataSource provideSongsRemoteDataSource() {
-        return SongsRemoteDataSource.getInstance();
-    }
-
-    public static PreferencesLocalDataSource providePreferencesLocalDataSource(Context context) {
+    private static PreferencesLocalDataSource providePreferencesLocalDataSource(Context context) {
         return PreferencesLocalDataSource.getInstance(context);
     }
 
-    public static SongsRepository provideSongsRepository(Context context) {
+    private static SongsRepository provideSongsRepository(Context context) {
         SongsLocalDataSource localDataSource = provideSongsLocalDataSource(context);
-        SongsRemoteDataSource remoteDataSource = provideSongsRemoteDataSource();
         PreferencesLocalDataSource preferencesDataSource = providePreferencesLocalDataSource(context);
-        return SongsRepository.getInstance(localDataSource, remoteDataSource, preferencesDataSource);
+        return SongsRepository.getInstance(localDataSource, preferencesDataSource);
     }
 
     public static SongsViewModelFactory provideSongsViewModelFactory(Context context) {
         SongsRepository songsRepository = provideSongsRepository(context);
-        return new SongsViewModelFactory(songsRepository);
+        SongsRemoteDataSource songsRemoteDataSource = provideSongsRemoteDataSource();
+        return new SongsViewModelFactory(songsRepository, songsRemoteDataSource);
     }
 
     public static SongViewModelFactory provideSongViewModelFactory(Context context, int songId) {

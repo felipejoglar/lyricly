@@ -17,7 +17,6 @@
 package com.fjoglar.lyricly.data;
 
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.Date;
 import java.util.List;
@@ -29,26 +28,6 @@ import io.reactivex.Flowable;
  * Main entry point for accessing songs data.
  */
 public interface SongsDataSource {
-
-    interface RemoteDataSource {
-
-        /**
-         * Gets a list of songs from the remote data source.
-         *
-         * @param limit number of songs to be fetched.
-         * @return the list of top songs from the data source.
-         */
-        List<Track> fetchTopSongs(int limit);
-
-        /**
-         * Gets the lyrics of a song from the remote data source.
-         *
-         * @param artist the artist of the song
-         * @param title  the title of the sogn
-         * @return the user from the data source.
-         */
-        String fetchSongLyrics(String artist, String title);
-    }
 
     interface LocalDataSource {
 
