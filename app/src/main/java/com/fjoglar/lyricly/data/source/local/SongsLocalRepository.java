@@ -18,7 +18,7 @@ package com.fjoglar.lyricly.data.source.local;
 
 import androidx.annotation.Nullable;
 
-import com.fjoglar.lyricly.data.SongsDataSource;
+import com.fjoglar.lyricly.data.SongsLocalDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 
@@ -31,14 +31,14 @@ import io.reactivex.Flowable;
 /**
  * Using the Room database as a data source.
  */
-public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
+public class SongsLocalRepository implements SongsLocalDataSource {
 
     @Nullable
-    private static SongsLocalDataSource INSTANCE = null;
+    private static volatile SongsLocalRepository INSTANCE;
 
     private final SongDatabase mSongDatabase;
 
-    private SongsLocalDataSource(SongDatabase songDatabase) {
+    private SongsLocalRepository(SongDatabase songDatabase) {
         mSongDatabase = songDatabase;
     }
 
@@ -46,11 +46,15 @@ public class SongsLocalDataSource implements SongsDataSource.LocalDataSource {
      * Returns the single instance of this class, creating it if necessary.
      *
      * @param songDatabase the app database
-     * @return the {@link SongsLocalDataSource} instance
+     * @return the {@link SongsLocalRepository} instance
      */
-    public static SongsLocalDataSource getInstance(SongDatabase songDatabase) {
+    public static SongsLocalRepository getInstance(SongDatabase songDatabase) {
         if (INSTANCE == null) {
-            INSTANCE = new SongsLocalDataSource(songDatabase);
+            synchronized (SongsLocalRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new SongsLocalRepository(songDatabase);
+                }
+            }
         }
         return INSTANCE;
     }

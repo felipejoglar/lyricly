@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.data;
 import androidx.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.Date;
 import java.util.List;
@@ -26,40 +27,58 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
-public class SongsRepository implements SongsDataSource.LocalDataSource, SongsDataSource.PreferencesDataSource {
+public class SongsRepository implements SongsLocalDataSource, SongsRemoteDataSource, PreferencesDataSource {
 
     @Nullable
-    private static SongsRepository INSTANCE = null;
+    private static volatile SongsRepository INSTANCE;
 
-    private final SongsDataSource.LocalDataSource mSongsLocalDataSource;
-    private final SongsDataSource.PreferencesDataSource mPreferencesDataSource;
+    private final SongsLocalDataSource mSongsLocalDataSource;
+    private final SongsRemoteDataSource mSongsRemoteDataSource;
+    private final PreferencesDataSource mPreferencesDataSource;
 
-    private SongsRepository(SongsDataSource.LocalDataSource songsLocalDataSource,
-                            SongsDataSource.PreferencesDataSource preferencesDataSource) {
+    private SongsRepository(SongsLocalDataSource songsLocalDataSource,
+                            SongsRemoteDataSource songsRemoteDataSource, PreferencesDataSource preferencesDataSource) {
         mSongsLocalDataSource = songsLocalDataSource;
+        mSongsRemoteDataSource = songsRemoteDataSource;
         mPreferencesDataSource = preferencesDataSource;
     }
 
     /**
      * Returns the single instance of this class, creating it if necessary.
      *
-     * @param songsLocalDataSource the backend data source
+     * @param songsLocalDataSource  the device storage data source
+     * @param songsRemoteDataSource the local data source
+     * @param preferencesDataSource the key-value data source
      * @return the {@link SongsRepository} instance
      */
-    public static SongsRepository getInstance(SongsDataSource.LocalDataSource songsLocalDataSource,
-                                              SongsDataSource.PreferencesDataSource preferencesDataSource) {
+    public static SongsRepository getInstance(SongsLocalDataSource songsLocalDataSource,
+                                              SongsRemoteDataSource songsRemoteDataSource, PreferencesDataSource preferencesDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new SongsRepository(songsLocalDataSource, preferencesDataSource);
+            synchronized (SongsRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new SongsRepository(songsLocalDataSource, songsRemoteDataSource, preferencesDataSource);
+                }
+            }
         }
         return INSTANCE;
     }
 
     /**
-     * Used to force {@link  #getInstance(SongsDataSource.LocalDataSource, SongsDataSource.PreferencesDataSource)}
+     * Used to force {@link  #getInstance(SongsLocalDataSource, SongsRemoteDataSource, PreferencesDataSource)}
      * to create a new instance next time it's called.
      */
     public static void destroyInstance() {
         INSTANCE = null;
+    }
+
+    @Override
+    public List<Track> fetchTopSongs(int limit) {
+        return mSongsRemoteDataSource.fetchTopSongs(limit);
+    }
+
+    @Override
+    public String fetchSongLyrics(String artist, String title) {
+        return mSongsRemoteDataSource.fetchSongLyrics(artist, title);
     }
 
     @Override

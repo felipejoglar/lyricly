@@ -19,7 +19,6 @@ package com.fjoglar.lyricly.songs.top;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
-import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 import com.fjoglar.lyricly.util.usecases.CompletableUseCase;
 
@@ -28,19 +27,19 @@ import java.util.List;
 
 import io.reactivex.Completable;
 
-public class UpdateTopSongsUseCase implements CompletableUseCase<SongsRemoteDataSource> {
+public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
 
     private long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
     @Override
-    public Completable execute(SongsRepository repository, SongsRemoteDataSource remoteDataSource) {
+    public Completable execute(SongsRepository repository, Void parameter) {
         return Completable.fromAction(() -> {
 
             if (System.currentTimeMillis() - repository.getLastUpdatedTimeInMillis() < DAY_IN_MILLIS) {
                 return;
             }
 
-            List<Track> tracks = remoteDataSource.fetchTopSongs(200);
+            List<Track> tracks = repository.fetchTopSongs(200);
             if (tracks.isEmpty()) {
                 return;
             }
@@ -51,7 +50,7 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<SongsRemoteData
                 Song song = repository.getTopSongByNapsterId(track.getId());
 
                 if (song == null) {
-                    String lyrics = remoteDataSource.fetchSongLyrics(track.getArtistName(), track.getName());
+                    String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
                     if (lyrics != null && !lyrics.isEmpty()) {
                         repository.saveSong(SongDataMapper.transform(track, tracks.indexOf(track), lyrics));
                     }
