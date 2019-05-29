@@ -20,32 +20,32 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.fjoglar.lyricly.data.SongsDataSource;
+import com.fjoglar.lyricly.data.PreferencesDataSource;
 
 /**
  * Helper class to make simple the use of SharedPreferences.
  */
-public class PreferencesLocalDataSource implements SongsDataSource.PreferencesDataSource {
+public class PreferencesRepository implements PreferencesDataSource {
 
-    private final static String LAST_UPDATED_TIME_KEY = "last_updated_time";
-
-    private static volatile PreferencesLocalDataSource INSTANCE;
+    private static volatile PreferencesRepository INSTANCE;
 
     private SharedPreferences mPreferences;
 
     // Prevent direct instantiation.
-    private PreferencesLocalDataSource(Context context) {
+    private PreferencesRepository(Context context) {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /**
      * Returns the single instance of this class, creating it if necessary.
+     *
+     * @param context Context object
      */
-    public static PreferencesLocalDataSource getInstance(Context context) {
+    public static PreferencesRepository getInstance(Context context) {
         if (INSTANCE == null) {
-            synchronized (PreferencesLocalDataSource.class) {
+            synchronized (PreferencesRepository.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new PreferencesLocalDataSource(context);
+                    INSTANCE = new PreferencesRepository(context.getApplicationContext());
                 }
             }
         }

@@ -21,7 +21,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
@@ -31,7 +30,6 @@ import io.reactivex.disposables.CompositeDisposable;
 public class TopSongsViewModel extends ViewModel implements SongsViewModel {
 
     private SongsRepository mSongsRepository;
-    private SongsRemoteDataSource mSongsRemoteDataSource;
 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
@@ -39,9 +37,8 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
 
-    public TopSongsViewModel(SongsRepository songsRepository, SongsRemoteDataSource songsRemoteDataSource) {
+    public TopSongsViewModel(SongsRepository songsRepository) {
         mSongsRepository = songsRepository;
-        mSongsRemoteDataSource = songsRemoteDataSource;
         updateTopSongs();
         getTopSongs();
     }
@@ -62,7 +59,7 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void updateTopSongs() {
-        mDisposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, mSongsRemoteDataSource)
+        mDisposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .doOnSubscribe(__ -> mLoadingState.setValue(true))

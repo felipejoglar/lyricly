@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.data.source.remote;
 import androidx.annotation.Nullable;
 
 import com.fjoglar.lyricly.BuildConfig;
+import com.fjoglar.lyricly.data.SongsRemoteDataSource;
 import com.fjoglar.lyricly.data.source.remote.api.NapsterService;
 import com.fjoglar.lyricly.data.source.remote.api.OvhLyricsService;
 import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiResponse;
@@ -31,16 +32,16 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class SongsRemoteDataRepository implements SongsRemoteDataSource {
+public class SongsRemoteRepository implements SongsRemoteDataSource {
 
     @Nullable
-    private static SongsRemoteDataRepository INSTANCE = null;
+    private static volatile SongsRemoteRepository INSTANCE;
 
     private NapsterService mNapsterService;
     private OvhLyricsService mOvhLyricsService;
 
     // Prevent direct instantiation.
-    private SongsRemoteDataRepository() {
+    private SongsRemoteRepository() {
         mNapsterService = NapsterService.retrofit().create(NapsterService.class);
         mOvhLyricsService = OvhLyricsService.retrofit().create(OvhLyricsService.class);
     }
@@ -48,11 +49,15 @@ public class SongsRemoteDataRepository implements SongsRemoteDataSource {
     /**
      * Returns the single instance of this class, creating it if necessary.
      *
-     * @return the {@link SongsRemoteDataRepository} instance
+     * @return the {@link SongsRemoteRepository} instance
      */
-    public static SongsRemoteDataRepository getInstance() {
+    public static SongsRemoteRepository getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new SongsRemoteDataRepository();
+            synchronized (SongsRemoteRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new SongsRemoteRepository();
+                }
+            }
         }
         return INSTANCE;
     }
