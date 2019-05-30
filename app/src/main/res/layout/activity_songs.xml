@@ -15,20 +15,16 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         style="@style/Widget.AppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/title"
@@ -37,26 +33,23 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:minHeight="?actionBarSize"
-            android:text="prueba"
-            android:textAppearance="@style/TextAppearance.Lyricly.ToolbarTitle" />
+            android:textAppearance="@style/TextAppearance.Lyricly.ToolbarTitle"
+            app:layout_scrollFlags="scroll|enterAlways" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/framelayout_songs_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_songs"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBar" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_songs" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_songs"
         style="@style/Widget.Lyricly.BottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_gravity="bottom"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:menu="@menu/songs_navigation_menu" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
