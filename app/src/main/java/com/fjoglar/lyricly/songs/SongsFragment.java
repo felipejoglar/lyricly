@@ -23,18 +23,19 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.Injection;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.fjoglar.lyricly.R;
+import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.util.Injection;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -120,6 +121,15 @@ public abstract class SongsFragment extends Fragment {
     private void setUpRecyclerView() {
         mLayoutManager = new GridLayoutManager(getActivity(),
                 this.getResources().getInteger(R.integer.songs_activity_column_number));
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == 0)
+                    return 2;
+                else
+                    return 1;
+            }
+        });
         mSongsAdapter = new SongsAdapter(getActivity(), mSongClickCallback);
 
         mRecyclerViewSongs.setLayoutManager(mLayoutManager);
