@@ -18,16 +18,11 @@ package com.fjoglar.lyricly.song;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.fjoglar.lyricly.R;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import com.fjoglar.lyricly.R;
 
 public class SongActivity extends AppCompatActivity {
 
@@ -37,34 +32,13 @@ public class SongActivity extends AppCompatActivity {
     private int mSongId;
     private boolean mIsFavoriteFlow;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
-        ButterKnife.bind(this);
-
-        initToolbar();
         getIntentExtras();
         loadSongFragment();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void initToolbar() {
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        // getSupportActionBar().setTitle();
     }
 
     private void getIntentExtras() {

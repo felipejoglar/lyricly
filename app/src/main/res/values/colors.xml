@@ -27,4 +27,9 @@
     <color name="colorSecondaryUltraLight">#fff7df</color>
 
     <color name="status_bar">#202124</color>
+
+    <!-- white -->
+    <color name="transparent">#00FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white50">#80FFFFFF</color>
 </resources>

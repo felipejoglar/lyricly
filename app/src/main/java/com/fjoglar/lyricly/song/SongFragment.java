@@ -19,14 +19,16 @@ package com.fjoglar.lyricly.song;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.core.app.ShareCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
@@ -35,10 +37,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
-import androidx.core.app.ShareCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -76,7 +74,7 @@ public class SongFragment extends Fragment {
     public SongFragment() {
     }
 
-    public static SongFragment newInstance(int songId, boolean isFavoriteFlow) {
+    static SongFragment newInstance(int songId, boolean isFavoriteFlow) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_SONG_ID, songId);
         arguments.putBoolean(ARGUMENT_IS_FAVORITE_FLOW, isFavoriteFlow);
@@ -105,39 +103,29 @@ public class SongFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_song, container, false);
         ButterKnife.bind(this, root);
 
-        setHasOptionsMenu(true);
-
         initViewModel();
 
         return root;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.song_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    @OnClick(R.id.imageview_song_back)
+    void onBackClick() {
+        requireActivity().onBackPressed();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share:
-                shareSong();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    @OnClick(R.id.imageview_song_share)
+    void onShareClick() {
+        shareSong();
     }
-
 
     @OnClick(R.id.floatingactionbutton_song_favorite)
-    void favoriteClicked() {
+    void onFavoriteClick() {
         mSongViewModel.onFavoriteClicked(mSong);
     }
 
     private void initViewModel() {
         SongViewModelFactory songViewModelFactory =
-                Injection.provideSongViewModelFactory(getActivity(), mSongId);
+                Injection.provideSongViewModelFactory(requireActivity(), mSongId);
         mSongViewModel =
                 ViewModelProviders.of(this, songViewModelFactory)
                         .get(SongViewModel.class);
@@ -208,6 +196,7 @@ public class SongFragment extends Fragment {
                 .placeholder(R.color.colorSecondaryLight)
                 .error(R.color.colorPrimaryLight)
                 .into(mImageViewSongCover);
+
         mTextViewSongTitle.setText(mSong.getName());
         mTextViewSongArtist.setText(mSong.getArtistName());
         mTextViewSongLyrics.setText(mSong.getLyrics());
@@ -227,7 +216,7 @@ public class SongFragment extends Fragment {
         String message = getString(R.string.share_message, mSong.getArtistName(), mSong.getLyrics());
 
         ShareCompat.IntentBuilder
-                .from(getActivity())
+                .from(requireActivity())
                 .setType(mimeType)
                 .setChooserTitle(title)
                 .setText(message)
@@ -236,7 +225,7 @@ public class SongFragment extends Fragment {
 
     private void finishActivity() {
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            getActivity().finish();
+            requireActivity().finish();
         }
     }
 }

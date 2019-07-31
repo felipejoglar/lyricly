@@ -31,5 +31,7 @@
     <string name="song_error_message">Cannot load this song</string>
     <string name="song_favorite_deleted">Song removed from favorites</string>
     <string name="song_favorite_added">Song added to favorites</string>
+    <string name="song_home_content_description">Home</string>
+    <string name="song_share_content_description">Share</string>
 
 </resources>
