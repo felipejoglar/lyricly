@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
+import com.fjoglar.lyricly.util.Injection;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -59,7 +60,7 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void updateTopSongs() {
-        mDisposables.add(new UpdateTopSongsUseCase().execute(mSongsDataSource, null)
+        mDisposables.add(Injection.provideUpdateTopSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .doOnSubscribe(__ -> mLoadingState.setValue(true))
@@ -71,7 +72,7 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void getTopSongs() {
-        mDisposables.add(new GetTopSongsUseCase().execute(mSongsDataSource, null)
+        mDisposables.add(Injection.provideGetTopSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(

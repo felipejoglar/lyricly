@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
+import com.fjoglar.lyricly.util.Injection;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -58,7 +59,7 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void getRecentSongs() {
-        mDisposables.add(new GetRecentSongsUseCase().execute(mSongsDataSource, null)
+        mDisposables.add(Injection.provideGetRecentSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(
