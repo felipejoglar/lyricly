@@ -16,27 +16,28 @@
 
 package com.fjoglar.lyricly.songs.recent;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
 
-    private SongsRepository mSongsRepository;
+    private SongsDataSource mSongsDataSource;
 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
-    public RecentSongsViewModel(SongsRepository songsRepository) {
-        mSongsRepository = songsRepository;
+    public RecentSongsViewModel(SongsDataSource songsDataSource) {
+        mSongsDataSource = songsDataSource;
         mLoadingState.setValue(false);
         getRecentSongs();
     }
@@ -57,7 +58,7 @@ public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void getRecentSongs() {
-        mDisposables.add(new GetRecentSongsUseCase().execute(mSongsRepository, null)
+        mDisposables.add(new GetRecentSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(

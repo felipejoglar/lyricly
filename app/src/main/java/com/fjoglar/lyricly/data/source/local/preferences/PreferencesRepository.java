@@ -20,8 +20,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.fjoglar.lyricly.data.PreferencesDataSource;
-
 /**
  * Helper class to make simple the use of SharedPreferences.
  */

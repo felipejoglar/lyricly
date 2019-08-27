@@ -16,28 +16,29 @@
 
 package com.fjoglar.lyricly.songs.favorite;
 
-import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.songs.SongsResponse;
-import com.fjoglar.lyricly.songs.SongsViewModel;
-import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
-
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.fjoglar.lyricly.data.SongsDataSource;
+import com.fjoglar.lyricly.songs.SongsResponse;
+import com.fjoglar.lyricly.songs.SongsViewModel;
+import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel {
 
-    private SongsRepository mSongsRepository;
+    private SongsDataSource mSongsDataSource;
 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
-    public FavoriteSongsViewModel(@Nullable SongsRepository songsRepository) {
-        mSongsRepository = songsRepository;
+    public FavoriteSongsViewModel(@Nullable SongsDataSource songsDataSource) {
+        mSongsDataSource = songsDataSource;
         mLoadingState.setValue(false);
         getFavoriteSongs();
     }
@@ -58,7 +59,7 @@ public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel 
     }
 
     private void getFavoriteSongs() {
-        mDisposables.add(new GetFavoriteSongsUseCase().execute(mSongsRepository, null)
+        mDisposables.add(new GetFavoriteSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(

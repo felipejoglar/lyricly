@@ -18,12 +18,13 @@ package com.fjoglar.lyricly.util;
 
 import android.content.Context;
 
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.source.local.SongsLocalRepository;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
 import com.fjoglar.lyricly.data.source.local.preferences.PreferencesRepository;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteRepository;
-import com.fjoglar.lyricly.data.SongsRemoteDataSource;
 import com.fjoglar.lyricly.song.SongViewModelFactory;
 import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 
@@ -33,13 +34,13 @@ import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 public class Injection {
 
     public static SongsViewModelFactory provideSongsViewModelFactory(Context context) {
-        SongsRepository songsRepository = provideSongsRepository(context);
-        return new SongsViewModelFactory(songsRepository);
+        SongsDataSource songsDataSource = provideSongsRepository(context);
+        return new SongsViewModelFactory(songsDataSource);
     }
 
     public static SongViewModelFactory provideSongViewModelFactory(Context context, int songId) {
-        SongsRepository songsRepository = provideSongsRepository(context);
-        return new SongViewModelFactory(songsRepository, songId);
+        SongsDataSource songsDataSource = provideSongsRepository(context);
+        return new SongViewModelFactory(songsDataSource, songId);
     }
 
     private static SongsRemoteDataSource provideSongsRemoteDataSource() {
@@ -55,7 +56,7 @@ public class Injection {
         return PreferencesRepository.getInstance(context);
     }
 
-    private static SongsRepository provideSongsRepository(Context context) {
+    private static SongsDataSource provideSongsRepository(Context context) {
         SongsRemoteDataSource remoteDataSource = provideSongsRemoteDataSource();
         SongsLocalRepository localDataSource = provideSongsLocalDataSource(context);
         PreferencesRepository preferencesDataSource = providePreferencesLocalDataSource(context);

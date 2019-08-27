@@ -18,20 +18,21 @@ package com.fjoglar.lyricly.song;
 
 import android.util.Log;
 
-import com.fjoglar.lyricly.data.SongsRepository;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.SingleLiveEvent;
-import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
-
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.data.SongsDataSource;
+import com.fjoglar.lyricly.util.SingleLiveEvent;
+import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class SongViewModel extends ViewModel {
 
-    private SongsRepository mSongsRepository;
+    private SongsDataSource mSongsDataSource;
     private int mSongId;
 
     private SingleLiveEvent<Void> mAddedToFavorites = new SingleLiveEvent<>();
@@ -42,8 +43,8 @@ public class SongViewModel extends ViewModel {
     private final MutableLiveData<SongResponse> mResponse = new MutableLiveData<>();
 
 
-    public SongViewModel(@Nullable SongsRepository songsRepository, int songId) {
-        mSongsRepository = songsRepository;
+    public SongViewModel(@Nullable SongsDataSource songsDataSource, int songId) {
+        mSongsDataSource = songsDataSource;
         mSongId = songId;
     }
 
@@ -65,7 +66,7 @@ public class SongViewModel extends ViewModel {
     }
 
     public void getSong() {
-        mDisposables.add(new GetSongByIdUseCase().execute(mSongsRepository, mSongId)
+        mDisposables.add(new GetSongByIdUseCase().execute(mSongsDataSource, mSongId)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(
@@ -84,7 +85,7 @@ public class SongViewModel extends ViewModel {
     }
 
     private void saveFavorite(Song song) {
-        mDisposables.add(new AddSongToFavoriteUseCase().execute(mSongsRepository, song)
+        mDisposables.add(new AddSongToFavoriteUseCase().execute(mSongsDataSource, song)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(() -> mAddedToFavorites.call(),
@@ -92,7 +93,7 @@ public class SongViewModel extends ViewModel {
     }
 
     private void deleteFavorite(Song song) {
-        mDisposables.add(new DeleteSongFromFavoriteUseCase().execute(mSongsRepository, song)
+        mDisposables.add(new DeleteSongFromFavoriteUseCase().execute(mSongsDataSource, song)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(() -> mDeletedFromFavorites.call(),

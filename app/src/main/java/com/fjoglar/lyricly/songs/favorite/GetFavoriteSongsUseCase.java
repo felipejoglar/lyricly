@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.songs.favorite;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.usecases.FlowableUseCase;
 
@@ -27,7 +27,7 @@ import io.reactivex.Flowable;
 public class GetFavoriteSongsUseCase implements FlowableUseCase<Void, List<Song>> {
 
     @Override
-    public Flowable<List<Song>> execute(SongsRepository repository, Void parameter) {
-        return repository.getFavoriteSongs();
+    public Flowable<List<Song>> execute(SongsDataSource songsDataSource, Void parameter) {
+        return songsDataSource.getFavoriteSongs();
     }
 }

@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.data;
+package com.fjoglar.lyricly.data.source.remote;
 
-public interface PreferencesDataSource {
+import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
-    String LAST_UPDATED_TIME_KEY = "last_updated_time";
+import java.util.List;
+
+public interface SongsRemoteDataSource {
 
     /**
-     * Gets the last time the top songs were updated.
+     * Gets a list of songs from the remote data source.
      *
-     * @return the time of the last update in millis.
+     * @param limit number of songs to be fetched.
+     * @return the list of top songs from the data source.
      */
-    long getLastUpdatedTimeInMillis();
+    List<Track> fetchTopSongs(int limit);
 
     /**
-     * Sets the last updated time the top songs where fetched.
+     * Gets the lyrics of a song from the remote data source.
+     *
+     * @param artist the artist of the song
+     * @param title  the title of the sogn
+     * @return the user from the data source.
      */
-    void setLastUpdatedTimeInMillis();
+    String fetchSongLyrics(String artist, String title);
 }

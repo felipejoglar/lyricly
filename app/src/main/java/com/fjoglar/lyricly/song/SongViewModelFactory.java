@@ -19,25 +19,25 @@ package com.fjoglar.lyricly.song;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 
 /**
  * Factory for ViewModels
  */
 public class SongViewModelFactory implements ViewModelProvider.Factory {
 
-    private final SongsRepository mSongsRepository;
+    private final SongsDataSource mSongsDataSource;
     private final int mSongId;
 
-    public SongViewModelFactory(SongsRepository songsRepository, int songId) {
-        mSongsRepository = songsRepository;
+    public SongViewModelFactory(SongsDataSource songsDataSource, int songId) {
+        mSongsDataSource = songsDataSource;
         mSongId = songId;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(SongViewModel.class)) {
-            return (T) new SongViewModel(mSongsRepository, mSongId);
+            return (T) new SongViewModel(mSongsDataSource, mSongId);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.song;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.usecases.CompletableUseCase;
 
@@ -25,7 +25,7 @@ import io.reactivex.Completable;
 public class DeleteSongFromFavoriteUseCase implements CompletableUseCase<Song> {
 
     @Override
-    public Completable execute(SongsRepository repository, Song parameter) {
+    public Completable execute(SongsDataSource repository, Song parameter) {
         return repository.deleteFavoriteSong(parameter);
     }
 }
