@@ -16,7 +16,6 @@
 
 package com.fjoglar.lyricly.songs.favorite;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -31,14 +30,14 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class FavoriteSongsViewModel extends ViewModel implements SongsViewModel {
 
-    private SongsDataSource mSongsDataSource;
+    private final SongsDataSource mSongsDataSource;
 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
     private final MutableLiveData<SongsResponse> mResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
-    public FavoriteSongsViewModel(@Nullable SongsDataSource songsDataSource) {
+    public FavoriteSongsViewModel(SongsDataSource songsDataSource) {
         mSongsDataSource = songsDataSource;
         mLoadingState.setValue(false);
         getFavoriteSongs();

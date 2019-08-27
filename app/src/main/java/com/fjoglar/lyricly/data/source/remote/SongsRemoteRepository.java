@@ -36,8 +36,8 @@ public class SongsRemoteRepository implements SongsRemoteDataSource {
     @Nullable
     private static volatile SongsRemoteRepository INSTANCE;
 
-    private NapsterService mNapsterService;
-    private OvhLyricsService mOvhLyricsService;
+    private final NapsterService mNapsterService;
+    private final OvhLyricsService mOvhLyricsService;
 
     // Prevent direct instantiation.
     private SongsRemoteRepository() {

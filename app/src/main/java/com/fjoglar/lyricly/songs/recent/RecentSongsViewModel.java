@@ -30,7 +30,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class RecentSongsViewModel extends ViewModel implements SongsViewModel {
 
-    private SongsDataSource mSongsDataSource;
+    private final SongsDataSource mSongsDataSource;
 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 

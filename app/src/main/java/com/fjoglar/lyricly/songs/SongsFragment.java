@@ -68,8 +68,8 @@ public abstract class SongsFragment extends Fragment {
         return root;
     }
 
-    public void goToTop() {
-        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getActivity()) {
+    void goToTop() {
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(requireActivity()) {
             @Override
             protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
@@ -140,7 +140,7 @@ public abstract class SongsFragment extends Fragment {
     private final SongClickCallback mSongClickCallback = song -> {
 
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            ((SongsActivity) getActivity()).show(song);
+            ((SongsActivity) requireActivity()).show(song);
         }
     };
 }

@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.songs;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,6 +36,7 @@ public class SongsViewModelFactory implements ViewModelProvider.Factory {
         mSongsDataSource = songsDataSource;
     }
 
+    @NonNull
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(TopSongsViewModel.class)) {

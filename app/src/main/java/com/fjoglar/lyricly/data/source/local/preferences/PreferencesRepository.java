@@ -27,7 +27,7 @@ public class PreferencesRepository implements PreferencesDataSource {
 
     private static volatile PreferencesRepository INSTANCE;
 
-    private SharedPreferences mPreferences;
+    private final SharedPreferences mPreferences;
 
     // Prevent direct instantiation.
     private PreferencesRepository(Context context) {

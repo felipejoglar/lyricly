@@ -44,11 +44,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     private static final String IMAGE_SIZE_SMALL = "70x70";
 
     private final SongClickCallback mSongClickCallback;
+    private final Context mContext;
 
     private List<? extends Song> mSongs;
-    private Context mContext;
 
-    public SongsAdapter(Context context, @Nullable SongClickCallback clickCallback) {
+    SongsAdapter(Context context, @Nullable SongClickCallback clickCallback) {
         mContext = context;
         mSongClickCallback = clickCallback;
     }

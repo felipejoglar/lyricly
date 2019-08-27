@@ -23,12 +23,12 @@ import com.fjoglar.lyricly.data.model.Song;
 
 import java.util.List;
 
-public class SongsDiffCallback extends DiffUtil.Callback {
+class SongsDiffCallback extends DiffUtil.Callback {
 
     private final List<? extends Song> mOldSongs;
     private final List<? extends Song> mNewSongs;
 
-    public SongsDiffCallback(List<? extends Song> oldSongs, List<? extends Song> newSongs) {
+    SongsDiffCallback(List<? extends Song> oldSongs, List<? extends Song> newSongs) {
         this.mOldSongs = oldSongs;
         this.mNewSongs = newSongs;
     }

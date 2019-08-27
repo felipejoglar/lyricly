@@ -29,7 +29,7 @@ import io.reactivex.Completable;
 
 public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
 
-    private long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+    private final long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
     @Override
     public Completable execute(SongsDataSource songsDataSource, Void parameter) {
