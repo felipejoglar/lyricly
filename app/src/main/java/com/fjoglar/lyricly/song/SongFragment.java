@@ -28,17 +28,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.Injection;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.squareup.picasso.Picasso;
-
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.fjoglar.lyricly.R;
+import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.util.GlideHelper;
+import com.fjoglar.lyricly.util.Injection;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -47,10 +48,6 @@ public class SongFragment extends Fragment {
 
     private static final String ARGUMENT_SONG_ID = "song_id";
     private static final String ARGUMENT_IS_FAVORITE_FLOW = "is_favorite_flow";
-
-    private static final String IMAGE_SIZE_BIG = "500x500";
-    private static final String IMAGE_SIZE_MEDIUM = "200x200";
-    private static final String IMAGE_SIZE_SMALL = "70x70";
 
     private int mSongId;
     private boolean mIsFavoriteFlow;
@@ -201,13 +198,10 @@ public class SongFragment extends Fragment {
         mSong = song;
 
         String albumId = mSong.getAlbumId();
-        String imageUrl = getString(R.string.album_image_url, albumId, IMAGE_SIZE_BIG);
+        String imageUrl = getString(R.string.album_image_url, albumId, GlideHelper.IMAGE_SIZE_BIG);
+        String thumbUrl = getString(R.string.album_image_url, albumId, GlideHelper.IMAGE_SIZE_SMALL);
 
-        Picasso.get()
-                .load(imageUrl)
-                .placeholder(R.color.colorSecondaryLight)
-                .error(R.color.colorPrimaryLight)
-                .into(mImageViewSongCover);
+        GlideHelper.loadWithThumb(mImageViewSongCover, imageUrl, thumbUrl);
         mTextViewSongTitle.setText(mSong.getName());
         mTextViewSongArtist.setText(mSong.getArtistName());
         mTextViewSongLyrics.setText(mSong.getLyrics());
