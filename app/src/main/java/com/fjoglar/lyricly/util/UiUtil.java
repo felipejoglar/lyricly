@@ -18,7 +18,13 @@ package com.fjoglar.lyricly.util;
 
 import com.fjoglar.lyricly.R;
 
+/**
+ * Utility methods for working with UI.
+ */
 public class UiUtil {
+
+    private UiUtil() {
+    }
 
     public static int getPlaceHolderColor() {
         double random = Math.random();
