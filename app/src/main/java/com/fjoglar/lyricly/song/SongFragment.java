@@ -66,6 +66,7 @@ public class SongFragment extends Fragment {
     TextView mTextViewSongLyrics;
     @BindView(R.id.progressbar_song_loading)
     ProgressBar mProgressBarSongLoading;
+    Menu mMenu;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
@@ -99,7 +100,7 @@ public class SongFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_song, container, false);
+        View root = inflater.inflate(R.layout.fragment_song_anim, container, false);
         ButterKnife.bind(this, root);
 
         setHasOptionsMenu(true);
@@ -112,7 +113,9 @@ public class SongFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.song_menu, menu);
+        mMenu = menu;
         super.onCreateOptionsMenu(menu, inflater);
+        setFavoriteIcon();
     }
 
     @Override
@@ -120,6 +123,9 @@ public class SongFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.share:
                 shareSong();
+                return true;
+            case R.id.favorite:
+                favoriteClicked();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -205,10 +211,15 @@ public class SongFragment extends Fragment {
         mTextViewSongTitle.setText(mSong.getName());
         mTextViewSongArtist.setText(mSong.getArtistName());
         mTextViewSongLyrics.setText(mSong.getLyrics());
+        setFavoriteIcon();
+    }
 
-        mFabSongFavorite.setImageResource(
-                mSong.isFavorite() ? R.drawable.songs_ic_favorite_24dp :
-                        R.drawable.song_ic_favorite_border_24dp);
+    private void setFavoriteIcon() {
+        if(mMenu == null || mSong == null){
+            return;
+        }
+        mMenu.getItem(1).setIcon(mSong.isFavorite() ? R.drawable.songs_ic_favorite_24dp :
+                R.drawable.song_ic_favorite_border_24dp);
     }
 
     private Snackbar getSnackBar(String message) {

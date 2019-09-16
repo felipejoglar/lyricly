@@ -23,4 +23,11 @@
         android:icon="@drawable/song_ic_share_24dp"
         android:orderInCategory="1"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/favorite"
+        android:title="@string/songs_menu_favorite"
+        android:icon="@drawable/song_ic_favorite_border_24dp"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
 </menu>
