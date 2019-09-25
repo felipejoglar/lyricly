@@ -17,36 +17,39 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        style="@style/Widget.AppBar"
+        android:id="@+id/ab_songs_app_bar"
+        style="@style/Widget.Lyricly.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/tv_songs_app_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:minHeight="?actionBarSize"
-            android:textAppearance="@style/TextAppearance.Lyricly.ToolbarTitle"
-            app:layout_scrollFlags="scroll|enterAlways|snap" />
+            android:textAppearance="?textAppearanceHeadline6"
+            android:textColor="@color/color_on_surface"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            tools:text="Lyricly" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
-        android:id="@+id/framelayout_songs_container"
+        android:id="@+id/fl_songs_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_songs" />
+        app:layout_constraintBottom_toTopOf="@+id/bnv_songs_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_songs"
-        style="@style/Widget.Lyricly.BottomNav"
+        android:id="@+id/bnv_songs_navigation"
+        style="@style/Widget.Lyricly.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

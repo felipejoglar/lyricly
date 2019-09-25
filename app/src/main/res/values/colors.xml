@@ -16,20 +16,51 @@
 -->
 
 <resources>
-    <color name="colorPrimary">#00ac6a</color>
-    <color name="colorPrimaryDark">#008b52</color>
-    <color name="colorPrimaryLight">#58c596</color>
 
-    <color name="colorSecondary">#ffcf44</color>
-    <color name="colorSecondaryDark">#feb900</color>
-    <color name="colorSecondaryLight">#ffdc7b</color>
-    <color name="colorSecondaryExtraLight">#ffe9af</color>
-    <color name="colorSecondaryUltraLight">#fff7df</color>
+    <!--LIGHT COLOR THEME-->
+    <color name="color_primary">@color/mountain_meadow_green</color>
+    <color name="color_primary_variant">@color/mosque_green</color>
+    <color name="color_secondary">@color/kournikova_yellow</color>
+    <color name="color_secondary_variant">@color/selective_yellow</color>
 
-    <color name="status_bar">#202124</color>
+    <color name="color_background">@color/lily_white</color>
+    <color name="color_surface">@color/white</color>
+    <color name="color_error">@color/bittersweet_red</color>
 
-    <!-- white -->
-    <color name="transparent">#00FFFFFF</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="white50">#80FFFFFF</color>
+    <color name="color_on_primary">@color/black</color>
+    <color name="color_on_secondary">@color/black</color>
+    <color name="color_on_background">@color/black</color>
+    <color name="color_on_surface">@color/black</color>
+    <color name="color_on_error">@color/black</color>
+
+    <!--Components-->
+    <color name="status_bar">@color/black_russian</color>
+    <color name="navigation_bar">@color/black_russian</color>
+
+    <!--black-->
+    <color name="black">#000000</color>
+    <color name="black_russian">#202124</color>
+
+    <!--white-->
+    <color name="transparent">#00ffffff</color>
+    <color name="white">#ffffffff</color>
+    <color name="white50">#80ffffff</color>
+    <color name="lily_white">#e3f5ec</color>
+
+    <!--red-->
+    <color name="bittersweet_red">#ff6859</color>
+
+    <!--yellow-->
+    <color name="selective_yellow">#febb00</color>
+    <color name="kournikova_yellow">#ffcf44</color>
+
+    <!--green-->
+    <color name="mosque_green">#045d56</color>
+    <color name="mountain_meadow_green">#1eb980</color>
+
+    <!--blue-->
+    <color name="spray_blue">#80d9e6</color>
+    <color name="pale_turquoise_blue">#b2e8f0</color>
+    <color name="light_cyan">#e0f6f9</color>
+
 </resources>

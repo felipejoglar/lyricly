@@ -46,9 +46,9 @@ public abstract class SongsFragment extends Fragment {
     private SongsAdapter mSongsAdapter;
     private GridLayoutManager mLayoutManager;
 
-    @BindView(R.id.recyclerview_songs)
+    @BindView(R.id.rv_songs)
     RecyclerView mRecyclerViewSongs;
-    @BindView(R.id.progressbar_songs_loading)
+    @BindView(R.id.pb_songs_loading)
     ProgressBar mProgressBarSongsLoading;
 
     @Override

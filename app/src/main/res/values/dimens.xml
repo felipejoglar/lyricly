@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019 Felipe Joglar Santos
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +15,12 @@
   -->
 
 <resources>
+    <!-- KEYLINES -->
+    <dimen name="keyline_1">@dimen/margin_normal</dimen>
+    <dimen name="keyline_2">72dp</dimen>
+
     <!-- MARGIN -->
-    <dimen name="layout_margin_normal">16dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
 
     <!-- PADDING -->
     <dimen name="padding_normal">16dp</dimen>

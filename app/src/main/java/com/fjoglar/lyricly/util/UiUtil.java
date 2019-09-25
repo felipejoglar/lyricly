@@ -29,10 +29,10 @@ public class UiUtil {
     public static int getPlaceHolderColor() {
         double random = Math.random();
         if (random < 0.33) {
-            return R.color.colorSecondaryUltraLight;
+            return R.color.light_cyan;
         } else if (random > 0.66) {
-            return R.color.colorSecondaryLight;
+            return R.color.spray_blue;
         }
-        return R.color.colorSecondaryExtraLight;
+        return R.color.pale_turquoise_blue;
     }
 }

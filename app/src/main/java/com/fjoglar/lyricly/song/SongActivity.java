@@ -52,13 +52,13 @@ public class SongActivity extends AppCompatActivity {
 
     private void loadSongFragment() {
         SongFragment songFragment = (SongFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.framelayout_song_container);
+                .findFragmentById(R.id.fl_song_container);
 
         if (songFragment == null) {
             songFragment = SongFragment.newInstance(mSongId, mIsFavoriteFlow);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.framelayout_song_container, songFragment)
+                    .add(R.id.fl_song_container, songFragment)
                     .commit();
         }
     }

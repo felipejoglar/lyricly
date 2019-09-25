@@ -71,7 +71,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         Picasso.get()
                 .load(imageUrl)
                 .placeholder(UiUtil.getPlaceHolderColor())
-                .error(R.color.colorPrimaryLight)
+                .error(R.color.color_error)
                 .into(holder.imageViewAlbumCover);
 
         Picasso.get().setIndicatorsEnabled(true);
@@ -101,7 +101,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.imageview_album_cover)
+        @BindView(R.id.iv_album_cover)
         ImageView imageViewAlbumCover;
 
         SongViewHolder(View itemView) {

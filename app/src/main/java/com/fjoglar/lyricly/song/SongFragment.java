@@ -55,17 +55,17 @@ public class SongFragment extends Fragment {
     private Song mSong;
     private SongViewModel mSongViewModel;
 
-    @BindView(R.id.imageview_song_cover)
+    @BindView(R.id.iv_song_cover)
     ImageView mImageViewSongCover;
-    @BindView(R.id.floatingactionbutton_song_favorite)
+    @BindView(R.id.fab_song_favorite)
     FloatingActionButton mFabSongFavorite;
-    @BindView(R.id.textview_song_title)
+    @BindView(R.id.tv_song_title)
     TextView mTextViewSongTitle;
-    @BindView(R.id.textview_song_artist)
+    @BindView(R.id.tv_song_artist)
     TextView mTextViewSongArtist;
-    @BindView(R.id.textview_song_lyrics)
+    @BindView(R.id.tv_song_lyrics)
     TextView mTextViewSongLyrics;
-    @BindView(R.id.progressbar_song_loading)
+    @BindView(R.id.pb_song_loading)
     ProgressBar mProgressBarSongLoading;
 
     /**
@@ -108,17 +108,17 @@ public class SongFragment extends Fragment {
         return root;
     }
 
-    @OnClick(R.id.imageview_song_back)
+    @OnClick(R.id.iv_song_back)
     void onBackClick() {
         requireActivity().onBackPressed();
     }
 
-    @OnClick(R.id.imageview_song_share)
+    @OnClick(R.id.iv_song_share)
     void onShareClick() {
         shareSong();
     }
 
-    @OnClick(R.id.floatingactionbutton_song_favorite)
+    @OnClick(R.id.fab_song_favorite)
     void onFavoriteClick() {
         mSongViewModel.onFavoriteClicked(mSong);
     }
@@ -193,8 +193,8 @@ public class SongFragment extends Fragment {
 
         Picasso.get()
                 .load(imageUrl)
-                .placeholder(R.color.colorSecondaryLight)
-                .error(R.color.colorPrimaryLight)
+                .placeholder(R.color.pale_turquoise_blue)
+                .error(R.color.color_error)
                 .into(mImageViewSongCover);
 
         mTextViewSongTitle.setText(mSong.getName());

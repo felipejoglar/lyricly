@@ -23,7 +23,7 @@
     tools:context=".song.SongFragment">
 
     <ImageView
-        android:id="@+id/imageview_song_cover"
+        android:id="@+id/iv_song_cover"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -34,64 +34,63 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/song_gradient_cover"
-        app:layout_constraintBottom_toBottomOf="@id/imageview_song_cover"
-        app:layout_constraintEnd_toEndOf="@id/imageview_song_cover"
-        app:layout_constraintStart_toStartOf="@id/imageview_song_cover"
-        app:layout_constraintTop_toTopOf="@id/imageview_song_cover" />
-
-    <ImageView
-        android:id="@+id/imageview_song_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/actionBarItemBackground"
-        android:clickable="true"
-        android:contentDescription="@string/song_home_content_description"
-        android:focusable="true"
-        android:paddingStart="@dimen/padding_normal"
-        android:paddingTop="@dimen/padding_normal"
-        android:paddingEnd="@dimen/padding_normal"
-        android:paddingBottom="@dimen/padding_normal"
-        android:src="@drawable/song_ic_arrow_back_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageview_song_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/actionBarItemBackground"
-        android:clickable="true"
-        android:contentDescription="@string/song_share_content_description"
-        android:focusable="true"
-        android:paddingStart="@dimen/padding_normal"
-        android:paddingTop="@dimen/padding_normal"
-        android:paddingEnd="@dimen/padding_normal"
-        android:paddingBottom="@dimen/padding_normal"
-        android:src="@drawable/song_ic_share_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:src="@tools:sample/avatars[12]" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout_song_titlebackground"
+        android:id="@+id/cl_song_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryLight"
-        android:minHeight="56dp"
+        android:background="@drawable/song_gradient_cover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageview_song_cover">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_song_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/actionBarItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/song_home_content_description"
+            android:focusable="true"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingTop="@dimen/padding_normal"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_normal"
+            android:src="@drawable/song_ic_arrow_back_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_song_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/actionBarItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/song_share_content_description"
+            android:focusable="true"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingTop="@dimen/padding_normal"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_normal"
+            android:src="@drawable/song_ic_share_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_song_title_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primary_variant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_song_cover">
 
         <TextView
-            android:id="@+id/textview_song_title"
+            android:id="@+id/tv_song_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="72dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingStart="@dimen/padding_normal"
@@ -99,9 +98,9 @@
             android:paddingTop="@dimen/padding_small"
             android:paddingEnd="@dimen/padding_normal"
             android:paddingRight="@dimen/padding_normal"
-            android:textSize="24sp"
-            app:layout_constrainedHeight="true"
-            app:layout_constraintBottom_toTopOf="@id/textview_song_artist"
+            android:textAppearance="?textAppearanceHeadline5"
+            android:textColor="@color/color_on_primary"
+            app:layout_constraintBottom_toTopOf="@id/tv_song_artist"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -109,7 +108,7 @@
             tools:text="@tools:sample/full_names" />
 
         <TextView
-            android:id="@+id/textview_song_artist"
+            android:id="@+id/tv_song_artist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_normal"
@@ -117,40 +116,42 @@
             android:paddingEnd="@dimen/padding_normal"
             android:paddingRight="@dimen/padding_normal"
             android:paddingBottom="@dimen/padding_small"
-            android:textSize="18sp"
-            app:layout_constrainedHeight="true"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_song_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_song_title"
             tools:text="@tools:sample/full_names" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedscrollview_song_lyricscontainer"
+        android:id="@+id/nsv_song_lyrics_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_song_titlebackground">
+        app:layout_constraintTop_toBottomOf="@+id/cl_song_title_background"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/textview_song_lyrics"
+            android:id="@+id/tv_song_lyrics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_serif"
             android:gravity="center"
             android:lineSpacingMultiplier="1.15"
             android:padding="@dimen/padding_normal"
-            android:textSize="16sp"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/color_on_background"
             tools:text="@tools:sample/lorem/random" />
     </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
-        android:id="@+id/progressbar_song_loading"
+        android:id="@+id/pb_song_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -161,15 +162,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingactionbutton_song_favorite"
+        android:id="@+id/fab_song_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/layout_margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/song_ic_favorite_border_24dp"
         app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="@id/imageview_song_cover"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageview_song_cover" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_song_cover"
+        app:layout_constraintEnd_toEndOf="@+id/iv_song_cover" />
 </androidx.constraintlayout.motion.widget.MotionLayout>

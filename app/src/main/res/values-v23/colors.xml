@@ -16,5 +16,8 @@
 -->
 
 <resources>
-    <color name="status_bar">@android:color/white</color>
+    <!--LIGHT COLOR THEME-->
+    <!--Components-->
+    <color name="status_bar">@color/white</color>
+    <color name="navigation_bar">@color/black_russian</color>
 </resources>

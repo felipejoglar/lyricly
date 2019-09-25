@@ -24,7 +24,7 @@
 
         <OnSwipe
             app:dragDirection="dragUp"
-            app:touchAnchorId="@id/nestedscrollview_song_lyricscontainer"
+            app:touchAnchorId="@id/nsv_song_lyrics_container"
             app:touchAnchorSide="top" />
 
         <KeyFrameSet>
@@ -33,54 +33,54 @@
                 android:scaleY="0.0"
                 android:visibility="invisible"
                 app:framePosition="75"
-                app:motionTarget="@id/floatingactionbutton_song_favorite" />
+                app:motionTarget="@id/fab_song_favorite" />
             <KeyAttribute
                 android:elevation="0dp"
                 app:framePosition="99"
-                app:motionTarget="@id/constraintlayout_song_titlebackground" />
+                app:motionTarget="@id/cl_song_title_background" />
             <KeyAttribute
                 android:elevation="4dp"
                 app:framePosition="100"
-                app:motionTarget="@id/constraintlayout_song_titlebackground" />
+                app:motionTarget="@id/cl_song_title_background" />
         </KeyFrameSet>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@id/imageview_song_cover"
+            android:id="@id/iv_song_cover"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            android:id="@id/floatingactionbutton_song_favorite"
+            android:id="@+id/fab_song_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/layout_margin_normal"
-            app:layout_constraintBottom_toBottomOf="@id/imageview_song_cover"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageview_song_cover" />
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_song_cover"
+            app:layout_constraintEnd_toEndOf="@+id/iv_song_cover" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@id/imageview_song_cover"
+            android:id="@id/iv_song_cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            android:id="@id/floatingactionbutton_song_favorite"
+            android:id="@id/fab_song_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/layout_margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             android:scaleX="0.0"
             android:scaleY="0.0"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/imageview_song_cover"
+            app:layout_constraintBottom_toBottomOf="@id/iv_song_cover"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageview_song_cover" />
+            app:layout_constraintTop_toBottomOf="@id/iv_song_cover" />
     </ConstraintSet>
 </MotionScene>
