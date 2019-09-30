@@ -24,6 +24,7 @@ buildscript {
     ]
 
     ext.versions = [
+            'kotlin'          : '1.3.41',
             'appcompat'       : '1.1.0',
             'supportLibrary'  : '1.0.0',
             'constraintLayout': '2.0.0-beta2',
@@ -49,6 +50,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
     }
 }
 

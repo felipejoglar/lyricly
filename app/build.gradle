@@ -15,6 +15,8 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion configuration.compileSdk
@@ -62,35 +64,37 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
-    implementation "androidx.legacy:legacy-support-v4:${versions.supportLibrary}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 
-    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "androidx.legacy:legacy-support-v4:$versions.supportLibrary"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
 
-    implementation "com.github.bumptech.glide:glide:${versions.glide}"
-    annotationProcessor "com.github.bumptech.glide:compiler:${versions.glide}"
+    implementation "com.google.android.material:material:$versions.material"
 
-    implementation "androidx.room:room-runtime:${versions.room}"
-    implementation "androidx.room:room-rxjava2:${versions.room}"
-    annotationProcessor "androidx.room:room-compiler:${versions.room}"
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
-    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
+    implementation "androidx.room:room-runtime:$versions.room"
+    implementation "androidx.room:room-rxjava2:$versions.room"
+    annotationProcessor "androidx.room:room-compiler:$versions.room"
 
-    implementation "com.jakewharton:butterknife:${versions.butterknife}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
+    implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
 
-    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
-    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
+    implementation "com.jakewharton:butterknife:$versions.butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$versions.butterknife"
 
-    implementation "com.google.code.gson:gson:${versions.gson}"
-    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
+    implementation "io.reactivex.rxjava2:rxjava:$versions.rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
 
-    testImplementation "junit:junit:${versions.junit}"
+    implementation "com.google.code.gson:gson:$versions.gson"
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
 
-    androidTestImplementation "androidx.test:runner:${versions.test_runner}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
+    testImplementation "junit:junit:$versions.junit"
+
+    androidTestImplementation "androidx.test:runner:$versions.test_runner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
 }
