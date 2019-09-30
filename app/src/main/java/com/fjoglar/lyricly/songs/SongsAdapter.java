@@ -29,8 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.UiUtil;
-import com.squareup.picasso.Picasso;
+import com.fjoglar.lyricly.util.GlideHelper;
 
 import java.util.List;
 
@@ -38,10 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
-
-    private static final String IMAGE_SIZE_BIG = "500x500";
-    private static final String IMAGE_SIZE_MEDIUM = "200x200";
-    private static final String IMAGE_SIZE_SMALL = "70x70";
 
     private final SongClickCallback mSongClickCallback;
     private final Context mContext;
@@ -64,18 +59,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
-        // TODO: bind data to views.
         String albumId = mSongs.get(position).getAlbumId();
-        String imageUrl = mContext.getString(R.string.album_image_url, albumId, IMAGE_SIZE_BIG);
+        String imageUrl = mContext.getString(R.string.album_image_url, albumId, GlideHelper.IMAGE_SIZE_BIG);
+        String thumbUrl = mContext.getString(R.string.album_image_url, albumId, GlideHelper.IMAGE_SIZE_SMALL);
 
-        Picasso.get()
-                .load(imageUrl)
-                .placeholder(UiUtil.getPlaceHolderColor())
-                .error(R.color.color_error)
-                .into(holder.imageViewAlbumCover);
-
-        Picasso.get().setIndicatorsEnabled(true);
-        Picasso.get().setLoggingEnabled(true);
+        GlideHelper.loadWithThumb(holder.imageViewAlbumCover, imageUrl, thumbUrl);
     }
 
     @Override

@@ -68,9 +68,8 @@ dependencies {
 
     implementation "com.google.android.material:material:${versions.material}"
 
-    implementation "com.squareup.picasso:picasso:${versions.picasso}"
-    // Due to picasso dependencies versions mixing we need to add this dependency explicitly.
-    implementation "androidx.exifinterface:exifinterface:${versions.supportLibrary}"
+    implementation "com.github.bumptech.glide:glide:${versions.glide}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${versions.glide}"
 
     implementation "androidx.room:room-runtime:${versions.room}"
     implementation "androidx.room:room-rxjava2:${versions.room}"
