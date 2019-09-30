@@ -19,9 +19,6 @@ package com.fjoglar.lyricly.song;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,17 +51,17 @@ public class SongFragment extends Fragment {
     private Song mSong;
     private SongViewModel mSongViewModel;
 
-    @BindView(R.id.imageview_song_cover)
+    @BindView(R.id.iv_song_cover)
     ImageView mImageViewSongCover;
-    @BindView(R.id.floatingactionbutton_song_favorite)
+    @BindView(R.id.fab_song_favorite)
     FloatingActionButton mFabSongFavorite;
-    @BindView(R.id.textview_song_title)
+    @BindView(R.id.tv_song_title)
     TextView mTextViewSongTitle;
-    @BindView(R.id.textview_song_artist)
+    @BindView(R.id.tv_song_artist)
     TextView mTextViewSongArtist;
-    @BindView(R.id.textview_song_lyrics)
+    @BindView(R.id.tv_song_lyrics)
     TextView mTextViewSongLyrics;
-    @BindView(R.id.progressbar_song_loading)
+    @BindView(R.id.pb_song_loading)
     ProgressBar mProgressBarSongLoading;
 
     /**
@@ -73,7 +70,7 @@ public class SongFragment extends Fragment {
     public SongFragment() {
     }
 
-    public static SongFragment newInstance(int songId, boolean isFavoriteFlow) {
+    static SongFragment newInstance(int songId, boolean isFavoriteFlow) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_SONG_ID, songId);
         arguments.putBoolean(ARGUMENT_IS_FAVORITE_FLOW, isFavoriteFlow);
@@ -102,39 +99,29 @@ public class SongFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_song, container, false);
         ButterKnife.bind(this, root);
 
-        setHasOptionsMenu(true);
-
         initViewModel();
 
         return root;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.song_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    @OnClick(R.id.iv_song_back)
+    void onBackClick() {
+        requireActivity().onBackPressed();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share:
-                shareSong();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    @OnClick(R.id.iv_song_share)
+    void onShareClick() {
+        shareSong();
     }
 
-
-    @OnClick(R.id.floatingactionbutton_song_favorite)
-    void favoriteClicked() {
+    @OnClick(R.id.fab_song_favorite)
+    void onFavoriteClick() {
         mSongViewModel.onFavoriteClicked(mSong);
     }
 
     private void initViewModel() {
         SongViewModelFactory songViewModelFactory =
-                Injection.provideSongViewModelFactory(getActivity(), mSongId);
+                Injection.provideSongViewModelFactory(requireActivity(), mSongId);
         mSongViewModel =
                 ViewModelProviders.of(this, songViewModelFactory)
                         .get(SongViewModel.class);
@@ -221,7 +208,7 @@ public class SongFragment extends Fragment {
         String message = getString(R.string.share_message, mSong.getArtistName(), mSong.getLyrics());
 
         ShareCompat.IntentBuilder
-                .from(getActivity())
+                .from(requireActivity())
                 .setType(mimeType)
                 .setChooserTitle(title)
                 .setText(message)
@@ -230,7 +217,7 @@ public class SongFragment extends Fragment {
 
     private void finishActivity() {
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            getActivity().finish();
+            requireActivity().finish();
         }
     }
 }

@@ -23,18 +23,19 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.Injection;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.fjoglar.lyricly.R;
+import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.util.Injection;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -45,9 +46,9 @@ public abstract class SongsFragment extends Fragment {
     private SongsAdapter mSongsAdapter;
     private GridLayoutManager mLayoutManager;
 
-    @BindView(R.id.recyclerview_songs)
+    @BindView(R.id.rv_songs)
     RecyclerView mRecyclerViewSongs;
-    @BindView(R.id.progressbar_songs_loading)
+    @BindView(R.id.pb_songs_loading)
     ProgressBar mProgressBarSongsLoading;
 
     @Override
@@ -67,8 +68,8 @@ public abstract class SongsFragment extends Fragment {
         return root;
     }
 
-    public void goToTop() {
-        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getActivity()) {
+    void goToTop() {
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(requireActivity()) {
             @Override
             protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
@@ -120,6 +121,15 @@ public abstract class SongsFragment extends Fragment {
     private void setUpRecyclerView() {
         mLayoutManager = new GridLayoutManager(getActivity(),
                 this.getResources().getInteger(R.integer.songs_activity_column_number));
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == 0)
+                    return 2;
+                else
+                    return 1;
+            }
+        });
         mSongsAdapter = new SongsAdapter(getActivity(), mSongClickCallback);
 
         mRecyclerViewSongs.setLayoutManager(mLayoutManager);
@@ -130,7 +140,7 @@ public abstract class SongsFragment extends Fragment {
     private final SongClickCallback mSongClickCallback = song -> {
 
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            ((SongsActivity) getActivity()).show(song);
+            ((SongsActivity) requireActivity()).show(song);
         }
     };
 }

@@ -19,6 +19,9 @@ package com.fjoglar.lyricly.data;
 import androidx.annotation.Nullable;
 
 import com.fjoglar.lyricly.data.model.Song;
+import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
+import com.fjoglar.lyricly.data.source.local.preferences.PreferencesDataSource;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
 import java.util.Date;
@@ -27,7 +30,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
-public class SongsRepository implements SongsLocalDataSource, SongsRemoteDataSource, PreferencesDataSource {
+public class SongsRepository implements SongsDataSource {
 
     @Nullable
     private static volatile SongsRepository INSTANCE;

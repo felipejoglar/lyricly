@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -276,6 +277,7 @@ public class Song {
                 createdAt);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Song{" +

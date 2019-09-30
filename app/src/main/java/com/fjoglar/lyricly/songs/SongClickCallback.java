@@ -18,6 +18,6 @@ package com.fjoglar.lyricly.songs;
 
 import com.fjoglar.lyricly.data.model.Song;
 
-public interface SongClickCallback {
+interface SongClickCallback {
     void onClick(Song song);
 }

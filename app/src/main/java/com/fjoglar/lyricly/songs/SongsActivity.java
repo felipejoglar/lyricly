@@ -21,6 +21,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.song.SongActivity;
@@ -29,9 +33,6 @@ import com.fjoglar.lyricly.songs.recent.RecentSongsFragment;
 import com.fjoglar.lyricly.songs.top.TopSongsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,14 +51,14 @@ public class SongsActivity extends AppCompatActivity
     private SongsFragment mFavoriteSongsFragment;
     private SongsFragment mActiveFragment;
 
-    @BindView(R.id.bottom_navigation_songs)
+    @BindView(R.id.bnv_songs_navigation)
     BottomNavigationView mBottomNavigationSongs;
-    @BindView(R.id.title)
+    @BindView(R.id.tv_songs_app_bar_title)
     TextView mTextViewTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        setTheme(R.style.AppTheme_Lyricly);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
 
@@ -124,19 +125,19 @@ public class SongsActivity extends AppCompatActivity
     private void addFragments() {
         if (!mTopSongsFragment.isAdded()) {
             mFragmentManager.beginTransaction()
-                    .add(R.id.framelayout_songs_container, mFavoriteSongsFragment, TAG_FRAGMENT_FAVORITE)
+                    .add(R.id.fl_songs_container, mFavoriteSongsFragment, TAG_FRAGMENT_FAVORITE)
                     .hide(mFavoriteSongsFragment)
                     .commit();
         }
         if (!mRecentSongsFragment.isAdded()) {
             mFragmentManager.beginTransaction()
-                    .add(R.id.framelayout_songs_container, mRecentSongsFragment, TAG_FRAGMENT_RECENT)
+                    .add(R.id.fl_songs_container, mRecentSongsFragment, TAG_FRAGMENT_RECENT)
                     .hide(mRecentSongsFragment)
                     .commit();
         }
         if (!mFavoriteSongsFragment.isAdded()) {
             mFragmentManager.beginTransaction()
-                    .add(R.id.framelayout_songs_container, mTopSongsFragment, TAG_FRAGMENT_TOP)
+                    .add(R.id.fl_songs_container, mTopSongsFragment, TAG_FRAGMENT_TOP)
                     .hide(mTopSongsFragment)
                     .commit();
         }

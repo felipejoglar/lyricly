@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2018 Felipe Joglar Santos
+  ~ Copyright 2019 Felipe Joglar Santos
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~    http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,15 @@
   ~ limitations under the License.
   -->
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true" android:color="@color/colorSecondary" />
-    <item android:color="@android:color/darker_gray"/>
-</selector>
+<resources>
+    <!-- KEYLINES -->
+    <dimen name="keyline_1">@dimen/margin_normal</dimen>
+    <dimen name="keyline_2">72dp</dimen>
+
+    <!-- MARGIN -->
+    <dimen name="margin_normal">16dp</dimen>
+
+    <!-- PADDING -->
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+</resources>

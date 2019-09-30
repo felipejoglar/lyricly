@@ -16,7 +16,7 @@
 
 package com.fjoglar.lyricly.songs.top;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
@@ -29,42 +29,42 @@ import io.reactivex.Completable;
 
 public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
 
-    private long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+    private final long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
     @Override
-    public Completable execute(SongsRepository repository, Void parameter) {
+    public Completable execute(SongsDataSource songsDataSource, Void parameter) {
         return Completable.fromAction(() -> {
 
-            if (System.currentTimeMillis() - repository.getLastUpdatedTimeInMillis() < DAY_IN_MILLIS) {
+            if (System.currentTimeMillis() - songsDataSource.getLastUpdatedTimeInMillis() < DAY_IN_MILLIS) {
                 return;
             }
 
-            List<Track> tracks = repository.fetchTopSongs(200);
+            List<Track> tracks = songsDataSource.fetchTopSongs(200);
             if (tracks.isEmpty()) {
                 return;
             }
 
-            repository.setLastUpdatedTimeInMillis();
+            songsDataSource.setLastUpdatedTimeInMillis();
 
             for (Track track : tracks) {
-                Song song = repository.getTopSongByNapsterId(track.getId());
+                Song song = songsDataSource.getTopSongByNapsterId(track.getId());
 
                 if (song == null) {
-                    String lyrics = repository.fetchSongLyrics(track.getArtistName(), track.getName());
+                    String lyrics = songsDataSource.fetchSongLyrics(track.getArtistName(), track.getName());
                     if (lyrics != null && !lyrics.isEmpty()) {
-                        repository.saveSong(SongDataMapper.transform(track, tracks.indexOf(track), lyrics));
+                        songsDataSource.saveSong(SongDataMapper.transform(track, tracks.indexOf(track), lyrics));
                     }
                 } else {
-                    repository.updateTopSongOrder(song.getId(), tracks.indexOf(track), new Date());
+                    songsDataSource.updateTopSongOrder(song.getId(), tracks.indexOf(track), new Date());
                 }
 
-                Song favoriteSong = repository.getFavoriteSongByNapsterId(track.getId());
+                Song favoriteSong = songsDataSource.getFavoriteSongByNapsterId(track.getId());
                 if (favoriteSong != null) {
-                    repository.updateFavoriteSongByNapsterId(track.getId());
+                    songsDataSource.updateFavoriteSongByNapsterId(track.getId());
                 }
             }
 
-            repository.deleteOldTopSongs(new Date(repository.getLastUpdatedTimeInMillis()));
+            songsDataSource.deleteOldTopSongs(new Date(songsDataSource.getLastUpdatedTimeInMillis()));
         });
     }
 }

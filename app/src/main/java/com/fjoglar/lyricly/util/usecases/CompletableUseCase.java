@@ -16,11 +16,11 @@
 
 package com.fjoglar.lyricly.util.usecases;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 
 import io.reactivex.Completable;
 
 public interface CompletableUseCase<P> {
 
-    Completable execute(SongsRepository repository, P parameter);
+    Completable execute(SongsDataSource songsDataSource, P parameter);
 }

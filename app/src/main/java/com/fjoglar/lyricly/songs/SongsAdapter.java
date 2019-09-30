@@ -39,11 +39,11 @@ import butterknife.ButterKnife;
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
 
     private final SongClickCallback mSongClickCallback;
+    private final Context mContext;
 
     private List<? extends Song> mSongs;
-    private Context mContext;
 
-    public SongsAdapter(Context context, @Nullable SongClickCallback clickCallback) {
+    SongsAdapter(Context context, @Nullable SongClickCallback clickCallback) {
         mContext = context;
         mSongClickCallback = clickCallback;
     }
@@ -89,7 +89,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.imageview_album_cover)
+        @BindView(R.id.iv_album_cover)
         ImageView imageViewAlbumCover;
 
         SongViewHolder(View itemView) {

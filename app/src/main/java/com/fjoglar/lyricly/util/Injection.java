@@ -18,14 +18,24 @@ package com.fjoglar.lyricly.util;
 
 import android.content.Context;
 
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
 import com.fjoglar.lyricly.data.source.local.SongsLocalRepository;
 import com.fjoglar.lyricly.data.source.local.db.SongDatabase;
+import com.fjoglar.lyricly.data.source.local.preferences.PreferencesDataSource;
 import com.fjoglar.lyricly.data.source.local.preferences.PreferencesRepository;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 import com.fjoglar.lyricly.data.source.remote.SongsRemoteRepository;
-import com.fjoglar.lyricly.data.SongsRemoteDataSource;
+import com.fjoglar.lyricly.song.AddSongToFavoriteUseCase;
+import com.fjoglar.lyricly.song.DeleteSongFromFavoriteUseCase;
+import com.fjoglar.lyricly.song.GetSongByIdUseCase;
 import com.fjoglar.lyricly.song.SongViewModelFactory;
 import com.fjoglar.lyricly.songs.SongsViewModelFactory;
+import com.fjoglar.lyricly.songs.favorite.GetFavoriteSongsUseCase;
+import com.fjoglar.lyricly.songs.recent.GetRecentSongsUseCase;
+import com.fjoglar.lyricly.songs.top.GetTopSongsUseCase;
+import com.fjoglar.lyricly.songs.top.UpdateTopSongsUseCase;
 
 /**
  * Enables injection of data sources.
@@ -33,32 +43,60 @@ import com.fjoglar.lyricly.songs.SongsViewModelFactory;
 public class Injection {
 
     public static SongsViewModelFactory provideSongsViewModelFactory(Context context) {
-        SongsRepository songsRepository = provideSongsRepository(context);
-        return new SongsViewModelFactory(songsRepository);
+        SongsDataSource songsDataSource = provideSongsRepository(context);
+        return new SongsViewModelFactory(songsDataSource);
     }
 
     public static SongViewModelFactory provideSongViewModelFactory(Context context, int songId) {
-        SongsRepository songsRepository = provideSongsRepository(context);
-        return new SongViewModelFactory(songsRepository, songId);
+        SongsDataSource songsDataSource = provideSongsRepository(context);
+        return new SongViewModelFactory(songsDataSource, songId);
+    }
+
+    public static GetTopSongsUseCase provideGetTopSongsUseCase() {
+        return new GetTopSongsUseCase();
+    }
+
+    public static UpdateTopSongsUseCase provideUpdateTopSongsUseCase() {
+        return new UpdateTopSongsUseCase();
+    }
+
+    public static GetRecentSongsUseCase provideGetRecentSongsUseCase() {
+        return new GetRecentSongsUseCase();
+    }
+
+    public static GetFavoriteSongsUseCase provideGetFavoriteSongsUseCase() {
+        return new GetFavoriteSongsUseCase();
+    }
+
+    public static GetSongByIdUseCase provideGetSongByIdUseCase() {
+        return new GetSongByIdUseCase();
+    }
+
+    public static AddSongToFavoriteUseCase provideAddSongToFavoriteUseCase() {
+        return new AddSongToFavoriteUseCase();
+    }
+
+    public static DeleteSongFromFavoriteUseCase provideDeleteSongFromFavoriteUseCase() {
+        return new DeleteSongFromFavoriteUseCase();
     }
 
     private static SongsRemoteDataSource provideSongsRemoteDataSource() {
         return SongsRemoteRepository.getInstance();
     }
 
-    private static SongsLocalRepository provideSongsLocalDataSource(Context context) {
+    private static SongsLocalDataSource provideSongsLocalDataSource(Context context) {
         SongDatabase database = SongDatabase.getInstance(context);
         return SongsLocalRepository.getInstance(database);
     }
 
-    private static PreferencesRepository providePreferencesLocalDataSource(Context context) {
+    private static PreferencesDataSource providePreferencesLocalDataSource(Context context) {
         return PreferencesRepository.getInstance(context);
     }
 
-    private static SongsRepository provideSongsRepository(Context context) {
+    private static SongsDataSource provideSongsRepository(Context context) {
         SongsRemoteDataSource remoteDataSource = provideSongsRemoteDataSource();
-        SongsLocalRepository localDataSource = provideSongsLocalDataSource(context);
-        PreferencesRepository preferencesDataSource = providePreferencesLocalDataSource(context);
+        SongsLocalDataSource localDataSource = provideSongsLocalDataSource(context);
+        PreferencesDataSource preferencesDataSource = providePreferencesLocalDataSource(context);
         return SongsRepository.getInstance(localDataSource, remoteDataSource, preferencesDataSource);
     }
 }

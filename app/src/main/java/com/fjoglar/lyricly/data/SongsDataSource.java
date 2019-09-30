@@ -16,26 +16,9 @@
 
 package com.fjoglar.lyricly.data;
 
-import com.fjoglar.lyricly.data.source.remote.entity.Track;
+import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
+import com.fjoglar.lyricly.data.source.local.preferences.PreferencesDataSource;
+import com.fjoglar.lyricly.data.source.remote.SongsRemoteDataSource;
 
-import java.util.List;
-
-public interface SongsRemoteDataSource {
-
-    /**
-     * Gets a list of songs from the remote data source.
-     *
-     * @param limit number of songs to be fetched.
-     * @return the list of top songs from the data source.
-     */
-    List<Track> fetchTopSongs(int limit);
-
-    /**
-     * Gets the lyrics of a song from the remote data source.
-     *
-     * @param artist the artist of the song
-     * @param title  the title of the sogn
-     * @return the user from the data source.
-     */
-    String fetchSongLyrics(String artist, String title);
+public interface SongsDataSource extends SongsLocalDataSource, SongsRemoteDataSource, PreferencesDataSource {
 }

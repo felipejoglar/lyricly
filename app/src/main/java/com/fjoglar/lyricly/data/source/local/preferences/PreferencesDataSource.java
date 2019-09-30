@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util;
+package com.fjoglar.lyricly.data.source.local.preferences;
 
-import com.fjoglar.lyricly.R;
+public interface PreferencesDataSource {
 
-/**
- * Utility methods for working with UI.
- */
-public class UiUtil {
+    String LAST_UPDATED_TIME_KEY = "last_updated_time";
 
-    private UiUtil() {
-    }
+    /**
+     * Gets the last time the top songs were updated.
+     *
+     * @return the time of the last update in millis.
+     */
+    long getLastUpdatedTimeInMillis();
 
-    public static int getPlaceHolderColor() {
-        double random = Math.random();
-        if (random < 0.33) {
-            return R.color.light_cyan;
-        } else if (random > 0.66) {
-            return R.color.spray_blue;
-        }
-        return R.color.pale_turquoise_blue;
-    }
+    /**
+     * Sets the last updated time the top songs where fetched.
+     */
+    void setLastUpdatedTimeInMillis();
 }

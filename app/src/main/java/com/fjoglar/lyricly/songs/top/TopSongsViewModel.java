@@ -20,16 +20,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
+import com.fjoglar.lyricly.util.Injection;
 import com.fjoglar.lyricly.util.schedulers.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
 
 public class TopSongsViewModel extends ViewModel implements SongsViewModel {
 
-    private SongsRepository mSongsRepository;
+    private final SongsDataSource mSongsDataSource;
 
     private final CompositeDisposable mDisposables = new CompositeDisposable();
 
@@ -37,8 +38,8 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     private final MutableLiveData<Boolean> mLoadingState = new MutableLiveData<>();
 
 
-    public TopSongsViewModel(SongsRepository songsRepository) {
-        mSongsRepository = songsRepository;
+    public TopSongsViewModel(SongsDataSource songsDataSource) {
+        mSongsDataSource = songsDataSource;
         updateTopSongs();
         getTopSongs();
     }
@@ -59,7 +60,7 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void updateTopSongs() {
-        mDisposables.add(new UpdateTopSongsUseCase().execute(mSongsRepository, null)
+        mDisposables.add(Injection.provideUpdateTopSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .doOnSubscribe(__ -> mLoadingState.setValue(true))
@@ -71,7 +72,7 @@ public class TopSongsViewModel extends ViewModel implements SongsViewModel {
     }
 
     private void getTopSongs() {
-        mDisposables.add(new GetTopSongsUseCase().execute(mSongsRepository, null)
+        mDisposables.add(Injection.provideGetTopSongsUseCase().execute(mSongsDataSource, null)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(

@@ -76,7 +76,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:${versions.room}"
 
     implementation "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}"
+    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
 
     implementation "com.jakewharton:butterknife:${versions.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"

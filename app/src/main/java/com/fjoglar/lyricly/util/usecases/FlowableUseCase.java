@@ -16,11 +16,11 @@
 
 package com.fjoglar.lyricly.util.usecases;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 
 import io.reactivex.Flowable;
 
 public interface FlowableUseCase<P, R> {
 
-    Flowable<R> execute (SongsRepository repository, P parameter);
+    Flowable<R> execute(SongsDataSource songsDataSource, P parameter);
 }

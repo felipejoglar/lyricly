@@ -16,10 +16,11 @@
 
 package com.fjoglar.lyricly.songs;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.songs.favorite.FavoriteSongsViewModel;
 import com.fjoglar.lyricly.songs.recent.RecentSongsViewModel;
 import com.fjoglar.lyricly.songs.top.TopSongsViewModel;
@@ -29,20 +30,21 @@ import com.fjoglar.lyricly.songs.top.TopSongsViewModel;
  */
 public class SongsViewModelFactory implements ViewModelProvider.Factory {
 
-    private final SongsRepository mSongsRepository;
+    private final SongsDataSource mSongsDataSource;
 
-    public SongsViewModelFactory(SongsRepository songsRepository) {
-        mSongsRepository = songsRepository;
+    public SongsViewModelFactory(SongsDataSource songsDataSource) {
+        mSongsDataSource = songsDataSource;
     }
 
+    @NonNull
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(TopSongsViewModel.class)) {
-            return (T) new TopSongsViewModel(mSongsRepository);
+            return (T) new TopSongsViewModel(mSongsDataSource);
         } else if (modelClass.isAssignableFrom(RecentSongsViewModel.class)) {
-            return (T) new RecentSongsViewModel(mSongsRepository);
+            return (T) new RecentSongsViewModel(mSongsDataSource);
         } else if (modelClass.isAssignableFrom(FavoriteSongsViewModel.class)) {
-            return (T) new FavoriteSongsViewModel(mSongsRepository);
+            return (T) new FavoriteSongsViewModel(mSongsDataSource);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

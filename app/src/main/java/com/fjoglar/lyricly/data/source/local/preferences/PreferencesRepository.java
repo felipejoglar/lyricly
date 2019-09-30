@@ -20,8 +20,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.fjoglar.lyricly.data.PreferencesDataSource;
-
 /**
  * Helper class to make simple the use of SharedPreferences.
  */
@@ -29,7 +27,7 @@ public class PreferencesRepository implements PreferencesDataSource {
 
     private static volatile PreferencesRepository INSTANCE;
 
-    private SharedPreferences mPreferences;
+    private final SharedPreferences mPreferences;
 
     // Prevent direct instantiation.
     private PreferencesRepository(Context context) {

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2018 Felipe Joglar Santos
+  ~ Copyright 2019 Felipe Joglar Santos
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,49 +16,164 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorSecondary</item>
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+    <!--THEMES-->
+    <!--Top level DayNight theme to be used in AndroidManifest.xml-->
+    <style name="Lyricly.DayNight" parent="AppTheme.Lyricly" />
 
+    <!--Base custom theme which will be shared between both light and dark theme variants-->
+    <style name="AppTheme.Lyricly" parent="Base.Lyricly">
+        <!--Material color attributes -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorError">@color/color_error</item>
+
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="colorOnError">@color/color_on_error</item>
+
+        <!--Material type attributes-->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.Lyricly.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Lyricly.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Lyricly.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Lyricly.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Lyricly.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Lyricly.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Lyricly.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Lyricly.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.Lyricly.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Lyricly.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.Lyricly.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Lyricly.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Lyricly.Overline</item>
+
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Lyricly.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Lyricly.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Lyricly.LargeComponent
+        </item>
+
+        <!--Component styles-->
+        <item name="toolbarStyle">@style/Widget.Lyricly.Toolbar</item>
+    </style>
+
+    <style name="Base.Lyricly" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/status_bar</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="Widget.Lyricly.BottomNav" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="itemIconTint">@color/bottom_nav_item</item>
-        <item name="itemTextAppearanceInactive">@style/TextAppearance.Lyricly.BottomNavigationView
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">
+            @color/navigation_bar
         </item>
-        <item name="itemTextAppearanceActive">
-            @style/TextAppearance.Lyricly.BottomNavigationView.Active
-        </item>
-        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+
+        <!--Remap legacy AppCompat attributes to MaterialComponent attributes-->
+        <item name="colorPrimaryDark">?colorPrimaryVariant</item>
+        <item name="colorAccent">?colorSecondary</item>
     </style>
 
-    <style name="TextAppearance.Lyricly.BottomNavigationView" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="android:textColor">@color/bottom_nav_item</item>
-    </style>
+    <style name="AppTheme.Lyricly.PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
 
-    <style name="TextAppearance.Lyricly.BottomNavigationView.Active">
-        <item name="android:textColor">@color/bottom_nav_item</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">14sp</item>
-    </style>
+    <!--STYLES-->
+    <!--Components-->
 
-    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
+    <!--Toolbar-->
+    <style name="Widget.Lyricly.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary" />
 
-    <style name="Widget.AppBar" parent="@style/Widget.Design.AppBarLayout">
-        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
-        <item name="android:background">@android:color/white</item>
+    <!--AppBar-->
+    <style name="Widget.Lyricly.AppBar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:popupTheme">@style/AppTheme.Lyricly.PopupTheme</item>
+        <item name="android:background">@color/white</item>
         <item name="android:elevation">8dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="TextAppearance.Lyricly.ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textStyle">bold</item>
+    <!--Bottom Navigation View-->
+    <style name="Widget.Lyricly.BottomNavigationView" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_navigation_view_item</item>
+        <item name="itemTextColor">@color/bottom_navigation_view_item</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Lyricly.Subtitle2</item>
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Light</item>
+    </style>
+
+    <!--TYPOGRAPHY-->
+    <style name="TextAppearance.Lyricly.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/montserrat_light</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/montserrat_light</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.Lyricly.Lyrics" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/noto_serif</item>
+        <item name="android:lineSpacingMultiplier">1.15</item>
+    </style>
+
+    <!--SHAPE-->
+    <!--Shape Appearance for small components like chips, buttons, text fields and FABs-->
+    <style name="ShapeAppearance.Lyricly.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <!--Your custom shape here-->
+    </style>
+
+    <!--Shape Appearance for medium components like cards, alert dialogs-->
+    <style name="ShapeAppearance.Lyricly.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <!--Your custom shape here-->
+    </style>
+
+    <!--Shape Appearance for large components like side and bottom navigation drawers-->
+    <style name="ShapeAppearance.Lyricly.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <!--Your custom shape here-->
     </style>
 </resources>
