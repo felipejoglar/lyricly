@@ -163,4 +163,14 @@ public class SongsRepository implements SongsDataSource {
     public void setLastUpdatedTimeInMillis() {
         mPreferencesDataSource.setLastUpdatedTimeInMillis();
     }
+
+    @Override
+    public boolean getCurrentlyPlayingSongPlayBackState() {
+        return mPreferencesDataSource.getCurrentlyPlayingSongPlayBackState();
+    }
+
+    @Override
+    public void setCurrentlyPlayingSongPlayBackState(boolean currentState) {
+        mPreferencesDataSource.setCurrentlyPlayingSongPlayBackState(currentState);
+    }
 }

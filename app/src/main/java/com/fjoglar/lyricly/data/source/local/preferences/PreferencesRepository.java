@@ -68,4 +68,14 @@ public class PreferencesRepository implements PreferencesDataSource {
     public void setLastUpdatedTimeInMillis() {
         mPreferences.edit().putLong(LAST_UPDATED_TIME_KEY, System.currentTimeMillis()).apply();
     }
+
+    @Override
+    public boolean getCurrentlyPlayingSongPlayBackState() {
+        return mPreferences.getBoolean(CURRENTLY_PLAYING_SONG_STATE_KEY, false);
+    }
+
+    @Override
+    public void setCurrentlyPlayingSongPlayBackState(boolean currentState) {
+        mPreferences.edit().putBoolean(CURRENTLY_PLAYING_SONG_STATE_KEY, currentState).apply();
+    }
 }

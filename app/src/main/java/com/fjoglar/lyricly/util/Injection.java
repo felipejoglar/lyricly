@@ -80,6 +80,13 @@ public class Injection {
         return new DeleteSongFromFavoriteUseCase();
     }
 
+    public static SongsDataSource provideSongsRepository(Context context) {
+        SongsRemoteDataSource remoteDataSource = provideSongsRemoteDataSource();
+        SongsLocalDataSource localDataSource = provideSongsLocalDataSource(context);
+        PreferencesDataSource preferencesDataSource = providePreferencesLocalDataSource(context);
+        return SongsRepository.getInstance(localDataSource, remoteDataSource, preferencesDataSource);
+    }
+
     private static SongsRemoteDataSource provideSongsRemoteDataSource() {
         return SongsRemoteRepository.getInstance();
     }
@@ -91,12 +98,5 @@ public class Injection {
 
     private static PreferencesDataSource providePreferencesLocalDataSource(Context context) {
         return PreferencesRepository.getInstance(context);
-    }
-
-    private static SongsDataSource provideSongsRepository(Context context) {
-        SongsRemoteDataSource remoteDataSource = provideSongsRemoteDataSource();
-        SongsLocalDataSource localDataSource = provideSongsLocalDataSource(context);
-        PreferencesDataSource preferencesDataSource = providePreferencesLocalDataSource(context);
-        return SongsRepository.getInstance(localDataSource, remoteDataSource, preferencesDataSource);
     }
 }
