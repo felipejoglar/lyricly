@@ -44,6 +44,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".songs.SongsActivity" />
         </activity>
-    </application>
 
+        <receiver
+            android:name=".currentlyplayingsong.CurrentlyPlayingSongReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <!-- Default android -->
+                <action android:name="com.android.music.metachanged" />
+                <action android:name="com.android.music.playstatechanged" />
+
+                <!-- Spotify -->
+                <action android:name="com.spotify.music.metadatachanged" />
+                <action android:name="com.spotify.music.playbackstatechanged" />
+
+                <!-- PowerAmp -->
+                <action android:name="com.maxmpz.audioplayer.metachanged" />
+                <action android:name="com.maxmpz.audioplayer.playstatechanged" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
