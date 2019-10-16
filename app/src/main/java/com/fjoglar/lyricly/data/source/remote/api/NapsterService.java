@@ -17,6 +17,7 @@
 package com.fjoglar.lyricly.data.source.remote.api;
 
 import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiResponse;
+import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiSearchResponse;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -34,6 +35,13 @@ public interface NapsterService {
     Call<NapsterApiResponse> getTopTracks(
             @Query("apikey") String apiKey,
             @Query("limit") int limit);
+
+    @GET("search")
+    Call<NapsterApiSearchResponse> searchCurrentlyPlayingTrack(
+            @Query("apikey") String apiKey,
+            @Query("type") String type,
+            @Query("per_type_limit") int perTypeLimit,
+            @Query("query") String query);
 
     static Retrofit retrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

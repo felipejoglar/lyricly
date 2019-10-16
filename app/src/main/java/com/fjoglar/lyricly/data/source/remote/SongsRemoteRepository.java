@@ -22,6 +22,7 @@ import com.fjoglar.lyricly.BuildConfig;
 import com.fjoglar.lyricly.data.source.remote.api.NapsterService;
 import com.fjoglar.lyricly.data.source.remote.api.OvhLyricsService;
 import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiResponse;
+import com.fjoglar.lyricly.data.source.remote.entity.NapsterApiSearchResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
 
@@ -83,6 +84,28 @@ public class SongsRemoteRepository implements SongsRemoteDataSource {
             e.printStackTrace();
         }
         return topSongs;
+    }
+
+    @Override
+    public Track searchCurrentlyPlayingSong(String query) {
+        Track searchedSong = null;
+        List<Track> searchedSongs;
+        Call<NapsterApiSearchResponse> call =
+                mNapsterService.searchCurrentlyPlayingTrack(
+                        BuildConfig.NAPSTER_API_KEY,
+                        "track",
+                        1,
+                        query);
+        try {
+            NapsterApiSearchResponse napsterApiSearchResponse = call.execute().body();
+            if (napsterApiSearchResponse != null) {
+                searchedSongs = napsterApiSearchResponse.getSearch().getData().getTracks();
+                searchedSong = searchedSongs.get(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return searchedSong;
     }
 
     @Override

@@ -19,7 +19,6 @@ package com.fjoglar.lyricly.data.source.local.preferences;
 public interface PreferencesDataSource {
 
     String LAST_UPDATED_TIME_KEY = "last_updated_time";
-    String CURRENTLY_PLAYING_SONG_STATE_KEY = "currently_playing_song_state";
 
     /**
      * Gets the last time the top songs were updated.
@@ -29,17 +28,7 @@ public interface PreferencesDataSource {
     long getLastUpdatedTimeInMillis();
 
     /**
-     * Sets the last updated time the top songs where fetched.
+     * Sets the last updated time the top songs were fetched.
      */
     void setLastUpdatedTimeInMillis();
-
-    /**
-     * @return the state of the currently playing song, true if playing
-     */
-    boolean getCurrentlyPlayingSongPlayBackState();
-
-    /**
-     *
-     */
-    void setCurrentlyPlayingSongPlayBackState(boolean currentState);
 }

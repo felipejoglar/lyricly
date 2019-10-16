@@ -16,11 +16,11 @@
 
 package com.fjoglar.lyricly.util.usecases;
 
-import com.fjoglar.lyricly.data.SongsRepository;
+import com.fjoglar.lyricly.data.SongsDataSource;
 
 import io.reactivex.Single;
 
 public interface SingleUseCase<P, R> {
 
-    Single<R> execute(SongsRepository repository, P parameter);
+    Single<R> execute(SongsDataSource dataSource, P parameter);
 }

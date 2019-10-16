@@ -18,6 +18,7 @@ package com.fjoglar.lyricly.util;
 
 import android.content.Context;
 
+import com.fjoglar.lyricly.currentlyplayingsong.SearchCurrentlyPlayingSongUseCase;
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.SongsRepository;
 import com.fjoglar.lyricly.data.source.local.SongsLocalDataSource;
@@ -62,6 +63,10 @@ public class Injection {
 
     public static GetRecentSongsUseCase provideGetRecentSongsUseCase() {
         return new GetRecentSongsUseCase();
+    }
+
+    public static SearchCurrentlyPlayingSongUseCase provideSearchCurrentlyPlayingSongUseCase() {
+        return new SearchCurrentlyPlayingSongUseCase();
     }
 
     public static GetFavoriteSongsUseCase provideGetFavoriteSongsUseCase() {
