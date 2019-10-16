@@ -31,6 +31,16 @@ class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {
 
     private val TAG = CurrentlyPlayingSongNotificationListener::class.java.simpleName
 
+    private val DUPLICATE_NOTIFICATION_THRESHOLD = 100
+
+    /**
+     * Duplicate notification tracking info
+     */
+    private var track : String? = ""
+    private var artist : String? = ""
+    private var album : String? = ""
+    private var timeStamp = 0L
+
     private object PackageNames {
         const val SPOTIFY = "com.spotify.music"
         const val SPOTIFY_LITE = "com.spotify.lite"
@@ -62,6 +72,19 @@ class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {
                 val artist = metadata?.getString(METADATA_KEY_ARTIST)
                 val album = metadata?.getString(METADATA_KEY_ALBUM)
 
+                if (this.track == track && this.artist == artist && this.album == album
+                    && System.currentTimeMillis() - timeStamp < DUPLICATE_NOTIFICATION_THRESHOLD
+                ) {
+                    // Duplicate notification, ignore.
+                    return
+                }
+
+                // Set values for duplicate notification check
+                this.track = track
+                this.artist = artist
+                this.album = album
+                timeStamp = System.currentTimeMillis()
+
                 val songsDataSource = Injection.provideSongsRepository(applicationContext)
                 val searchCurrentlyPlayingSongUseCase =
                     Injection.provideSearchCurrentlyPlayingSongUseCase()
@@ -72,22 +95,23 @@ class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {
                         .subscribeOn(SchedulerProvider.getInstance().io())
                         .observeOn(SchedulerProvider.getInstance().ui())
                         .subscribe({ song ->
-                            Log.d(TAG, "Song fetched: ${song?.name} by ${song?.artistName}")
+                            Log.d(TAG, "Lyrics fetched: ${song?.name} by ${song?.artistName}")
                         },
                             {
-                                disposables.add(searchCurrentlyPlayingSongUseCase
-                                    .execute(songsDataSource, "$artist $track")
-                                    .subscribeOn(SchedulerProvider.getInstance().io())
-                                    .observeOn(SchedulerProvider.getInstance().ui())
-                                    .subscribe({ song ->
-                                        Log.d(
-                                            TAG,
-                                            "Song fetched: ${song?.name} by ${song?.artistName}"
-                                        )
-                                    },
-                                        {
-                                            Log.e(TAG, it.message)
-                                        })
+                                disposables.add(
+                                    searchCurrentlyPlayingSongUseCase
+                                        .execute(songsDataSource, "$artist $track")
+                                        .subscribeOn(SchedulerProvider.getInstance().io())
+                                        .observeOn(SchedulerProvider.getInstance().ui())
+                                        .subscribe({ song ->
+                                            Log.d(
+                                                TAG,
+                                                "Lyrics fetched: ${song?.name} by ${song?.artistName}"
+                                            )
+                                        },
+                                            {
+                                                Log.e(TAG, it.message)
+                                            })
                                 )
                             })
                 )

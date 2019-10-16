@@ -85,6 +85,13 @@ public interface SongsLocalDataSource {
     Song getFavoriteSongByNapsterId(String napsterId);
 
     /**
+     * Gets the last recent song from the data source.
+     *
+     * @return the song from the data source.
+     */
+    Song getLastRecentSong();
+
+    /**
      * Updates the order of the selected top song.
      *
      * @param id        id of the song to by updated.
