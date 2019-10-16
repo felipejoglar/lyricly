@@ -34,4 +34,7 @@
     <string name="song_home_content_description">Home</string>
     <string name="song_share_content_description">Share</string>
 
+    <!-- CURRENTLY PLAYING SCREEN -->
+    <string name="currently_playing_song_notification_listener">@string/app_name</string>
+
 </resources>

@@ -45,23 +45,13 @@
                 android:value=".songs.SongsActivity" />
         </activity>
 
-        <receiver
-            android:name=".currentlyplayingsong.CurrentlyPlayingSongReceiver"
-            android:enabled="true"
-            android:exported="true">
+        <service
+            android:name=".currentlyplayingsong.CurrentlyPlayingSongNotificationListener"
+            android:label="@string/currently_playing_song_notification_listener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
-                <!-- Default android -->
-                <action android:name="com.android.music.metachanged" />
-                <action android:name="com.android.music.playstatechanged" />
-
-                <!-- Spotify -->
-                <action android:name="com.spotify.music.metadatachanged" />
-                <action android:name="com.spotify.music.playbackstatechanged" />
-
-                <!-- PowerAmp -->
-                <action android:name="com.maxmpz.audioplayer.metachanged" />
-                <action android:name="com.maxmpz.audioplayer.playstatechanged" />
+                <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
-        </receiver>
+        </service>
     </application>
 </manifest>

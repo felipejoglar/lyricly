@@ -80,6 +80,11 @@ public class SongsRepository implements SongsDataSource {
     }
 
     @Override
+    public Track searchCurrentlyPlayingSong(String query) {
+        return mSongsRemoteDataSource.searchCurrentlyPlayingSong(query);
+    }
+
+    @Override
     public String fetchSongLyrics(String artist, String title) {
         return mSongsRemoteDataSource.fetchSongLyrics(artist, title);
     }
@@ -162,15 +167,5 @@ public class SongsRepository implements SongsDataSource {
     @Override
     public void setLastUpdatedTimeInMillis() {
         mPreferencesDataSource.setLastUpdatedTimeInMillis();
-    }
-
-    @Override
-    public boolean getCurrentlyPlayingSongPlayBackState() {
-        return mPreferencesDataSource.getCurrentlyPlayingSongPlayBackState();
-    }
-
-    @Override
-    public void setCurrentlyPlayingSongPlayBackState(boolean currentState) {
-        mPreferencesDataSource.setCurrentlyPlayingSongPlayBackState(currentState);
     }
 }

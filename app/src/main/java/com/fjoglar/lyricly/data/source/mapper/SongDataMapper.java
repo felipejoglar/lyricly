@@ -61,4 +61,34 @@ public class SongDataMapper {
 
         return song;
     }
+
+    /**
+     * Transforms {@link Track} and {@link OvhLyricsApiResponse} lyrics to {@link Song}.
+     *
+     * @param track    the track to be converted.
+     * @param isRecent is recent song flag.
+     * @param lyrics   the lyrics of the track to be converted.
+     * @return a song in the top song list.
+     */
+    @Nullable
+    public static Song transform(Track track, boolean isRecent, String lyrics) {
+        Song song = null;
+
+        if (track != null && lyrics != null) {
+            song = new Song(track.getId(),
+                    track.getPlaybackSeconds(),
+                    track.getName(),
+                    track.getArtistName(),
+                    track.getAlbumId(),
+                    track.getAlbumName(),
+                    lyrics,
+                    false,
+                    isRecent,
+                    false,
+                    0,
+                    new Date());
+        }
+
+        return song;
+    }
 }

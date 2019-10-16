@@ -31,10 +31,18 @@ public interface SongsRemoteDataSource {
     List<Track> fetchTopSongs(int limit);
 
     /**
+     * Search a song in the remote data source.
+     *
+     * @param query search query.
+     * @return a single track.
+     */
+    Track searchCurrentlyPlayingSong(String query);
+
+    /**
      * Gets the lyrics of a song from the remote data source.
      *
      * @param artist the artist of the song
-     * @param title  the title of the sogn
+     * @param title  the title of the song
      * @return the user from the data source.
      */
     String fetchSongLyrics(String artist, String title);
