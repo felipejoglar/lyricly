@@ -102,6 +102,14 @@ public interface SongDao {
     Song getFavoriteSongBySourceId(String sourceId);
 
     /**
+     * Get the last recent song from the table.
+     *
+     * @return the selected song from the table.
+     */
+    @Query("SELECT * FROM songs WHERE recent = 1 ORDER BY created_at DESC LIMIT 1")
+    Song getLastRecentSong();
+
+    /**
      * Updates the order of the selected top song.
      *
      * @param songId id of the song to by updated.

@@ -28,15 +28,21 @@ class SearchCurrentlyPlayingSongUseCase : SingleUseCase<String, Song> {
         return Single.create<Song> { emitter ->
             val track =
                 dataSource?.searchCurrentlyPlayingSong(parameter)
-            val lyrics = dataSource?.fetchSongLyrics(track?.artistName, track?.name)
-            if (!lyrics.isNullOrEmpty()) {
-                val song = SongDataMapper.transform(track, true, lyrics)
-                song?.let {
-                    dataSource.saveSong(it)
-                    emitter.onSuccess(it)
-                }
+            val lastSong = dataSource?.lastRecentSong
+
+            if (track?.id.equals(lastSong?.sourceId)) {
+                lastSong?.let { emitter.onSuccess(it) }
             } else {
-                emitter.onError(Throwable("No lyrics found"))
+                val lyrics = dataSource?.fetchSongLyrics(track?.artistName, track?.name)
+                if (!lyrics.isNullOrEmpty()) {
+                    val song = SongDataMapper.transform(track, true, lyrics)
+                    song?.let {
+                        dataSource.saveSong(it)
+                        emitter.onSuccess(it)
+                    }
+                } else {
+                    emitter.onError(Throwable("No lyrics found for ${track?.name} by ${track?.artistName}"))
+                }
             }
         }
     }

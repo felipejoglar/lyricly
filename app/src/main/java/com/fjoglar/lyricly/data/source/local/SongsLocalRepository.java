@@ -107,6 +107,11 @@ public class SongsLocalRepository implements SongsLocalDataSource {
     }
 
     @Override
+    public Song getLastRecentSong() {
+        return mSongDatabase.songDao().getLastRecentSong();
+    }
+
+    @Override
     public void updateTopSongOrder(int id, int order, Date createdAt) {
         mSongDatabase.songDao().updateTopSongOrder(id, order, createdAt);
     }

@@ -130,6 +130,11 @@ public class SongsRepository implements SongsDataSource {
     }
 
     @Override
+    public Song getLastRecentSong() {
+        return mSongsLocalDataSource.getLastRecentSong();
+    }
+
+    @Override
     public void updateTopSongOrder(int id, int order, Date createdAt) {
         mSongsLocalDataSource.updateTopSongOrder(id, order, createdAt);
     }
