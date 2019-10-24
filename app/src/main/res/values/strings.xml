@@ -21,6 +21,7 @@
     <string name="songs_menu_popular">Popular</string>
     <string name="songs_menu_recent">Recent</string>
     <string name="songs_menu_favorite">Favorite</string>
+    <string name="songs_notification_access">To experience the power of Lyricly\'s currently playing song, you must enable the access to notifications</string>
     <string name="album_cover">Album cover</string>
     <string name="album_image_url">"http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png"</string>
 
