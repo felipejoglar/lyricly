@@ -16,14 +16,21 @@
 
 package com.fjoglar.lyricly.util;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 
 public class GlideHelper {
 
@@ -38,9 +45,7 @@ public class GlideHelper {
      * Loads thumbnail and then replaces it with full image.
      */
     public static void loadWithThumb(ImageView image, String imageUrl, String thumbUrl) {
-        // We don't want Glide to crop or resize our image
         final RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(Target.SIZE_ORIGINAL)
                 .dontTransform();
 
@@ -54,5 +59,39 @@ public class GlideHelper {
                 .thumbnail(thumbRequest)
                 .placeholder(UiUtil.getPlaceHolderColor())
                 .into(image);
+    }
+
+    /**
+     * Load a resource from network
+     *
+     * @param context      Android Context
+     * @param imageUrl     network image URL
+     * @param cornerRadius image corner radius (in dp)
+     * @param listener     OnImageLoadedListener that will handle the result
+     */
+    public static void loadBitmapFromNetwork(Context context,
+                                             String imageUrl,
+                                             int cornerRadius,
+                                             OnImageLoadedListener listener) {
+        final RequestOptions options =
+                RequestOptions.bitmapTransform(new RoundedCorners(UiUtil.dpToPx(context, cornerRadius)));
+
+        Glide.with(context)
+                .asBitmap()
+                .load(imageUrl)
+                .apply(options)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource,
+                                                @Nullable Transition<? super Bitmap> transition) {
+                        if (listener != null) {
+                            listener.onResourceReady(resource);
+                        }
+                    }
+                });
+    }
+
+    public interface OnImageLoadedListener {
+        void onResourceReady(Bitmap bitmap);
     }
 }

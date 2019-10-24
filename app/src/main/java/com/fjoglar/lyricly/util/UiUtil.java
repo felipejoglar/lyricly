@@ -16,6 +16,8 @@
 
 package com.fjoglar.lyricly.util;
 
+import android.content.Context;
+
 import com.fjoglar.lyricly.R;
 
 /**
@@ -34,5 +36,9 @@ public class UiUtil {
             return R.color.spray_blue;
         }
         return R.color.pale_turquoise_blue;
+    }
+
+    public static int dpToPx(Context context, int dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 }

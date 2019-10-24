@@ -38,7 +38,7 @@ class SearchCurrentlyPlayingSongUseCase : SingleUseCase<String, Song> {
                     val song = SongDataMapper.transform(track, true, lyrics)
                     song?.let {
                         dataSource.saveSong(it)
-                        emitter.onSuccess(it)
+                        emitter.onSuccess(dataSource.lastRecentSong)
                     }
                 } else {
                     emitter.onError(Throwable("No lyrics found for ${track?.name} by ${track?.artistName}"))
