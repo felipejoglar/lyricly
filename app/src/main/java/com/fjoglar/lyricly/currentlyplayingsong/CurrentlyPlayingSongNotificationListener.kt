@@ -31,14 +31,14 @@ class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {
 
     private val TAG = CurrentlyPlayingSongNotificationListener::class.java.simpleName
 
-    private val DUPLICATE_NOTIFICATION_THRESHOLD = 100
+    private val DUPLICATE_NOTIFICATION_THRESHOLD = 300
 
     /**
      * Duplicate notification tracking info
      */
-    private var track : String? = ""
-    private var artist : String? = ""
-    private var album : String? = ""
+    private var track: String? = ""
+    private var artist: String? = ""
+    private var album: String? = ""
     private var timeStamp = 0L
 
     private object PackageNames {
@@ -95,7 +95,7 @@ class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {
                         .subscribeOn(SchedulerProvider.getInstance().io())
                         .observeOn(SchedulerProvider.getInstance().ui())
                         .subscribe({ song ->
-                            Log.d(TAG, "Lyrics fetched: ${song?.name} by ${song?.artistName}")
+                            launchCurrentlyPlayingSongNotification(applicationContext, song)
                         },
                             {
                                 disposables.add(
@@ -104,9 +104,9 @@ class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {
                                         .subscribeOn(SchedulerProvider.getInstance().io())
                                         .observeOn(SchedulerProvider.getInstance().ui())
                                         .subscribe({ song ->
-                                            Log.d(
-                                                TAG,
-                                                "Lyrics fetched: ${song?.name} by ${song?.artistName}"
+                                            launchCurrentlyPlayingSongNotification(
+                                                applicationContext,
+                                                song
                                             )
                                         },
                                             {

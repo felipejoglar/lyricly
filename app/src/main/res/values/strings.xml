@@ -36,5 +36,8 @@
 
     <!-- CURRENTLY PLAYING SCREEN -->
     <string name="currently_playing_song_notification_listener">@string/app_name</string>
+    <string name="currently_playing_song_channel_name">Lyricly currently playing song</string>
+    <string name="currently_playing_song_channel_description">Channel used to launch notifications after the currently playing song</string>
+    <string name="currently_playing_song_notification_text">By %1$s</string>
 
 </resources>
