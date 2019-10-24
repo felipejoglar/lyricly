@@ -16,7 +16,6 @@
 
 package com.fjoglar.lyricly.songs;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -198,9 +197,9 @@ public class SongsActivity extends AppCompatActivity
      * Shows the song detail fragment
      */
     public void show(Song song) {
-        Intent songIntent = new Intent(this, SongActivity.class);
-        songIntent.putExtra(SongActivity.EXTRA_SONG_ID, song.getId());
-        songIntent.putExtra(SongActivity.EXTRA_IS_FAVORITE_FLOW, mActiveFragment == mFavoriteSongsFragment);
-        startActivity(songIntent);
+        startActivity(SongActivity.getLaunchingIntent(
+                this,
+                song.getId(),
+                mActiveFragment == mFavoriteSongsFragment));
     }
 }

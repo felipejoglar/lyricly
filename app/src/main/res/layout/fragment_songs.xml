@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2018 Felipe Joglar Santos
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,14 +24,50 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_songs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_songs_enable_notification_access"
+        tools:layoutManager="GridLayoutManager"
         tools:listitem="@layout/item_song"
-        tools:spanCount="2"
-        tools:layoutManager="GridLayoutManager" />
+        tools:spanCount="2" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_songs_enable_notification_access"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_songs_enable_notification_access_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_normal"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/color_on_primary"
+            android:text="@string/songs_notification_access"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_song_enable_notification_access"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_song_enable_notification_access"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="Enable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ProgressBar
         android:id="@+id/pb_songs_loading"

@@ -16,6 +16,7 @@
 
 package com.fjoglar.lyricly.song;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -31,6 +32,13 @@ public class SongActivity extends AppCompatActivity {
 
     private int mSongId;
     private boolean mIsFavoriteFlow;
+
+    public static Intent getLaunchingIntent(Context context, int songId, boolean isFavoriteFlow) {
+        Intent songIntent = new Intent(context, SongActivity.class);
+        songIntent.putExtra(SongActivity.EXTRA_SONG_ID, songId);
+        songIntent.putExtra(SongActivity.EXTRA_IS_FAVORITE_FLOW, isFavoriteFlow);
+        return songIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

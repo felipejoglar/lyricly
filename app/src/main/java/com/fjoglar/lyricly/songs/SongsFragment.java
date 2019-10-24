@@ -16,7 +16,9 @@
 
 package com.fjoglar.lyricly.songs;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -38,8 +42,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public abstract class SongsFragment extends Fragment {
+
+    private static final int NOTIFICATION_ACCESS_REQUEST_CODE = 1;
 
     protected SongsViewModel mViewModel;
 
@@ -50,9 +57,12 @@ public abstract class SongsFragment extends Fragment {
     RecyclerView mRecyclerViewSongs;
     @BindView(R.id.pb_songs_loading)
     ProgressBar mProgressBarSongsLoading;
+    @BindView(R.id.cl_songs_enable_notification_access)
+    ConstraintLayout mClEnableNotificationAccess;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_songs, container, false);
         ButterKnife.bind(this, root);
@@ -68,6 +78,20 @@ public abstract class SongsFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == NOTIFICATION_ACCESS_REQUEST_CODE) {
+            checkEnabledNotificationAccess();
+        }
+    }
+
+    @OnClick(R.id.btn_song_enable_notification_access)
+    void onEnableNotificationClick() {
+        startActivityForResult(new Intent(
+                "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"),
+                NOTIFICATION_ACCESS_REQUEST_CODE);
+    }
+
     void goToTop() {
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(requireActivity()) {
             @Override
@@ -78,6 +102,15 @@ public abstract class SongsFragment extends Fragment {
 
         smoothScroller.setTargetPosition(0);
         mLayoutManager.startSmoothScroll(smoothScroller);
+    }
+
+    protected void checkEnabledNotificationAccess() {
+        String enabledNotificationListeners =
+                Settings.Secure.getString(requireContext().getContentResolver(),
+                        "enabled_notification_listeners");
+        mClEnableNotificationAccess.setVisibility(
+                enabledNotificationListeners.contains("CurrentlyPlayingSongNotificationListener") ?
+                        View.GONE : View.VISIBLE);
     }
 
     protected abstract void initViewModel(SongsViewModelFactory songsViewModelFactory);
