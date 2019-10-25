@@ -29,19 +29,19 @@ import androidx.core.app.NotificationManagerCompat
 import com.fjoglar.lyricly.R
 import com.fjoglar.lyricly.data.model.Song
 import com.fjoglar.lyricly.song.SongActivity
-import com.fjoglar.lyricly.util.GlideHelper
+import com.fjoglar.lyricly.util.ImageLoaderHelper
 
 const val CHANNEL_ID = "Lyricly currently playing song channel"
 const val NOTIFICATION_ID = 8888
 
 fun launchCurrentlyPlayingSongNotification(applicationContext: Context, song: Song) {
     createNotificationChannel(applicationContext)
-    GlideHelper.loadBitmapFromNetwork(
+    ImageLoaderHelper.loadBitmapFromNetwork(
         applicationContext,
         applicationContext.getString(
             R.string.album_image_url,
             song.albumId,
-            GlideHelper.IMAGE_SIZE_BIG
+            ImageLoaderHelper.IMAGE_SIZE_BIG
         ),
         16
     ) {

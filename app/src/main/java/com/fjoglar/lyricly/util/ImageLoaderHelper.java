@@ -32,13 +32,13 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
-public class GlideHelper {
+public class ImageLoaderHelper {
 
     public static final String IMAGE_SIZE_BIG = "500x500";
     public static final String IMAGE_SIZE_MEDIUM = "200x200";
     public static final String IMAGE_SIZE_SMALL = "70x70";
 
-    private GlideHelper() {
+    private ImageLoaderHelper() {
     }
 
     /**
