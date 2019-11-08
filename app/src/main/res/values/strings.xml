@@ -17,6 +17,9 @@
 <resources>
     <string name="app_name">Lyricly</string>
 
+    <!-- ON BOARDING SCREEN -->
+    <string name="on_boarding_skip">Skip</string>
+
     <!-- SONGS SCREEN -->
     <string name="songs_menu_popular">Popular</string>
     <string name="songs_menu_recent">Recent</string>

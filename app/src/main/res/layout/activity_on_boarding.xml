@@ -27,14 +27,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_on_boarding_skip"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:minWidth="0dp"
+        android:text="@string/on_boarding_skip"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@id/btn_on_boarding_continue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_on_boarding_continue" />
+
     <com.fjoglar.lyricly.util.widget.InkPageIndicator
         android:id="@+id/ink_page_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         app:currentPageIndicatorColor="@color/color_primary_variant"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:dotGap="@dimen/indicator_gap"
+        app:layout_constraintBottom_toBottomOf="@id/btn_on_boarding_continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_on_boarding_continue"
         app:pageIndicatorColor="@color/color_primary" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_on_boarding_continue"
+        style="@style/Widget.Lyricly.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_normal"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/on_boarding_next_to_ok_animated_vector" />
 </androidx.constraintlayout.widget.ConstraintLayout>

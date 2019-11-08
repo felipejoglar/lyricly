@@ -16,6 +16,8 @@
 
 package com.fjoglar.lyricly.songs;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -54,6 +56,10 @@ public class SongsActivity extends AppCompatActivity
     BottomNavigationView mBottomNavigationSongs;
     @BindView(R.id.tv_songs_app_bar_title)
     TextView mTextViewTitle;
+
+    public static Intent startIntent(Context packageContext) {
+        return new Intent(packageContext, SongsActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

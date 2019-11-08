@@ -30,12 +30,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.fjoglar.lyricly.R;
-
-import java.util.Arrays;
-
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.fjoglar.lyricly.R;
+import com.fjoglar.lyricly.util.AnimUtil;
+
+import java.util.Arrays;
 
 /**
  * An ink inspired widget for indicating pages in a {@link ViewPager2}.

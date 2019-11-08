@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util.widget;
+package com.fjoglar.lyricly.util;
 
 
 import android.content.Context;
