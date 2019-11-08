@@ -26,4 +26,8 @@
     <!-- PADDING -->
     <dimen name="padding_normal">16dp</dimen>
     <dimen name="padding_small">8dp</dimen>
+
+    <!-- COMPONENTS -->
+    <dimen name="indicator_gap">@dimen/padding_small</dimen>
+
 </resources>
