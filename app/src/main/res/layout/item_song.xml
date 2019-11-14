@@ -32,5 +32,4 @@
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

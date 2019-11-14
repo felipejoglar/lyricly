@@ -63,7 +63,6 @@ public class SongsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_Lyricly);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
 

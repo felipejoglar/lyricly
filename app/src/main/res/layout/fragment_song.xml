@@ -76,7 +76,7 @@
         android:id="@+id/cl_song_title_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_primary"
+        android:background="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_song_cover">
@@ -91,7 +91,7 @@
             android:paddingTop="@dimen/padding_small"
             android:paddingEnd="@dimen/padding_normal"
             android:textAppearance="?textAppearanceHeadline5"
-            android:textColor="@color/color_on_primary"
+            android:textColor="?colorOnPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -105,7 +105,7 @@
             android:paddingEnd="@dimen/padding_normal"
             android:paddingBottom="@dimen/padding_small"
             android:textAppearance="?textAppearanceSubtitle1"
-            android:textColor="@color/color_on_primary"
+            android:textColor="?colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
             android:gravity="center"
             android:padding="@dimen/padding_normal"
             android:textAppearance="@style/TextAppearance.Lyricly.Lyrics"
-            android:textColor="@color/color_on_background"
+            android:textColor="?colorOnBackground"
             tools:text="@tools:sample/lorem/random" />
     </androidx.core.widget.NestedScrollView>
 
