@@ -21,14 +21,50 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fjoglar.lyricly.R
-import kotlinx.android.synthetic.main.page_view.view.*
+import kotlinx.android.synthetic.main.on_boarding_item.view.*
+import kotlinx.android.synthetic.main.on_boarding_item.view.iv_on_boarding
+import kotlinx.android.synthetic.main.on_boarding_permissions_item.view.*
 
-class OnBoardingPagerAdapter : RecyclerView.Adapter<OnBoardingPagerAdapter.OnBoardingViewHolder>() {
+class OnBoardingPagerAdapter(val listener: (view: View) -> Unit) :
+    RecyclerView.Adapter<OnBoardingPagerAdapter.OnBoardingViewHolder>() {
+
+    val images = listOf(
+        R.drawable.on_boarding_img_lyrics_at_your_hand,
+        R.drawable.on_boarding_img_explore_music,
+        R.drawable.on_boarding_img_favorite
+    )
+    val titles =
+        listOf(
+            R.string.on_boarding_lyrics_at_your_hand_title,
+            R.string.on_boarding_explore_music_title,
+            R.string.on_boarding_favorite_title
+        )
+    val subtitles = listOf(
+        R.string.on_boarding_lyrics_at_your_hand_subtitle,
+        R.string.on_boarding_explore_music_subtitle,
+        R.string.on_boarding_favorite_subtitle
+    )
+
+    private object ViewType {
+        const val ON_BOARDING = 0
+        const val PERMISSIONS = 1
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnBoardingViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.page_view, parent, false)
-        return OnBoardingViewHolder(view)
+        val view: View
+        return when (viewType) {
+            ViewType.ON_BOARDING -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.on_boarding_item, parent, false)
+                OnBoardingViewHolder(view)
+            }
+            ViewType.PERMISSIONS -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.on_boarding_permissions_item, parent, false)
+                OnBoardingPermissionViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Wrong OnBoardingAdapter ViewType")
+        }
     }
 
     override fun onBindViewHolder(holder: OnBoardingViewHolder, position: Int) {
@@ -36,13 +72,32 @@ class OnBoardingPagerAdapter : RecyclerView.Adapter<OnBoardingPagerAdapter.OnBoa
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return 4
     }
 
-    class OnBoardingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun getItemViewType(position: Int): Int {
+        return if (position < 3) ViewType.ON_BOARDING else ViewType.PERMISSIONS
+    }
 
-        fun bind(position: Int) = with(itemView) {
-            tv_page_title.text = "Page $position"
+    open inner class OnBoardingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        open fun bind(position: Int) = with(itemView) {
+            iv_on_boarding.setImageResource(images[position])
+            tv_on_boarding_title.setText(titles[position])
+            tv_on_boarding_subtitle.setText(subtitles[position])
+        }
+    }
+
+    inner class OnBoardingPermissionViewHolder(itemView: View) :
+        OnBoardingPagerAdapter.OnBoardingViewHolder(itemView) {
+
+        override fun bind(position: Int) = with(itemView) {
+            btn_on_boarding_enable_notification_access.setOnClickListener {
+                listener(it)
+            }
+            btn_on_boarding_enable_notification_info.setOnClickListener {
+                listener(it)
+            }
         }
     }
 }

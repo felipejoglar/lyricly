@@ -24,6 +24,8 @@ import com.fjoglar.lyricly.R
 import com.fjoglar.lyricly.songs.SongsActivity
 import com.fjoglar.lyricly.util.extensions.animateAlpha
 import com.fjoglar.lyricly.util.extensions.setAnimatedVectorDrawable
+import com.fjoglar.lyricly.util.extensions.showAlertDialogOk
+import com.fjoglar.lyricly.util.navigation.Navigator
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 
 class OnBoardingActivity : AppCompatActivity() {
@@ -37,7 +39,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.fjoglar.lyricly.R.layout.activity_on_boarding)
+        setContentView(R.layout.activity_on_boarding)
         ButterKnife.bind(this)
 
         setUpViewPager()
@@ -45,28 +47,27 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPager() {
-        view_pager.adapter = OnBoardingPagerAdapter()
-        view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                if (position == lastPageIndex) {
-                    btn_on_boarding_skip.animateAlpha(false)
-                    btn_on_boarding_continue
-                        .setAnimatedVectorDrawable(R.drawable.on_boarding_next_to_ok_animated_vector)
-                } else if (position == lastPageIndex?.minus(1) && lastPosition == lastPageIndex) {
-                    btn_on_boarding_skip.animateAlpha(true)
-                    btn_on_boarding_continue
-                        .setAnimatedVectorDrawable(R.drawable.on_boarding_ok_to_next_animated_vector)
+        view_pager.adapter = OnBoardingPagerAdapter { view ->
+            when (view.id) {
+                R.id.btn_on_boarding_enable_notification_access -> {
+                    Navigator.showNotificationPermissionSettings(this@OnBoardingActivity)
                 }
-                lastPosition = position
+                R.id.btn_on_boarding_enable_notification_info -> {
+                    showAlertDialogOk(
+                        this@OnBoardingActivity,
+                        R.string.on_boarding_notification_access_more_info_title,
+                        R.string.on_boarding_notification_access_more_info
+                    )
+                }
             }
-        })
+        }
+        view_pager.registerOnPageChangeCallback(onPageChangeCallback)
         ink_page_indicator.setViewPager(view_pager)
     }
 
     private fun setUpListeners() {
         btn_on_boarding_skip.setOnClickListener {
-            launchSongsActivity()
+            view_pager.currentItem = lastPageIndex ?: 0
         }
         btn_on_boarding_continue.setOnClickListener {
             if (view_pager.currentItem == lastPageIndex) {
@@ -79,5 +80,21 @@ class OnBoardingActivity : AppCompatActivity() {
     private fun launchSongsActivity() {
         startActivity(SongsActivity.startIntent(this))
         finish()
+    }
+
+    private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            if (position == lastPageIndex) {
+                btn_on_boarding_skip.animateAlpha(false)
+                btn_on_boarding_continue
+                    .setAnimatedVectorDrawable(R.drawable.on_boarding_next_to_ok_animated_vector)
+            } else if (position == lastPageIndex?.minus(1) && lastPosition == lastPageIndex) {
+                btn_on_boarding_skip.animateAlpha(true)
+                btn_on_boarding_continue
+                    .setAnimatedVectorDrawable(R.drawable.on_boarding_ok_to_next_animated_vector)
+            }
+            lastPosition = position
+        }
     }
 }

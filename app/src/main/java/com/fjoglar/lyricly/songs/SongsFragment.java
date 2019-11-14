@@ -16,7 +16,6 @@
 
 package com.fjoglar.lyricly.songs;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -26,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
@@ -37,6 +35,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.util.Injection;
+import com.fjoglar.lyricly.util.extensions.Dialogs;
+import com.fjoglar.lyricly.util.navigation.Navigator;
 
 import java.util.List;
 
@@ -45,8 +45,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public abstract class SongsFragment extends Fragment {
-
-    private static final int NOTIFICATION_ACCESS_REQUEST_CODE = 1;
 
     protected SongsViewModel mViewModel;
 
@@ -78,18 +76,17 @@ public abstract class SongsFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == NOTIFICATION_ACCESS_REQUEST_CODE) {
-            checkEnabledNotificationAccess();
-        }
+    @OnClick(R.id.btn_on_boarding_enable_notification_access)
+    void onEnableNotificationClick() {
+        Navigator.INSTANCE.showNotificationPermissionSettings(requireContext());
     }
 
-    @OnClick(R.id.btn_song_enable_notification_access)
-    void onEnableNotificationClick() {
-        startActivityForResult(new Intent(
-                "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"),
-                NOTIFICATION_ACCESS_REQUEST_CODE);
+    @OnClick(R.id.btn_on_boarding_enable_notification_info)
+    void onNotificationMoreInfoClick() {
+        Dialogs.showAlertDialogOk(
+                requireContext(),
+                R.string.on_boarding_notification_access_more_info_title,
+                R.string.on_boarding_notification_access_more_info);
     }
 
     void goToTop() {

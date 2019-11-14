@@ -69,11 +69,11 @@ public interface SongDao {
     /**
      * Get the favorite songs from the table.
      * Since the top and recent songs are updated when added to favorites to keep UI simple to
-     * update, they are not getted on the favorite list because they will be duplicated.
+     * update, they are not got on the favorite list because they will be duplicated.
      *
      * @return the favorite songs from the table
      */
-    @Query("SELECT * FROM songs WHERE favorite = 1 AND top = 0 AND recent = 0 ORDER BY id ASC")
+    @Query("SELECT * FROM songs WHERE favorite = 1 AND top = 0 AND recent = 0 ORDER BY created_at DESC")
     Flowable<List<Song>> getFavoriteSongs();
 
     /**

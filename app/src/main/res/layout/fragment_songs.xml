@@ -48,24 +48,45 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_normal"
+            android:text="@string/on_boarding_notification_access"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/color_on_primary"
-            android:text="@string/songs_notification_access"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_song_enable_notification_access"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_song_enable_notification_access"
-            style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/btn_on_boarding_enable_notification_access"
+            style="@style/Widget.Lyricly.Button.TextButton.Condensed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_normal"
-            android:text="Enable"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="@string/on_boarding_lets_do_it"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tv_songs_enable_notification_access_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_on_boarding_enable_notification_info"
+            style="@style/Widget.Lyricly.Button.TextButton.Condensed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="@string/on_boarding_more_info"
+            app:layout_constraintBottom_toBottomOf="@id/btn_on_boarding_enable_notification_access"
+            app:layout_constraintEnd_toStartOf="@id/btn_on_boarding_enable_notification_access"
+            app:layout_constraintTop_toTopOf="@id/btn_on_boarding_enable_notification_access" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_surface"
+            android:backgroundTint="@color/color_on_surface_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

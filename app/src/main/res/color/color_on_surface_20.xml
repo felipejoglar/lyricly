@@ -15,22 +15,8 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <!-- KEYLINES -->
-    <dimen name="keyline_1">@dimen/margin_normal</dimen>
-    <dimen name="keyline_2">72dp</dimen>
-
-    <!-- MARGIN -->
-    <dimen name="margin_small">8dp</dimen>
-    <dimen name="margin_normal">16dp</dimen>
-    <dimen name="margin_extra_large">32dp</dimen>
-    <dimen name="margin_extra_extra_large">48dp</dimen>
-
-    <!-- PADDING -->
-    <dimen name="padding_normal">16dp</dimen>
-    <dimen name="padding_small">8dp</dimen>
-
-    <!-- COMPONENTS -->
-    <dimen name="indicator_gap">@dimen/padding_small</dimen>
-
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:alpha="0.20"
+        android:color="?attr/colorOnSurface" />
+</selector>
