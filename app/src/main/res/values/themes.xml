@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2019 Felipe Joglar Santos
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--THEMES-->
+    <!--Top level DayNight theme to be used in AndroidManifest.xml-->
+    <style name="Theme.Lyricly.DayNight" parent="Theme.Lyricly" />
+
+    <!--Base custom theme which will be shared between both light and dark theme variants-->
+    <style name="Theme.Lyricly" parent="Theme.Lyricly.Base">
+        <!--Material color attributes -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorError">@color/color_error</item>
+
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="colorOnError">@color/color_on_error</item>
+
+        <!--Material type attributes-->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.Lyricly.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Lyricly.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Lyricly.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Lyricly.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Lyricly.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Lyricly.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Lyricly.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Lyricly.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.Lyricly.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Lyricly.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.Lyricly.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Lyricly.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Lyricly.Overline</item>
+
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Lyricly.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Lyricly.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Lyricly.LargeComponent
+        </item>
+
+        <!--Component styles-->
+        <item name="toolbarStyle">@style/Widget.Lyricly.Toolbar</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog.Centered</item>
+    </style>
+
+    <style name="Theme.Lyricly.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">
+            @color/navigation_bar
+        </item>
+
+        <!--Remap legacy AppCompat attributes to MaterialComponent attributes-->
+        <item name="colorPrimaryDark">?colorPrimaryVariant</item>
+        <item name="colorAccent">?colorSecondary</item>
+    </style>
+
+    <style name="Theme.Lyricly.PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
+</resources>

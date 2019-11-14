@@ -26,9 +26,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_extra_large"
         android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginBottom="@dimen/margin_small"
-        android:layout_marginTop="@dimen/margin_extra_large"
         android:adjustViewBounds="true"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
@@ -46,7 +46,7 @@
         android:layout_marginEnd="@dimen/margin_normal"
         android:gravity="center"
         android:textAppearance="?textAppearanceHeadline5"
-        android:textColor="@color/color_primary"
+        android:textColor="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_on_boarding"
@@ -62,11 +62,11 @@
         android:layout_marginBottom="@dimen/margin_normal"
         android:gravity="center"
         android:textAppearance="?textAppearanceSubtitle1"
+        android:textColor="?colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_on_boarding_title"
         app:layout_constraintVertical_bias="0.0"
         tools:text="@tools:sample/lorem[20]" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
