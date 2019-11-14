@@ -14,28 +14,31 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util;
-
+package com.fjoglar.lyricly.core.utils;
 
 import android.content.Context;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
+
+import com.fjoglar.lyricly.R;
 
 /**
- * Utility methods for working with animations.
+ * Utility methods for working with UI.
  */
-public class AnimUtil {
+public class UiUtil {
 
-    private AnimUtil() {
+    private UiUtil() {
     }
 
-    private static Interpolator fastOutSlowIn;
-
-    public static Interpolator getFastOutSlowInInterpolator(Context context) {
-        if (fastOutSlowIn == null) {
-            fastOutSlowIn = AnimationUtils.loadInterpolator(context,
-                    android.R.interpolator.fast_out_slow_in);
+    public static int getPlaceHolderColor() {
+        double random = Math.random();
+        if (random < 0.33) {
+            return R.color.light_cyan;
+        } else if (random > 0.66) {
+            return R.color.spray_blue;
         }
-        return fastOutSlowIn;
+        return R.color.pale_turquoise_blue;
+    }
+
+    public static int dpToPx(Context context, int dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 }

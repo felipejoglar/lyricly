@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util.usecases;
+package com.fjoglar.lyricly.core.usecases;
 
 import com.fjoglar.lyricly.data.SongsDataSource;
 
-import io.reactivex.Single;
+import io.reactivex.Completable;
 
-public interface SingleUseCase<P, R> {
+public interface CompletableUseCase<P> {
 
-    Single<R> execute(SongsDataSource dataSource, P parameter);
+    Completable execute(SongsDataSource songsDataSource, P parameter);
 }

@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.ImageLoaderHelper;
+import com.fjoglar.lyricly.core.utils.ImageLoader;
 
 import java.util.List;
 
@@ -60,10 +60,10 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         String albumId = mSongs.get(position).getAlbumId();
-        String imageUrl = mContext.getString(R.string.album_image_url, albumId, ImageLoaderHelper.IMAGE_SIZE_BIG);
-        String thumbUrl = mContext.getString(R.string.album_image_url, albumId, ImageLoaderHelper.IMAGE_SIZE_SMALL);
+        String imageUrl = mContext.getString(R.string.album_image_url, albumId, ImageLoader.IMAGE_SIZE_BIG);
+        String thumbUrl = mContext.getString(R.string.album_image_url, albumId, ImageLoader.IMAGE_SIZE_SMALL);
 
-        ImageLoaderHelper.loadWithThumb(holder.imageViewAlbumCover, imageUrl, thumbUrl);
+        ImageLoader.loadWithThumb(holder.imageViewAlbumCover, imageUrl, thumbUrl);
     }
 
     @Override

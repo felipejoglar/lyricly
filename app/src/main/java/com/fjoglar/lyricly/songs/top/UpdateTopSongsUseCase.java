@@ -20,7 +20,7 @@ import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.mapper.SongDataMapper;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
-import com.fjoglar.lyricly.util.usecases.CompletableUseCase;
+import com.fjoglar.lyricly.core.usecases.CompletableUseCase;
 
 import java.util.Date;
 import java.util.List;

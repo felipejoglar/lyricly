@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/btn_on_boarding_continue" />
 
-    <com.fjoglar.lyricly.util.widget.InkPageIndicator
+    <com.fjoglar.lyricly.core.widget.InkPageIndicator
         android:id="@+id/ink_page_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -23,8 +23,8 @@ import android.media.session.PlaybackState
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import com.fjoglar.lyricly.util.Injection
-import com.fjoglar.lyricly.util.schedulers.SchedulerProvider
+import com.fjoglar.lyricly.core.Injection
+import com.fjoglar.lyricly.core.schedulers.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 class CurrentlyPlayingSongNotificationListener : NotificationListenerService() {

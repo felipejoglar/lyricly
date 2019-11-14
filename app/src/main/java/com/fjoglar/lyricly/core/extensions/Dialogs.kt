@@ -15,7 +15,7 @@
  */
 @file:JvmName("Dialogs")
 
-package com.fjoglar.lyricly.util.extensions
+package com.fjoglar.lyricly.core.extensions
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog

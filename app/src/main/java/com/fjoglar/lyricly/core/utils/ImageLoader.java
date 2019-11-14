@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util;
+package com.fjoglar.lyricly.core.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,13 +32,13 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
-public class ImageLoaderHelper {
+public class ImageLoader {
 
     public static final String IMAGE_SIZE_BIG = "500x500";
     public static final String IMAGE_SIZE_MEDIUM = "200x200";
     public static final String IMAGE_SIZE_SMALL = "70x70";
 
-    private ImageLoaderHelper() {
+    private ImageLoader() {
     }
 
     /**

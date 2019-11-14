@@ -34,9 +34,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fjoglar.lyricly.R;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.Injection;
-import com.fjoglar.lyricly.util.extensions.Dialogs;
-import com.fjoglar.lyricly.util.navigation.Navigator;
+import com.fjoglar.lyricly.core.Injection;
+import com.fjoglar.lyricly.core.extensions.Dialogs;
+import com.fjoglar.lyricly.core.navigation.Navigator;
 
 import java.util.List;
 
