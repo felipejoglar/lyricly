@@ -18,7 +18,7 @@ package com.fjoglar.lyricly.songs.recent;
 
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.util.usecases.FlowableUseCase;
+import com.fjoglar.lyricly.core.usecases.FlowableUseCase;
 
 import java.util.List;
 

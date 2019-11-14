@@ -19,7 +19,7 @@ package com.fjoglar.lyricly.currentlyplayingsong
 import com.fjoglar.lyricly.data.SongsDataSource
 import com.fjoglar.lyricly.data.model.Song
 import com.fjoglar.lyricly.data.source.mapper.SongDataMapper
-import com.fjoglar.lyricly.util.usecases.SingleUseCase
+import com.fjoglar.lyricly.core.usecases.SingleUseCase
 import io.reactivex.Single
 
 class SearchCurrentlyPlayingSongUseCase : SingleUseCase<String, Song> {

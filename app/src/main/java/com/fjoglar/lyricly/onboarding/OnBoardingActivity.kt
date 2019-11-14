@@ -22,11 +22,11 @@ import androidx.viewpager2.widget.ViewPager2
 import butterknife.ButterKnife
 import com.fjoglar.lyricly.R
 import com.fjoglar.lyricly.songs.SongsActivity
-import com.fjoglar.lyricly.util.Injection
-import com.fjoglar.lyricly.util.extensions.animateAlpha
-import com.fjoglar.lyricly.util.extensions.setAnimatedVectorDrawable
-import com.fjoglar.lyricly.util.extensions.showAlertDialogOk
-import com.fjoglar.lyricly.util.navigation.Navigator
+import com.fjoglar.lyricly.core.Injection
+import com.fjoglar.lyricly.core.extensions.animateAlpha
+import com.fjoglar.lyricly.core.extensions.setAnimatedVectorDrawable
+import com.fjoglar.lyricly.core.extensions.showAlertDialogOk
+import com.fjoglar.lyricly.core.navigation.Navigator
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 
 class OnBoardingActivity : AppCompatActivity() {

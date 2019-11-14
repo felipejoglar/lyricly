@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util.widget;
+package com.fjoglar.lyricly.core.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.util.AnimUtil;
+import com.fjoglar.lyricly.core.utils.AnimUtil;
 
 import java.util.Arrays;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util;
+package com.fjoglar.lyricly.core;
 
 import android.content.Context;
 

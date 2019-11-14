@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util.schedulers;
+package com.fjoglar.lyricly.core.schedulers;
 
 import io.reactivex.Scheduler;
 

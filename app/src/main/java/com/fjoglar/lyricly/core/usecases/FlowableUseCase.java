@@ -1,11 +1,11 @@
 /*
- * Copyright 2019 Felipe Joglar Santos
+ * Copyright 2018 Felipe Joglar Santos
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.fjoglar.lyricly.util.navigation
+package com.fjoglar.lyricly.core.usecases;
 
-import android.content.Context
-import android.content.Intent
+import com.fjoglar.lyricly.data.SongsDataSource;
 
-object Navigator {
+import io.reactivex.Flowable;
 
-    fun showNotificationPermissionSettings(context: Context) = context.startActivity(
-        Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
-    )
+public interface FlowableUseCase<P, R> {
+
+    Flowable<R> execute(SongsDataSource songsDataSource, P parameter);
 }
