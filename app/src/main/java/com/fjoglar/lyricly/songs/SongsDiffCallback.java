@@ -25,10 +25,10 @@ import java.util.List;
 
 class SongsDiffCallback extends DiffUtil.Callback {
 
-    private final List<? extends Song> mOldSongs;
-    private final List<? extends Song> mNewSongs;
+    private final List<Song> mOldSongs;
+    private final List<Song> mNewSongs;
 
-    SongsDiffCallback(List<? extends Song> oldSongs, List<? extends Song> newSongs) {
+    SongsDiffCallback(List<Song> oldSongs, List<Song> newSongs) {
         this.mOldSongs = oldSongs;
         this.mNewSongs = newSongs;
     }

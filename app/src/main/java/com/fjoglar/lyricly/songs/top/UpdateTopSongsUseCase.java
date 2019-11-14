@@ -44,8 +44,6 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
                 return;
             }
 
-            songsDataSource.setLastUpdatedTimeInMillis();
-
             for (Track track : tracks) {
                 Song song = songsDataSource.getTopSongByNapsterId(track.getId());
 
@@ -65,6 +63,7 @@ public class UpdateTopSongsUseCase implements CompletableUseCase<Void> {
             }
 
             songsDataSource.deleteOldTopSongs(new Date(songsDataSource.getLastUpdatedTimeInMillis()));
+            songsDataSource.setLastUpdatedTimeInMillis();
         });
     }
 }

@@ -41,7 +41,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     private final SongClickCallback mSongClickCallback;
     private final Context mContext;
 
-    private List<? extends Song> mSongs;
+    private List<Song> mSongs;
 
     SongsAdapter(Context context, @Nullable SongClickCallback clickCallback) {
         mContext = context;
@@ -71,7 +71,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         return mSongs == null ? 0 : mSongs.size();
     }
 
-    public void setSongs(final List<? extends Song> songs) {
+    public void setSongs(final List<Song> songs) {
         if (mSongs == null) {
             mSongs = songs;
             notifyItemRangeInserted(0, songs.size());
@@ -83,7 +83,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         }
     }
 
-    public List<? extends Song> getSongs() {
+    public List<Song> getSongs() {
         return mSongs;
     }
 

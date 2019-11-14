@@ -41,9 +41,13 @@ public class RecentSongsFragment extends SongsFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         checkEnabledNotificationAccess();
-        return view;
     }
 
     @Override
