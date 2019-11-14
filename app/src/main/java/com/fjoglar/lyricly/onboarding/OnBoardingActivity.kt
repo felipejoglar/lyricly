@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2
 import butterknife.ButterKnife
 import com.fjoglar.lyricly.R
 import com.fjoglar.lyricly.songs.SongsActivity
+import com.fjoglar.lyricly.util.Injection
 import com.fjoglar.lyricly.util.extensions.animateAlpha
 import com.fjoglar.lyricly.util.extensions.setAnimatedVectorDrawable
 import com.fjoglar.lyricly.util.extensions.showAlertDialogOk
@@ -36,14 +37,25 @@ class OnBoardingActivity : AppCompatActivity() {
             return view_pager.adapter?.itemCount?.minus(1)
         }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        checkShowOnBoarding()
+
         setContentView(R.layout.activity_on_boarding)
         ButterKnife.bind(this)
 
         setUpViewPager()
         setUpListeners()
+    }
+
+    private fun checkShowOnBoarding() {
+        val songsDataSource = Injection.provideSongsRepository(applicationContext)
+        if (songsDataSource.hasOnBoardingBeenShown()) {
+            launchSongsActivity()
+        } else {
+            songsDataSource.setHasOnBoardingBeenShown()
+        }
     }
 
     private fun setUpViewPager() {
