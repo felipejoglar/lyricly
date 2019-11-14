@@ -23,7 +23,7 @@
     <color name="color_secondary">@color/kournikova_yellow</color>
     <color name="color_secondary_variant">@color/selective_yellow</color>
 
-    <color name="color_background">@color/lily_white</color>
+    <color name="color_background">@color/white</color>
     <color name="color_surface">@color/white</color>
     <color name="color_error">@color/bittersweet_red</color>
 
@@ -44,8 +44,6 @@
     <!--white-->
     <color name="transparent">#00ffffff</color>
     <color name="white">#ffffffff</color>
-    <color name="white50">#80ffffff</color>
-    <color name="lily_white">#e3f5ec</color>
 
     <!--red-->
     <color name="bittersweet_red">#ff6859</color>

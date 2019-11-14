@@ -63,6 +63,7 @@
 
         <!--Component styles-->
         <item name="toolbarStyle">@style/Widget.Lyricly.Toolbar</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog.Centered</item>
     </style>
 
     <style name="Base.Lyricly" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -102,9 +103,14 @@
         <item name="itemTextAppearanceActive">@style/TextAppearance.Lyricly.Subtitle2</item>
         <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Light</item>
     </style>
-    
+
+    <!--Buttons-->
+    <style name="Widget.Lyricly.Button.TextButton.Condensed" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
     <style name="Widget.Lyricly.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="shapeAppearanceOverlay">?shapeAppearanceSmallComponent</item>
+        <item name="shapeAppearanceOverlay">@style/OverlayShapeAppearance.Lyricly.SmallComponent</item>
     </style>
 
     <!--TYPOGRAPHY-->
@@ -169,8 +175,6 @@
     <!--Shape Appearance for small components like chips, buttons, text fields and FABs-->
     <style name="ShapeAppearance.Lyricly.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <!--Your custom shape here-->
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20%</item>
     </style>
 
     <!--Shape Appearance for medium components like cards, alert dialogs-->
@@ -181,5 +185,10 @@
     <!--Shape Appearance for large components like side and bottom navigation drawers-->
     <style name="ShapeAppearance.Lyricly.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <!--Your custom shape here-->
+    </style>
+
+    <style name="OverlayShapeAppearance.Lyricly.SmallComponent" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
     </style>
 </resources>

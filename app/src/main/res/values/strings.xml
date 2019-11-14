@@ -19,12 +19,22 @@
 
     <!-- ON BOARDING SCREEN -->
     <string name="on_boarding_skip">Skip</string>
+    <string name="on_boarding_notification_access">To experience the power of Lyricly\'s currently playing song, you must enable the access to notifications.</string>
+    <string name="on_boarding_notification_access_more_info_title">Notification permission</string>
+    <string name="on_boarding_notification_access_more_info">Lyricly requests the \"Notification access\" permission only to listen for music.\n\nWe promise we\'ll never access, read, or save your notifications under any concept.</string>
+    <string name="on_boarding_lets_do_it">Let\'s do it</string>
+    <string name="on_boarding_more_info">More info</string>
+    <string name="on_boarding_lyrics_at_your_hand_title">All lyrics in your pocket</string>
+    <string name="on_boarding_lyrics_at_your_hand_subtitle">Enjoy song lyrics with music from Spotify, Google Play Music, PowerAmp and all your other favourite streaming services directly in your phone</string>
+    <string name="on_boarding_explore_music_title">Explore music</string>
+    <string name="on_boarding_explore_music_subtitle">Explore the hottest songs around and enjoy the lyrics directly in front of you</string>
+    <string name="on_boarding_favorite_title">Keep your favorites</string>
+    <string name="on_boarding_favorite_subtitle">Save your favorite lyrics offline and access them anytime</string>
 
     <!-- SONGS SCREEN -->
     <string name="songs_menu_popular">Popular</string>
     <string name="songs_menu_recent">Recent</string>
     <string name="songs_menu_favorite">Favorite</string>
-    <string name="songs_notification_access">To experience the power of Lyricly\'s currently playing song, you must enable the access to notifications</string>
     <string name="album_cover">Album cover</string>
     <string name="album_image_url">"http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png"</string>
 
@@ -43,5 +53,8 @@
     <string name="currently_playing_song_channel_name">Lyricly currently playing song</string>
     <string name="currently_playing_song_channel_description">Channel used to launch notifications after the currently playing song</string>
     <string name="currently_playing_song_notification_text">By %1$s</string>
+
+    <!-- MISC -->
+    <string name="dialog_button_ok">OK</string>
 
 </resources>
