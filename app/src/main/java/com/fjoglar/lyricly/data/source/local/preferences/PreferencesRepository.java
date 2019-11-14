@@ -27,11 +27,11 @@ public class PreferencesRepository implements PreferencesDataSource {
 
     private static volatile PreferencesRepository INSTANCE;
 
-    private final SharedPreferences mPreferences;
+    private final SharedPreferences preferences;
 
     // Prevent direct instantiation.
     private PreferencesRepository(Context context) {
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /**
@@ -61,11 +61,21 @@ public class PreferencesRepository implements PreferencesDataSource {
 
     @Override
     public long getLastUpdatedTimeInMillis() {
-        return mPreferences.getLong(LAST_UPDATED_TIME_KEY, 0);
+        return preferences.getLong(LAST_UPDATED_TIME_KEY, 0);
     }
 
     @Override
     public void setLastUpdatedTimeInMillis() {
-        mPreferences.edit().putLong(LAST_UPDATED_TIME_KEY, System.currentTimeMillis()).apply();
+        preferences.edit().putLong(LAST_UPDATED_TIME_KEY, System.currentTimeMillis()).apply();
+    }
+
+    @Override
+    public boolean hasOnBoardingBeenShown() {
+        return preferences.getBoolean(IS_ON_BOARDING_SHOWN_KEY, false);
+    }
+
+    @Override
+    public void setHasOnBoardingBeenShown() {
+        preferences.edit().putBoolean(IS_ON_BOARDING_SHOWN_KEY, true).apply();
     }
 }

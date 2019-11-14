@@ -35,15 +35,15 @@ public class SongsRepository implements SongsDataSource {
     @Nullable
     private static volatile SongsRepository INSTANCE;
 
-    private final SongsLocalDataSource mSongsLocalDataSource;
-    private final SongsRemoteDataSource mSongsRemoteDataSource;
-    private final PreferencesDataSource mPreferencesDataSource;
+    private final SongsLocalDataSource songsLocalDataSource;
+    private final SongsRemoteDataSource songsRemoteDataSource;
+    private final PreferencesDataSource preferencesDataSource;
 
     private SongsRepository(SongsLocalDataSource songsLocalDataSource,
                             SongsRemoteDataSource songsRemoteDataSource, PreferencesDataSource preferencesDataSource) {
-        mSongsLocalDataSource = songsLocalDataSource;
-        mSongsRemoteDataSource = songsRemoteDataSource;
-        mPreferencesDataSource = preferencesDataSource;
+        this.songsLocalDataSource = songsLocalDataSource;
+        this.songsRemoteDataSource = songsRemoteDataSource;
+        this.preferencesDataSource = preferencesDataSource;
     }
 
     /**
@@ -76,101 +76,111 @@ public class SongsRepository implements SongsDataSource {
 
     @Override
     public List<Track> fetchTopSongs(int limit) {
-        return mSongsRemoteDataSource.fetchTopSongs(limit);
+        return songsRemoteDataSource.fetchTopSongs(limit);
     }
 
     @Override
     public Track searchCurrentlyPlayingSong(String query) {
-        return mSongsRemoteDataSource.searchCurrentlyPlayingSong(query);
+        return songsRemoteDataSource.searchCurrentlyPlayingSong(query);
     }
 
     @Override
     public String fetchSongLyrics(String artist, String title) {
-        return mSongsRemoteDataSource.fetchSongLyrics(artist, title);
+        return songsRemoteDataSource.fetchSongLyrics(artist, title);
     }
 
     @Override
     public void saveSongs(List<Song> songs) {
-        mSongsLocalDataSource.saveSongs(songs);
+        songsLocalDataSource.saveSongs(songs);
     }
 
     @Override
     public void saveSong(Song song) {
-        mSongsLocalDataSource.saveSong(song);
+        songsLocalDataSource.saveSong(song);
     }
 
     @Override
     public Flowable<List<Song>> getTopSongs() {
-        return mSongsLocalDataSource.getTopSongs();
+        return songsLocalDataSource.getTopSongs();
     }
 
     @Override
     public Flowable<List<Song>> getRecentSongs() {
-        return mSongsLocalDataSource.getRecentSongs();
+        return songsLocalDataSource.getRecentSongs();
     }
 
     @Override
     public Flowable<List<Song>> getFavoriteSongs() {
-        return mSongsLocalDataSource.getFavoriteSongs();
+        return songsLocalDataSource.getFavoriteSongs();
     }
 
     @Override
     public Flowable<Song> getSongById(int id) {
-        return mSongsLocalDataSource.getSongById(id);
+        return songsLocalDataSource.getSongById(id);
     }
 
     @Override
     public Song getTopSongByNapsterId(String napsterId) {
-        return mSongsLocalDataSource.getTopSongByNapsterId(napsterId);
+        return songsLocalDataSource.getTopSongByNapsterId(napsterId);
     }
 
     @Override
     public Song getFavoriteSongByNapsterId(String napsterId) {
-        return mSongsLocalDataSource.getFavoriteSongByNapsterId(napsterId);
+        return songsLocalDataSource.getFavoriteSongByNapsterId(napsterId);
     }
 
     @Override
     public Song getLastRecentSong() {
-        return mSongsLocalDataSource.getLastRecentSong();
+        return songsLocalDataSource.getLastRecentSong();
     }
 
     @Override
     public void updateTopSongOrder(int id, int order, Date createdAt) {
-        mSongsLocalDataSource.updateTopSongOrder(id, order, createdAt);
+        songsLocalDataSource.updateTopSongOrder(id, order, createdAt);
     }
 
     @Override
     public Completable updateFavoriteSong(Song song) {
-        return mSongsLocalDataSource.updateFavoriteSong(song);
+        return songsLocalDataSource.updateFavoriteSong(song);
     }
 
     @Override
     public void updateFavoriteSongByNapsterId(String napsterId) {
-        mSongsLocalDataSource.updateFavoriteSongByNapsterId(napsterId);
+        songsLocalDataSource.updateFavoriteSongByNapsterId(napsterId);
     }
 
     @Override
     public void deleteTopSongs() {
-        mSongsLocalDataSource.deleteTopSongs();
+        songsLocalDataSource.deleteTopSongs();
     }
 
     @Override
     public void deleteOldTopSongs(Date date) {
-        mSongsLocalDataSource.deleteOldTopSongs(date);
+        songsLocalDataSource.deleteOldTopSongs(date);
     }
 
     @Override
     public Completable deleteFavoriteSong(Song song) {
-        return mSongsLocalDataSource.deleteFavoriteSong(song);
+        return songsLocalDataSource.deleteFavoriteSong(song);
     }
 
     @Override
     public long getLastUpdatedTimeInMillis() {
-        return mPreferencesDataSource.getLastUpdatedTimeInMillis();
+        return preferencesDataSource.getLastUpdatedTimeInMillis();
     }
 
     @Override
     public void setLastUpdatedTimeInMillis() {
-        mPreferencesDataSource.setLastUpdatedTimeInMillis();
+        preferencesDataSource.setLastUpdatedTimeInMillis();
+    }
+
+    @Override
+    public boolean hasOnBoardingBeenShown() {
+        return preferencesDataSource.hasOnBoardingBeenShown();
+    }
+
+    @Override
+    public void setHasOnBoardingBeenShown() {
+        preferencesDataSource.setHasOnBoardingBeenShown();
     }
 }

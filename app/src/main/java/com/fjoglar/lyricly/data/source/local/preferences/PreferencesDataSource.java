@@ -19,6 +19,7 @@ package com.fjoglar.lyricly.data.source.local.preferences;
 public interface PreferencesDataSource {
 
     String LAST_UPDATED_TIME_KEY = "last_updated_time";
+    String IS_ON_BOARDING_SHOWN_KEY = "is_on_boarding_shown";
 
     /**
      * Gets the last time the top songs were updated.
@@ -31,4 +32,16 @@ public interface PreferencesDataSource {
      * Sets the last updated time the top songs were fetched.
      */
     void setLastUpdatedTimeInMillis();
+
+    /**
+     * Get the values of the on boarding screen show.
+     *
+     * @return true if on boarding has been shown, false otherwise.
+     */
+    boolean hasOnBoardingBeenShown();
+
+    /**
+     * Set the value of the on boarding screen shown or not
+     */
+    void setHasOnBoardingBeenShown();
 }
