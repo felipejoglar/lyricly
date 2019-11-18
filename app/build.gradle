@@ -66,10 +66,10 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 
-    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
-    implementation "androidx.legacy:legacy-support-v4:${versions.supportLibrary}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
-    implementation "androidx.viewpager2:viewpager2:${versions.viewPager2}"
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "androidx.legacy:legacy-support-v4:$versions.supportLibrary"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+    implementation "androidx.viewpager2:viewpager2:$versions.viewPager2"
 
     implementation "com.google.android.material:material:$versions.material"
 
