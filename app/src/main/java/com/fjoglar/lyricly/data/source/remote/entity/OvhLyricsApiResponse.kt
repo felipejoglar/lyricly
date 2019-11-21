@@ -1,11 +1,11 @@
 /*
- * Copyright 2018 Felipe Joglar Santos
+ * Copyright 2019 Felipe Joglar Santos
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.fjoglar.lyricly.data.source.remote.entity
 
-package com.fjoglar.lyricly.data.source.remote.entity;
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-public class OvhLyricsApiResponse {
-
-    @SerializedName("lyrics")
-    @Expose
-    private String lyrics;
-
-    public String getLyrics() {
-        return lyrics;
-    }
-}
+@JsonClass(generateAdapter = true)
+data class OvhLyricsApiResponse(@Json(name = "lyrics") val lyrics: String? = null)
