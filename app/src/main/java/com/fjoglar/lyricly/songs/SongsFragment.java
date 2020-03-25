@@ -33,10 +33,10 @@ import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.core.Injection;
 import com.fjoglar.lyricly.core.extensions.Dialogs;
 import com.fjoglar.lyricly.core.navigation.Navigator;
+import com.fjoglar.lyricly.data.model.Song;
 
 import java.util.List;
 

@@ -18,6 +18,7 @@ package com.fjoglar.lyricly.data.source.mapper;
 
 import androidx.annotation.Nullable;
 
+import com.fjoglar.lyricly.core.utils.ImageLoader;
 import com.fjoglar.lyricly.data.model.Song;
 import com.fjoglar.lyricly.data.source.remote.entity.OvhLyricsApiResponse;
 import com.fjoglar.lyricly.data.source.remote.entity.Track;
@@ -28,6 +29,9 @@ import java.util.Date;
  * Mapper class used to transform {@link Track} and {@link OvhLyricsApiResponse} to {@link Song}.
  */
 public class SongDataMapper {
+
+    private static final String ALBUM_IMAGE_BASE_URL =
+            "http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png";
 
     public SongDataMapper() {
     }
@@ -45,17 +49,21 @@ public class SongDataMapper {
         Song song = null;
 
         if (track != null && lyrics != null) {
-            song = new Song(track.getId(),
+            song = new Song(0,
+                    track.getId(),
                     track.getPlaybackSeconds(),
                     track.getName(),
                     track.getArtistName(),
-                    track.getAlbumId(),
                     track.getAlbumName(),
                     lyrics,
+                    track.isExplicit(),
+                    String.format(ALBUM_IMAGE_BASE_URL, track.getAlbumId(), ImageLoader.IMAGE_SIZE_BIG),
+                    String.format(ALBUM_IMAGE_BASE_URL, track.getAlbumId(), ImageLoader.IMAGE_SIZE_SMALL),
                     true,
-                    false,
-                    false,
                     topOrder,
+                    false,
+                    false,
+                    new Date(),
                     new Date());
         }
 
@@ -75,17 +83,21 @@ public class SongDataMapper {
         Song song = null;
 
         if (track != null && lyrics != null) {
-            song = new Song(track.getId(),
+            song = new Song(0,
+                    track.getId(),
                     track.getPlaybackSeconds(),
                     track.getName(),
                     track.getArtistName(),
-                    track.getAlbumId(),
                     track.getAlbumName(),
                     lyrics,
-                    false,
-                    isRecent,
+                    track.isExplicit(),
+                    String.format(ALBUM_IMAGE_BASE_URL, track.getAlbumId(), ImageLoader.IMAGE_SIZE_BIG),
+                    String.format(ALBUM_IMAGE_BASE_URL, track.getAlbumId(), ImageLoader.IMAGE_SIZE_SMALL),
                     false,
                     0,
+                    isRecent,
+                    false,
+                    new Date(),
                     new Date());
         }
 

@@ -20,11 +20,11 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Track(
-    @Json(name = "id") val id: String? = null,
-    @Json(name = "playbackSeconds") val playbackSeconds: Int = 0,
-    @Json(name = "isExplicit") val isExplicit: Boolean = false,
-    @Json(name = "name") val name: String? = null,
-    @Json(name = "artistName") val artistName: String? = null,
-    @Json(name = "albumName") val albumName: String? = null,
-    @Json(name = "albumId") val albumId: String? = null
+    @Json(name = "id") val id: String,
+    @Json(name = "playbackSeconds") val playbackSeconds: Int,
+    @Json(name = "isExplicit") val isExplicit: Boolean,
+    @Json(name = "name") val name: String,
+    @Json(name = "artistName") val artistName: String,
+    @Json(name = "albumName") val albumName: String,
+    @Json(name = "albumId") val albumId: String
 )

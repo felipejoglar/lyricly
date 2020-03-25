@@ -27,23 +27,20 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.fjoglar.lyricly.R
+import com.fjoglar.lyricly.core.utils.ImageLoader
 import com.fjoglar.lyricly.data.model.Song
 import com.fjoglar.lyricly.song.SongActivity
-import com.fjoglar.lyricly.core.utils.ImageLoader
 
 const val CHANNEL_ID = "Lyricly currently playing song channel"
 const val NOTIFICATION_ID = 8888
+const val NOTIFICATION_IMAGE_CORNER_RADIUS = 16
 
 fun launchCurrentlyPlayingSongNotification(applicationContext: Context, song: Song) {
     createNotificationChannel(applicationContext)
     ImageLoader.loadBitmapFromNetwork(
         applicationContext,
-        applicationContext.getString(
-            R.string.album_image_url,
-            song.albumId,
-            ImageLoader.IMAGE_SIZE_BIG
-        ),
-        16
+        song.albumCoverUrl,
+        NOTIFICATION_IMAGE_CORNER_RADIUS
     ) {
         with(NotificationManagerCompat.from(applicationContext)) {
             notify(NOTIFICATION_ID, buildNotification(applicationContext, song, it).build())
@@ -82,7 +79,7 @@ private fun createNotificationChannel(applicationContext: Context) {
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText
         }
-        // Register the channel with the system
+
         val notificationManager: NotificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)

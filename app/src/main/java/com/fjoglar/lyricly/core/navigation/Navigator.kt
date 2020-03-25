@@ -21,7 +21,8 @@ import android.content.Intent
 
 object Navigator {
 
-    fun showNotificationPermissionSettings(context: Context) = context.startActivity(
-        Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
-    )
+    fun showNotificationPermissionSettings(context: Context) =
+        context.startActivity(
+            Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
+        )
 }

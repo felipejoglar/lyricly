@@ -36,7 +36,6 @@
     <string name="songs_menu_recent">Recent</string>
     <string name="songs_menu_favorite">Favorite</string>
     <string name="album_cover">Album cover</string>
-    <string name="album_image_url">"http://direct.napster.com/imageserver/v2/albums/%1$s/images/%2$s.png"</string>
 
     <!-- SONG SCREEN -->
     <string name="song_menu_share">Share</string>

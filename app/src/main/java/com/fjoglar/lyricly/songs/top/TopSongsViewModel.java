@@ -20,11 +20,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.fjoglar.lyricly.core.Injection;
+import com.fjoglar.lyricly.core.schedulers.SchedulerProvider;
 import com.fjoglar.lyricly.data.SongsDataSource;
 import com.fjoglar.lyricly.songs.SongsResponse;
 import com.fjoglar.lyricly.songs.SongsViewModel;
-import com.fjoglar.lyricly.core.Injection;
-import com.fjoglar.lyricly.core.schedulers.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
 

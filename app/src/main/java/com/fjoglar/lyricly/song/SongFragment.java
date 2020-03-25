@@ -31,9 +31,9 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.fjoglar.lyricly.R;
-import com.fjoglar.lyricly.data.model.Song;
-import com.fjoglar.lyricly.core.utils.ImageLoader;
 import com.fjoglar.lyricly.core.Injection;
+import com.fjoglar.lyricly.core.utils.ImageLoader;
+import com.fjoglar.lyricly.data.model.Song;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -184,9 +184,8 @@ public class SongFragment extends Fragment {
     private void showSong(Song song) {
         mSong = song;
 
-        String albumId = mSong.getAlbumId();
-        String imageUrl = getString(R.string.album_image_url, albumId, ImageLoader.IMAGE_SIZE_BIG);
-        String thumbUrl = getString(R.string.album_image_url, albumId, ImageLoader.IMAGE_SIZE_SMALL);
+        String imageUrl = mSong.getAlbumCoverUrl();
+        String thumbUrl = mSong.getThumbnailAlbumCoverUrl();
 
         ImageLoader.loadWithThumb(mImageViewSongCover, imageUrl, thumbUrl);
         mTextViewSongTitle.setText(mSong.getName());

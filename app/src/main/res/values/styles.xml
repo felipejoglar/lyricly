@@ -35,7 +35,6 @@
         <item name="itemIconTint">@color/bottom_navigation_view_item</item>
         <item name="itemTextColor">@color/bottom_navigation_view_item</item>
         <item name="itemTextAppearanceActive">@style/TextAppearance.Lyricly.Subtitle2</item>
-        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Light</item>
     </style>
 
     <!--Buttons-->

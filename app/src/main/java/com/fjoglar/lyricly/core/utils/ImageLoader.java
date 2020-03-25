@@ -35,7 +35,6 @@ import com.bumptech.glide.request.transition.Transition;
 public class ImageLoader {
 
     public static final String IMAGE_SIZE_BIG = "500x500";
-    public static final String IMAGE_SIZE_MEDIUM = "200x200";
     public static final String IMAGE_SIZE_SMALL = "70x70";
 
     private ImageLoader() {

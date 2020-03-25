@@ -118,10 +118,8 @@ public class SongsLocalRepository implements SongsLocalDataSource {
 
     @Override
     public Completable updateFavoriteSong(Song song) {
-        return Completable.fromAction(() -> {
-            mSongDatabase.songDao().insert(new Song().createFavoriteSong(song));
-            mSongDatabase.songDao().updateFavoriteSongById(song.getId(), true);
-        });
+        return Completable.fromAction(() ->
+                mSongDatabase.songDao().updateFavoriteSongById(song.getId(), true));
     }
 
     @Override
